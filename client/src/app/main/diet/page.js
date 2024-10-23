@@ -1,3 +1,3 @@
 export default function Diet() {
-  return <h1>DIET PAGE</h1>;
+  return <h1>Diet</h1>;
 }
