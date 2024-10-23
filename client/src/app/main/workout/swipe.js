@@ -1,6 +1,4 @@
-// // NO ANIMATION
-
-"use client"; // This line enables the component to use hooks
+"use client"; // Enables the component to use hooks
 
 import React, { useEffect, useRef, useState } from 'react';
 import Hammer from 'hammerjs'; // Import Hammer.js
@@ -9,8 +7,8 @@ import './swipestyle.css';
 const Workout = () => {
     const [cards, setCards] = useState(Array.from({ length: 5 }, (_, index) => index));
     const workoutContainerRef = useRef(null);
-    const isSwiping = useRef(false); // Use a ref to track if a swipe is in progress
 
+    // Initialize card stack positions and z-index
     const initCards = () => {
         const newCards = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
         newCards.forEach((card, index) => {
@@ -21,11 +19,12 @@ const Workout = () => {
         workoutContainerRef.current.classList.add('loaded');
     };
 
+    // Handle swipe logic, left for 'nope', right for 'love'
     const handleSwipe = (direction) => {
-        const cardsArray = document.querySelectorAll('.workout--card:not(.removed)');
-        if (cardsArray.length === 0 || isSwiping.current) return; // Prevent swiping if already swiping
+        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
+        if (cardsArray.length === 0) return; // Prevent action when no cards are left
 
-        const card = cardsArray[0];
+        const card = cardsArray[0]; // Only swipe the topmost card
         card.classList.add('removed');
 
         const moveOutWidth = document.body.clientWidth * 1.5;
@@ -33,13 +32,16 @@ const Workout = () => {
             ? `translate(-${moveOutWidth}px, -100px) rotate(-30deg)`
             : `translate(${moveOutWidth}px, -100px) rotate(30deg)`;
 
-        // Update cards state
-        setCards((prevCards) => prevCards.slice(1)); // Remove the first card from the array
+        // Remove the swiped card and update the card stack
+        setCards((prevCards) => prevCards.slice(1));
         initCards();
-        isSwiping.current = false; // Reset the swiping state
     };
 
+    // Handle pan gesture (swiping) with Hammer.js
     const handlePan = (event) => {
+        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
+        if (cardsArray.length === 0 || event.target !== cardsArray[0]) return; // Only allow swiping on the topmost card
+
         const card = event.target;
         const xMulti = event.deltaX * 0.03;
         const yMulti = event.deltaY / 80;
@@ -50,7 +52,11 @@ const Workout = () => {
         workoutContainerRef.current.classList.toggle('tinder_nope', event.deltaX < 0);
     };
 
+    // Finalize swipe based on velocity/distance
     const handlePanEnd = (event) => {
+        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
+        if (cardsArray.length === 0 || event.target !== cardsArray[0]) return; // Only the topmost card
+
         const card = event.target;
         workoutContainerRef.current.classList.remove('tinder_love', 'tinder_nope');
 
@@ -58,16 +64,15 @@ const Workout = () => {
         const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
 
         if (keep) {
-            card.style.transform = ''; // Reset the position
+            card.style.transform = ''; // Reset the card position
         } else {
-            isSwiping.current = true; // Set swiping state to true
             const endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
             const toX = event.deltaX > 0 ? endX : -endX;
             const endY = Math.abs(event.velocityY) * moveOutWidth;
             const toY = event.deltaY > 0 ? endY : -endY;
 
             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${event.deltaX * 0.03 * event.deltaY / 80}deg)`;
-            handleSwipe(event.deltaX > 0 ? 'right' : 'left'); // Trigger swipe function
+            handleSwipe(event.deltaX > 0 ? 'right' : 'left'); // Trigger swipe action (left/right)
         }
     };
 
@@ -107,10 +112,6 @@ const Workout = () => {
 };
 
 export default Workout;
-
-
-
-
 
 
 
