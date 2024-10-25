@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.5",
+    "@react-spring/web": "^9.7.5",
     "@tabler/icons-react": "^3.19.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.9",
     "hammerjs": "^2.0.8",
+    "install": "^0.13.0",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
+    "react-tinder-card": "^1.6.4",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
