@@ -1,7 +1,7 @@
 import '../globals.css';
 import { FloatingDock } from '../../components/ui/floating-dock';
 import { IconHome2, IconBarbell, IconTargetArrow, IconApple, IconMessages } from '@tabler/icons-react';
-
+import { ModeToggle } from "../../components/modetoggle";
 
 export const metadata = {
   title: 'Fitness App',
@@ -18,15 +18,17 @@ export default function RootLayout({ children }) {
   ];
 
   return (
-    <html lang="en">
-      <body>
-      <main>{children}</main>
-        <FloatingDock
-          items={items}
-          desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
-          mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
-        />
-      </body>
-    </html>
+    <>
+    <header>
+      < ModeToggle /> 
+    </header>
+  <main>{children}
+    <FloatingDock
+      items={items}
+      desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
+      mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
+    />
+    </main>
+    </>
   );
 }
