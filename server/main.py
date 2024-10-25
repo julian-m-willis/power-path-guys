@@ -3,29 +3,16 @@ from sqlalchemy.orm import Session
 import models
 from database import SessionLocal, engine
 from typing import Annotated, List, Dict
-from pydantic import BaseModel, Field
-from starlette import status
-from models import MarketingContent, User
+from routers import diet, auth
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
-
 @app.get("/healthy")
 def health_check():
     return {'status': 'Healthy'}
 
-
 # app.include_router(diet.router)
-# app.include_router(workout.router)
-# app.include_router(goals.router)
+app.include_router(auth.router, prefix="/auth", tags=["Auth"])
+app.include_router(diet.router, prefix="/diet", tags=["Diet"])

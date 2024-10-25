@@ -4,7 +4,8 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://myuser:mypassword@localhost/mydatabase")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:6006/mydatabase")
+print(DATABASE_URL)
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
