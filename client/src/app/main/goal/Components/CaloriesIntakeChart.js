@@ -4,21 +4,32 @@ import React from "react";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  ArcElement, // Import the ArcElement for pie charts
+  ArcElement,
   Tooltip,
   Legend
 } from "chart.js";
 
-// Register the ArcElement and other necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const CaloriesIntakeChart = () => {
-  const data = {
+const CaloriesIntakeChart = ({ view }) => {
+  // Generate dynamic data based on the selected view
+  const getChartData = () => {
+    switch (view) {
+      case "week":
+        return [3500, 4000, 4500]; // Example data for the week
+      case "month":
+        return [5000, 6000, 5500]; // Example data for the month
+      default:
+        return [1500, 2000, 1800]; // Example data for today (e.g., Protein, Carbs, Fat)
+    }
+  };
+
+  const chartData = {
     labels: ["Protein", "Carbs", "Fat"],
     datasets: [
       {
         label: "Calories Intake",
-        data: [500, 800, 300], // Example data values
+        data: getChartData(),
         backgroundColor: [
           "rgba(54, 162, 235, 0.6)", // Blue for Protein
           "rgba(75, 192, 192, 0.6)", // Green for Carbs
@@ -36,8 +47,8 @@ const CaloriesIntakeChart = () => {
 
   return (
     <div>
-      <h3>Calories Intake Breakdown</h3>
-      <Pie data={data} />
+      <h3>Calories Intake Breakdown ({view})</h3>
+      <Pie data={chartData} />
     </div>
   );
 };
