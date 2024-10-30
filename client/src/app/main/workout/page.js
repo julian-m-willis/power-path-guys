@@ -11,7 +11,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardActions,
   Button,
   Grid,
   Typography,
@@ -22,11 +21,10 @@ import Link from 'next/link';
 
 // Sample workout data
 const workoutsData = [
-  { id: 1, category: 'Cardio', bodyPart: 'Legs', difficulty: 'Beginner', duration: '30 min' },
-  { id: 2, category: 'Strength', bodyPart: 'Arms', difficulty: 'Intermediate', duration: '45 min' },
-  { id: 3, category: 'Flexibility', bodyPart: 'Full Body', difficulty: 'Advanced', duration: '60 min' },
-  { id: 4, category: 'Balance', bodyPart: 'Core', difficulty: 'Beginner', duration: '20 min' },
-  // Add more workout data as needed
+  { id: 1, category: 'Cardio', bodyPart: 'Legs', difficulty: 'Beginner', duration: '30 min', details: ['Running', 'Cycling', 'Jump Rope'] },
+  { id: 2, category: 'Strength', bodyPart: 'Arms', difficulty: 'Intermediate', duration: '45 min', details: ['Push-ups', 'Bicep Curls', 'Tricep Dips'] },
+  { id: 3, category: 'Flexibility', bodyPart: 'Full Body', difficulty: 'Advanced', duration: '60 min', details: ['Yoga', 'Stretching', 'Pilates'] },
+  { id: 4, category: 'Balance', bodyPart: 'Core', difficulty: 'Beginner', duration: '20 min', details: ['Tai Chi', 'Stability Ball', 'Single-leg Stand'] },
 ];
 
 const WorkoutSelection = () => {
@@ -34,6 +32,7 @@ const WorkoutSelection = () => {
   const [bodyPart, setBodyPart] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [duration, setDuration] = useState('');
+  const [expandedWorkoutId, setExpandedWorkoutId] = useState(null); // State to track the expanded workout card
 
   const filteredWorkouts = workoutsData.filter((workout) => {
     return (
@@ -43,6 +42,16 @@ const WorkoutSelection = () => {
       (duration ? workout.duration === duration : true)
     );
   });
+
+  const handleWorkoutClick = (workoutId) => {
+    // Toggle expanded state for the clicked workout card
+    setExpandedWorkoutId((prevId) => (prevId === workoutId ? null : workoutId));
+  };
+
+  const handleStartWorkout = (category) => {
+    alert(`Starting workout: ${category}`);
+    // Here you can add functionality to start the workout (e.g., navigation to a timer page)
+  };
 
   return (
     <Box p={3}>
@@ -123,7 +132,6 @@ const WorkoutSelection = () => {
         Filter
       </Button>
 
-      {/* Moved Personalized Workout Plan card below the filter button */}
       <Link href="/swipe" passHref>
         <Card variant="outlined" style={{ marginTop: '20px', cursor: 'pointer' }}>
           <CardContent style={{ textAlign: 'center' }}>
@@ -135,16 +143,31 @@ const WorkoutSelection = () => {
       <Grid container spacing={3} mt={3}>
         {filteredWorkouts.map((workout) => (
           <Grid item xs={12} sm={6} md={4} key={workout.id}>
-            <Card variant="outlined">
+            <Card variant="outlined" onClick={() => handleWorkoutClick(workout.id)} style={{ cursor: 'pointer' }}>
               <CardContent>
                 <Typography variant="h5">{workout.category}</Typography>
                 <Typography variant="body2">Body Part: {workout.bodyPart}</Typography>
                 <Typography variant="body2">Difficulty: {workout.difficulty}</Typography>
                 <Typography variant="body2">Duration: {workout.duration}</Typography>
+                {/* Show details if this workout is expanded */}
+                {expandedWorkoutId === workout.id && (
+                  <Box mt={2}>
+                    <Typography variant="body1">Exercises:</Typography>
+                    <ul>
+                      {workout.details.map((exercise, index) => (
+                        <li key={index}>{exercise}</li>
+                      ))}
+                    </ul>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleStartWorkout(workout.category)}
+                    >
+                      Start Now
+                    </Button>
+                  </Box>
+                )}
               </CardContent>
-              <CardActions>
-                <Button size="small">Select</Button>
-              </CardActions>
             </Card>
           </Grid>
         ))}
