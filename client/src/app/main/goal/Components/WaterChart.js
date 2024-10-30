@@ -1,27 +1,38 @@
 // src/components/WaterChart.js
-
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  LinearScale,
   CategoryScale,
+  LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from "chart.js";
 
-ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const WaterChart = ({ view, data }) => {
+const WaterChart = ({ view }) => {
+  // Generate dynamic data based on the selected view
+  const getChartData = () => {
+    switch (view) {
+      case "week":
+        return [2, 2.5, 3, 2.2, 3.5, 2.8, 3]; // Example data for the week
+      case "month":
+        return [2.5, 3, 3.2, 2.8, 2.9, 3, 2.4, 3.5, 2.8, 3.2, 2.5, 3, 3.1, 2.7, 3.4, 2.9]; // Example data for the month
+      default:
+        return [2.5]; // Example data for today
+    }
+  };
+
   const chartData = {
-    labels: view === "today" ? ["Today"] : view === "week" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13", "Day 14", "Day 15", "Day 16"],
+    labels: view === "today" ? ["Today"] : view === "week" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : Array.from({ length: 16 }, (_, i) => `Day ${i + 1}`),
     datasets: [
       {
-        label: "Water Consumption (ml)",
-        data: data,
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        label: "Water Consumption (liters)",
+        data: getChartData(),
+        backgroundColor: "rgba(54, 162, 235, 0.6)", // Example color
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
@@ -33,7 +44,7 @@ const WaterChart = ({ view, data }) => {
     scales: {
       y: {
         beginAtZero: true,
-        max: 2000,
+        max: 4, // Adjust the maximum value based on your data
       },
     },
   };

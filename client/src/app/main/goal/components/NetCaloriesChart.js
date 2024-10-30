@@ -1,40 +1,49 @@
 // src/components/NetCaloriesChart.js
-
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  LinearScale,
   CategoryScale,
-  LineElement,
-  PointElement,
+  LinearScale,
+  BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from "chart.js";
-import { Grid } from "@mui/material"; // Ensure Grid is imported
 
-ChartJS.register(LinearScale, CategoryScale, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const NetCaloriesChart = ({ view, caloriesBurntData, caloriesIntakeData }) => {
-  // Calculate net calories burnt based on the data for burnt and intake
-  const getNetCaloriesData = () => {
-    if (!caloriesBurntData || !caloriesIntakeData) return [];
-
-    return caloriesBurntData.map((burnt, index) => burnt - (caloriesIntakeData[index] || 0));
+  // Generate dynamic data for net calories based on the selected view
+  const burntData = {
+    today: [500],
+    week: [400, 450, 300, 600, 500, 550, 520],
+    month: [400, 450, 300, 600, 500, 550, 520, 450, 470, 490, 510, 530, 550, 570, 600, 620],
   };
 
+  const intakeData = {
+    today: [300],
+    week: [250, 300, 200, 350, 280, 300, 290],
+    month: [250, 300, 200, 350, 280, 300, 290, 310, 320, 330, 340, 350, 360, 370, 380, 390],
+  };
+
+  const netCaloriesData = burntData[view].map((burnt, index) => burnt - (intakeData[view][index] || 0));
+
+  const labels = view === "today"
+    ? ["Today"]
+    : view === "week"
+    ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    : Array.from({ length: 16 }, (_, i) => `Day ${i + 1}`);
+
   const chartData = {
-    labels: view === "today" ? ["Today"] : view === "week" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : Array.from({ length: 16 }, (_, i) => `Day ${i + 1}`),
+    labels,
     datasets: [
       {
-        label: "Net Calories Burnt",
-        data: getNetCaloriesData(),
-        backgroundColor: "rgba(255, 159, 64, 0.6)", // Example color for net calories
-        borderColor: "rgba(255, 159, 64, 1)",
-        borderWidth: 2,
-        fill: false,
-        lineTension: 0.1,
+        label: "Net Calories",
+        data: netCaloriesData,
+        backgroundColor: "rgba(255, 99, 132, 0.6)", // Example color
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
       },
     ],
   };
@@ -44,18 +53,17 @@ const NetCaloriesChart = ({ view, caloriesBurntData, caloriesIntakeData }) => {
     scales: {
       y: {
         beginAtZero: true,
+        max: 800, // Adjust the maximum value based on your data
       },
     },
   };
 
   return (
-    <Grid container>
-      <h3>Net Calories Burnt Chart ({view})</h3>
-      <Line data={chartData} options={options} />
-    </Grid>
+    <div>
+      <h3>Net Calories Chart ({view})</h3>
+      <Bar data={chartData} options={options} />
+    </div>
   );
 };
 
 export default NetCaloriesChart;
-
-  

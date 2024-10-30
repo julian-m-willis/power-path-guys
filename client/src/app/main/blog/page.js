@@ -1,6 +1,5 @@
 // src/app/main/blog/index.js
 "use client";
-// src/app/main/blog/index.js
 import React, { useState } from "react";
 import { 
   Container, Typography, Grid, Card, CardContent, CardActions, Button, Avatar, 
@@ -63,45 +62,37 @@ const BlogPage = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+    <Container maxWidth="sm" sx={{ mt: 4, padding: { xs: 2, md: 3 } }}>
+      <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
         Friends' Achievements
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {posts.map((post) => (
           <Grid item xs={12} key={post.id}>
             <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
               <CardContent>
-                <Grid container alignItems="center">
+                <Grid container alignItems="center" spacing={2}>
                   <Grid item>
-                    <Avatar alt={post.user} src={post.avatar} sx={{ width: 56, height: 56 }} />
+                    <Avatar alt={post.user} src={post.avatar} sx={{ width: 48, height: 48 }} />
                   </Grid>
-                  <Grid item sx={{ ml: 2 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{post.user}</Typography>
+                  <Grid item>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: { xs: '1rem', md: '1.25rem' } }}>
+                      {post.user}
+                    </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {post.date}
                     </Typography>
                   </Grid>
                 </Grid>
-                <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                <Typography variant="body1" sx={{ mt: 2, mb: 1, fontSize: { xs: '0.875rem', md: '1rem' } }}>
                   {post.goal}
                 </Typography>
               </CardContent>
               <CardActions sx={{ justifyContent: 'space-between' }}>
-                <Button
-                  size="small"
-                  color="primary"
-                  startIcon={<FavoriteIcon />}
-                  onClick={() => handleLike(post.id)}
-                >
+                <Button size="small" color="primary" startIcon={<FavoriteIcon />} onClick={() => handleLike(post.id)}>
                   {post.likes} Likes
                 </Button>
-                <Button
-                  size="small"
-                  color="primary"
-                  startIcon={<CommentIcon />}
-                  onClick={() => handleToggleComments(post.id)}
-                >
+                <Button size="small" color="primary" startIcon={<CommentIcon />} onClick={() => handleToggleComments(post.id)}>
                   {post.comments.length} Comments
                 </Button>
               </CardActions>
