@@ -19,9 +19,6 @@ export default function RootLayout({ children }) {
 
   return (
     <>
-    <header>
-      < ModeToggle /> 
-    </header>
   <main>{children}
     <FloatingDock
       items={items}
