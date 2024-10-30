@@ -2,7 +2,7 @@
 //   return <h1>WORKOUT PAGE</h1>;
 // }
 
-
+"use client"; 
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
