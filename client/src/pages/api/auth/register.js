@@ -3,7 +3,7 @@ import { connectToDatabase } from '../../../lib/mongodb';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { email, password } = req.body;
+    const { firstName, lastName, age, email, password } = req.body;
 
     // Connect to MongoDB
     const { db } = await connectToDatabase();
@@ -19,7 +19,12 @@ export default async function handler(req, res) {
     const hashedPassword = await hash(password, 10);
 
     // Store the user in the database
-    await db.collection('users').insertOne({ email, password: hashedPassword });
+    await db.collection('users').insertOne({ firstName,
+      lastName,
+      age,
+      email,
+      password: hashedPassword,
+ });
 
     res.status(201).json({ message: 'User registered successfully' });
   } else {
