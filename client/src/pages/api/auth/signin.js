@@ -1,4 +1,3 @@
-
 import { compare } from 'bcryptjs';
 import { connectToDatabase } from '../../../lib/mongodb';
 

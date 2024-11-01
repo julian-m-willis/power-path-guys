@@ -11,14 +11,14 @@ export default function SignInPage() {
   const [error, setError] = useState(null);
 
   const handleSignIn = async() => {
-    // // For now, simply redirect to the main app
-    // const res = await fetch('/api/auth/signin', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ email, password }),
-    // });
+    // For now, simply redirect to the main app
+    const res = await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
     if (true) { //res.ok
       router.push('/main/workout');
