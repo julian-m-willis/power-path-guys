@@ -186,7 +186,6 @@ body {
 }
 
 body {
-  background: black;
   overflow: hidden;
   font-family: sans-serif;
 }
@@ -255,7 +254,7 @@ body {
   width: 90vw;
   max-width: 400px;
   height: 70vh;
-  background: #FFFFFF;
+  background: #d3d3d3;
   padding-bottom: 40px;
   border-radius: 8px;
   overflow: hidden;
@@ -330,4 +329,13 @@ body {
 
 .fa-remove {
   color: #CDD6DD;
+}
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px; /* Set the width of the image */
+  height: 30px; /* Set the height of the image */
+  cursor: pointer;
 }
