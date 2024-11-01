@@ -1,12 +1,6 @@
-// export default function Home() {
-//   return <h1>Welcome to the Fitness App</h1>;
-// }
-
-
 "use client";
 
-// src/app/main/workout/page.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -25,6 +19,10 @@ const workoutsData = [
   { id: 2, category: 'Strength', bodyPart: 'Arms', difficulty: 'Intermediate', duration: '45 min', details: ['Push-ups', 'Bicep Curls', 'Tricep Dips'] },
   { id: 3, category: 'Flexibility', bodyPart: 'Full Body', difficulty: 'Advanced', duration: '60 min', details: ['Yoga', 'Stretching', 'Pilates'] },
   { id: 4, category: 'Balance', bodyPart: 'Core', difficulty: 'Beginner', duration: '20 min', details: ['Tai Chi', 'Stability Ball', 'Single-leg Stand'] },
+  { id: 5, category: 'Cardio', bodyPart: 'Full Body', difficulty: 'Intermediate', duration: '40 min', details: ['HIIT', 'Jumping Jacks', 'Burpees'] },
+  { id: 6, category: 'Strength', bodyPart: 'Legs', difficulty: 'Advanced', duration: '50 min', details: ['Squats', 'Deadlifts', 'Leg Press'] },
+  { id: 7, category: 'Flexibility', bodyPart: 'Upper Body', difficulty: 'Beginner', duration: '30 min', details: ['Shoulder Stretch', 'Triceps Stretch', 'Chest Opener'] },
+  { id: 8, category: 'Balance', bodyPart: 'Full Body', difficulty: 'Intermediate', duration: '25 min', details: ['Tree Pose', 'Warrior III', 'Heel-to-Toe Walk'] },
 ];
 
 const WorkoutSelection = () => {
@@ -33,15 +31,20 @@ const WorkoutSelection = () => {
   const [difficulty, setDifficulty] = useState('');
   const [duration, setDuration] = useState('');
   const [expandedWorkoutId, setExpandedWorkoutId] = useState(null); // State to track the expanded workout card
+  const [filteredWorkouts, setFilteredWorkouts] = useState(workoutsData); // State to manage filtered workouts
 
-  const filteredWorkouts = workoutsData.filter((workout) => {
-    return (
-      (category ? workout.category === category : true) &&
-      (bodyPart ? workout.bodyPart === bodyPart : true) &&
-      (difficulty ? workout.difficulty === difficulty : true) &&
-      (duration ? workout.duration === duration : true)
-    );
-  });
+  // Effect to filter workouts whenever any filter changes
+  useEffect(() => {
+    const results = workoutsData.filter((workout) => {
+      return (
+        (category ? workout.category === category : true) &&
+        (bodyPart ? workout.bodyPart === bodyPart : true) &&
+        (difficulty ? workout.difficulty === difficulty : true) &&
+        (duration ? workout.duration === duration : true)
+      );
+    });
+    setFilteredWorkouts(results);
+  }, [category, bodyPart, difficulty, duration]);
 
   const handleWorkoutClick = (workoutId) => {
     // Toggle expanded state for the clicked workout card
@@ -132,7 +135,7 @@ const WorkoutSelection = () => {
         Filter
       </Button>
 
-      <Link href="/swipe" passHref>
+      <Link href="workout/swipe" passHref>
         <Card variant="outlined" style={{ marginTop: '20px', cursor: 'pointer' }}>
           <CardContent style={{ textAlign: 'center' }}>
             <Typography variant="h5">Personalise Your Workout Plan</Typography>
@@ -177,3 +180,19 @@ const WorkoutSelection = () => {
 };
 
 export default WorkoutSelection;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
