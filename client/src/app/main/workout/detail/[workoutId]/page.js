@@ -5,28 +5,25 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Card, CardContent, Typography, Grid, Button, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from 'next/navigation';
 
 // Sample workout data
 const workoutsData = [
   { id: 1, category: 'Cardio', bodyPart: 'Legs', difficulty: 'Beginner', duration: '30 min', details: ['Running', 'Cycling', 'Jump Rope'] },
   { id: 2, category: 'Strength', bodyPart: 'Arms', difficulty: 'Intermediate', duration: '45 min', details: ['Push-ups', 'Bicep Curls', 'Tricep Dips'] },
-  { id: 3, category: 'Flexibility', bodyPart: 'Full Body', difficulty: 'Advanced', duration: '60 min', details: ['Yoga', 'Stretching', 'Pilates'] },
-  { id: 4, category: 'Balance', bodyPart: 'Core', difficulty: 'Beginner', duration: '20 min', details: ['Tai Chi', 'Stability Ball', 'Single-leg Stand'] },
-  { id: 5, category: 'Cardio', bodyPart: 'Full Body', difficulty: 'Intermediate', duration: '40 min', details: ['HIIT', 'Jumping Jacks', 'Burpees'] },
-  { id: 6, category: 'Strength', bodyPart: 'Legs', difficulty: 'Advanced', duration: '50 min', details: ['Squats', 'Deadlifts', 'Leg Press'] },
-  { id: 7, category: 'Flexibility', bodyPart: 'Upper Body', difficulty: 'Beginner', duration: '30 min', details: ['Shoulder Stretch', 'Triceps Stretch', 'Chest Opener'] },
-  { id: 8, category: 'Balance', bodyPart: 'Full Body', difficulty: 'Intermediate', duration: '25 min', details: ['Tree Pose', 'Warrior III', 'Heel-to-Toe Walk'] },
+  // ... more workout data
 ];
 
 const WorkoutDetail = ({ params }) => {
   const router = useRouter();
-  const [workoutId, setWorkoutId] = useState(null); // Store workoutId as state
+  const [workoutId, setWorkoutId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [openExitDialog, setOpenExitDialog] = useState(false); // State for the exit confirmation dialog
+  const [openExitDialog, setOpenExitDialog] = useState(false);
   const [workout, setWorkout] = useState(null);
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0); // State to track carousel index
 
-  // Unwrap params and set workoutId
   useEffect(() => {
     const fetchParams = async () => {
       const resolvedParams = await params;
@@ -42,39 +39,37 @@ const WorkoutDetail = ({ params }) => {
     }
   }, [workoutId]);
 
-  // Handle "Complete Workout" button click
-  const handleCompleteClick = () => {
-    setOpenDialog(true);
-  };
+  const handleCompleteClick = () => setOpenDialog(true);
 
-  // Handle confirmation in dialog
   const handleConfirmComplete = () => {
     setOpenDialog(false);
-    router.push('/main/workout'); // Redirect back to the workout page
+    router.push('/main/workout');
   };
 
-  // Handle cancellation in dialog
-  const handleCancelComplete = () => {
-    setOpenDialog(false);
-  };
+  const handleCancelComplete = () => setOpenDialog(false);
 
-  // Handle "X" button click to open exit confirmation dialog
-  const handleBackClick = () => {
-    setOpenExitDialog(true);
-  };
+  const handleBackClick = () => setOpenExitDialog(true);
 
-  // Confirm exiting the workout
   const handleConfirmExit = () => {
     setOpenExitDialog(false);
-    router.back(); // Redirect back to the previous page
+    router.back();
   };
 
-  // Cancel exiting the workout
-  const handleCancelExit = () => {
-    setOpenExitDialog(false);
+  const handleCancelExit = () => setOpenExitDialog(false);
+
+  // Carousel navigation with limits
+  const handleNextExercise = () => {
+    if (currentExerciseIndex < workout.details.length - 1) {
+      setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
-  // Show loading state until workout is loaded
+  const handlePreviousExercise = () => {
+    if (currentExerciseIndex > 0) {
+      setCurrentExerciseIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
   if (workoutId === null) return <Typography variant="h6">Loading...</Typography>;
 
   if (!workout) return <Typography variant="h6">Workout not found</Typography>;
@@ -93,24 +88,53 @@ const WorkoutDetail = ({ params }) => {
       <Typography variant="h4" gutterBottom>
         {workout.category} Workout
       </Typography>
-      <Grid container spacing={2}>
-        {workout.details.map((exercise, index) => (
-          <Grid item xs={12} key={index}>
-            <Card variant="outlined" style={{ display: 'flex', alignItems: 'center' }}>
-              <Box p={2}>
-                <img
-                  src="https://via.placeholder.com/100"
-                  alt={exercise}
-                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                />
-              </Box>
-              <CardContent>
-                <Typography variant="h6">{exercise}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+
+      {/* Carousel Section */}
+      <Box display="flex" alignItems="center" justifyContent="center" mt={3}>
+        <IconButton onClick={handlePreviousExercise} disabled={currentExerciseIndex === 0}>
+          <ArrowBackIosIcon />
+        </IconButton>
+        <Card variant="outlined" style={{ width: '60%', textAlign: 'center' }}>
+          <Box p={2}>
+            <img
+              src="https://via.placeholder.com/150"
+              alt={workout.details[currentExerciseIndex]}
+              style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+            />
+          </Box>
+          <CardContent>
+            <Typography variant="h6">
+              {currentExerciseIndex + 1}. {workout.details[currentExerciseIndex]}
+            </Typography>
+          </CardContent>
+        </Card>
+        <IconButton onClick={handleNextExercise} disabled={currentExerciseIndex === workout.details.length - 1}>
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Box>
+
+      {/* Complete ordered list of exercises below the carousel */}
+      <Box mt={4}>
+        <Typography variant="h5" gutterBottom>All Exercises</Typography>
+        <ol>
+          {workout.details.map((exercise, index) => (
+            <li key={index}>
+              <Card variant="outlined" style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                <Box p={2}>
+                  <img
+                    src="https://via.placeholder.com/100"
+                    alt={exercise}
+                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                  />
+                </Box>
+                <CardContent>
+                  <Typography variant="h6">{exercise}</Typography>
+                </CardContent>
+              </Card>
+            </li>
+          ))}
+        </ol>
+      </Box>
 
       {/* Complete Workout Button */}
       <Button
@@ -122,47 +146,26 @@ const WorkoutDetail = ({ params }) => {
         Complete Workout
       </Button>
 
-      {/* Confirmation Dialog for Completing Workout */}
-      <Dialog
-        open={openDialog}
-        onClose={handleCancelComplete}
-        aria-labelledby="confirm-complete-title"
-      >
+      {/* Dialogs for complete and exit confirmation */}
+      <Dialog open={openDialog} onClose={handleCancelComplete} aria-labelledby="confirm-complete-title">
         <DialogTitle id="confirm-complete-title">Did you mean to complete workout?</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to mark this workout as completed?
-          </DialogContentText>
+          <DialogContentText>Are you sure you want to mark this workout as completed?</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelComplete} color="secondary">
-            No
-          </Button>
-          <Button onClick={handleConfirmComplete} color="primary">
-            Yes
-          </Button>
+          <Button onClick={handleCancelComplete} color="secondary">No</Button>
+          <Button onClick={handleConfirmComplete} color="primary">Yes</Button>
         </DialogActions>
       </Dialog>
 
-      {/* Confirmation Dialog for Exiting the Workout */}
-      <Dialog
-        open={openExitDialog}
-        onClose={handleCancelExit}
-        aria-labelledby="confirm-exit-title"
-      >
+      <Dialog open={openExitDialog} onClose={handleCancelExit} aria-labelledby="confirm-exit-title">
         <DialogTitle id="confirm-exit-title">Do you want to leave this workout?</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to leave this page? Your workout progress will not be saved.
-          </DialogContentText>
+          <DialogContentText>Are you sure you want to leave this page? Your workout progress will not be saved.</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelExit} color="secondary">
-            No
-          </Button>
-          <Button onClick={handleConfirmExit} color="primary">
-            Yes
-          </Button>
+          <Button onClick={handleCancelExit} color="secondary">No</Button>
+          <Button onClick={handleConfirmExit} color="primary">Yes</Button>
         </DialogActions>
       </Dialog>
     </Box>
