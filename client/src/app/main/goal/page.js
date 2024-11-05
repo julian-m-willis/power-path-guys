@@ -1,7 +1,7 @@
 // src/app/main/goal/index.js
 "use client";
 import React, { useState, useEffect } from "react";
-import { Container, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Container, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup, Box } from "@mui/material";
 import axios from "axios"; // Import axios
 import WaterChart from "./components/WaterChart";
 import CaloriesBurntChart from "./components/CaloriesBurntChart";
@@ -24,7 +24,6 @@ const GoalTrackingPage = () => {
     if (newView) setView(newView);
   };
 
-  // Example of how you might call your friend's backend API for data
   useEffect(() => {
     // Fetch water data
     const fetchWaterData = async () => {
@@ -33,7 +32,7 @@ const GoalTrackingPage = () => {
         // const response = await axios.get(`https://your-backend-api.com/api/water-intake`, {
         //   params: { view },
         // });
-        // setWaterData(response.data); // Set fetched water data
+        // setWaterData(response.data);
       } catch (error) {
         console.error("Error fetching water data:", error);
       }
@@ -46,7 +45,7 @@ const GoalTrackingPage = () => {
         // const response = await axios.get(`https://your-backend-api.com/api/calories-burnt`, {
         //   params: { view },
         // });
-        // setCaloriesBurntData(response.data); // Set fetched calories burnt data
+        // setCaloriesBurntData(response.data);
       } catch (error) {
         console.error("Error fetching calories burnt data:", error);
       }
@@ -59,16 +58,15 @@ const GoalTrackingPage = () => {
         // const response = await axios.get(`https://your-backend-api.com/api/calories-intake`, {
         //   params: { view },
         // });
-        // setCaloriesIntakeData(response.data); // Set fetched calories intake data
+        // setCaloriesIntakeData(response.data);
       } catch (error) {
         console.error("Error fetching calories intake data:", error);
       }
     };
 
-    // Calculate net calories based on intake and burnt data
+    // Calculate net calories
     const calculateNetCalories = () => {
-      // You can calculate net calories based on fetched intake and burnt data here
-      // Example:
+      // Example calculation
       // const netData = caloriesBurntData.map((burnt, index) => burnt - (caloriesIntakeData[index] || 0));
       // setNetCaloriesData(netData);
     };
@@ -100,31 +98,26 @@ const GoalTrackingPage = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} lg={4}>
           <Paper elevation={3} sx={{ padding: 2 }}>
-            {/* Pass waterData to WaterChart */}
             <WaterChart view={view} data={waterData} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} lg={4}>
           <Paper elevation={3} sx={{ padding: 2 }}>
-            {/* Pass caloriesBurntData to CaloriesBurntChart */}
             <CaloriesBurntChart view={view} data={caloriesBurntData} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} lg={4}>
           <Paper elevation={3} sx={{ padding: 2 }}>
-            {/* Pass caloriesIntakeData to CaloriesIntakeChart (Pie Chart) */}
             <CaloriesIntakeChart view={view} data={caloriesIntakeData} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} lg={4}>
           <Paper elevation={3} sx={{ padding: 2 }}>
-            {/* Pass caloriesIntakeData to CaloriesIntakeChart2 (Bar Chart) */}
             <CaloriesIntakeChart2 view={view} data={caloriesIntakeData} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} lg={4}>
           <Paper elevation={3} sx={{ padding: 2 }}>
-            {/* Pass netCaloriesData to NetCaloriesChart */}
             <NetCaloriesChart view={view} data={netCaloriesData} />
           </Paper>
         </Grid>
@@ -137,6 +130,9 @@ const GoalTrackingPage = () => {
       <Paper elevation={3} sx={{ mt: 3, padding: 2 }}>
         <KeyInsights view={view} />
       </Paper>
+
+      {/* Add bottom padding for extra spacing */}
+      <Box sx={{ mt: 4, pb: 6 }} />
     </Container>
   );
 };
