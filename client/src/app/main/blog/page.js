@@ -1,6 +1,6 @@
 // src/app/main/blog/index.js
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Container, Typography, Grid, Card, CardContent, CardActions, Button, Avatar, 
   TextField, IconButton, Collapse 
@@ -8,6 +8,7 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
+import axios from "axios"; // Import axios
 
 const mockPosts = [
   {
@@ -35,18 +36,40 @@ const BlogPage = () => {
   const [expandedPost, setExpandedPost] = useState(null);
   const [newComment, setNewComment] = useState("");
 
-  const handleLike = (id) => {
+  useEffect(() => {
+    // Fetch posts from the backend
+    const fetchPosts = async () => {
+      try {
+        // Uncomment the following lines to fetch data from your backend
+        // const response = await axios.get("https://your-backend-api.com/api/posts");
+        // setPosts(response.data); // Set posts from backend response
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleLike = async (id) => {
     const updatedPosts = posts.map((post) =>
       post.id === id ? { ...post, likes: post.likes + 1 } : post
     );
     setPosts(updatedPosts);
+
+    try {
+      // Uncomment to send a like update to the backend
+      // await axios.post(`https://your-backend-api.com/api/posts/${id}/like`);
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
   };
 
   const handleToggleComments = (id) => {
     setExpandedPost(expandedPost === id ? null : id);
   };
 
-  const handleAddComment = (id) => {
+  const handleAddComment = async (id) => {
     if (newComment.trim() === "") return;
 
     const updatedPosts = posts.map((post) =>
@@ -59,6 +82,16 @@ const BlogPage = () => {
     );
     setPosts(updatedPosts);
     setNewComment("");
+
+    try {
+      // Uncomment to send the new comment to the backend
+      // await axios.post(`https://your-backend-api.com/api/posts/${id}/comments`, {
+      //   user: "CurrentUser",
+      //   text: newComment
+      // });
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
   };
 
   return (
