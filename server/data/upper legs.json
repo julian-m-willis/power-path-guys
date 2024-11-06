@@ -1,0 +1,197 @@
+{
+    "data": [
+        {
+            "bodyPart": "upper legs",
+            "equipment": "body weight",
+            "gifUrl": "https://v2.exercisedb.io/image/50RoQU1j4uc54m",
+            "id": "1512",
+            "name": "all fours squad stretch",
+            "target": "quads",
+            "secondaryMuscles": [
+                "hamstrings",
+                "glutes"
+            ],
+            "instructions": [
+                "Start on all fours with your hands directly under your shoulders and your knees directly under your hips.",
+                "Extend one leg straight back, keeping your knee bent and your foot flexed.",
+                "Slowly lower your hips towards the ground, feeling a stretch in your quads.",
+                "Hold this position for 20-30 seconds.",
+                "Switch legs and repeat the stretch on the other side."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "body weight",
+            "gifUrl": "https://v2.exercisedb.io/image/q9U8zlpKmEM2v7",
+            "id": "3214",
+            "name": "arms apart circular toe touch (male)",
+            "target": "glutes",
+            "secondaryMuscles": [
+                "hamstrings",
+                "quadriceps",
+                "calves"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and arms extended to the sides.",
+                "Keeping your legs straight, bend forward at the waist and reach down towards your toes with your right hand.",
+                "As you reach down, simultaneously lift your left leg straight up behind you, maintaining balance.",
+                "Return to the starting position and repeat the movement with your left hand reaching towards your toes and your right leg lifting up behind you.",
+                "Continue alternating sides for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/YAVItqOkuq0VD0",
+            "id": "1709",
+            "name": "assisted lying glutes stretch",
+            "target": "glutes",
+            "secondaryMuscles": [
+                "hamstrings"
+            ],
+            "instructions": [
+                "Lie on your back with your legs extended.",
+                "Bend your right knee and place your right ankle on your left thigh, just above the knee.",
+                "Grasp your left thigh with both hands and gently pull it towards your chest.",
+                "Hold the stretch for 20-30 seconds.",
+                "Release and repeat on the other side."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/inNSHaCEi7Mmuw",
+            "id": "1710",
+            "name": "assisted lying gluteus and piriformis stretch",
+            "target": "glutes",
+            "secondaryMuscles": [
+                "hamstrings"
+            ],
+            "instructions": [
+                "Lie on your back with your legs extended.",
+                "Bend your right knee and place your right ankle on your left thigh, just above the knee.",
+                "Grasp your left thigh with both hands and gently pull it towards your chest.",
+                "Hold the stretch for 20-30 seconds.",
+                "Release the stretch and repeat on the other side."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/nMlbaigIirqC9l",
+            "id": "0016",
+            "name": "assisted prone hamstring",
+            "target": "hamstrings",
+            "secondaryMuscles": [
+                "glutes",
+                "lower back"
+            ],
+            "instructions": [
+                "Lie face down on a mat or bench with your legs fully extended.",
+                "Have a partner or use a resistance band to secure your ankles.",
+                "Engage your hamstrings and lift your legs towards your glutes, keeping your knees straight.",
+                "Pause for a moment at the top, then slowly lower your legs back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/IIOmo9ZI1ywHBL",
+            "id": "1713",
+            "name": "assisted prone lying quads stretch",
+            "target": "quads",
+            "secondaryMuscles": [
+                "hamstrings",
+                "glutes"
+            ],
+            "instructions": [
+                "Lie face down on the ground with your legs extended.",
+                "Bend your left knee and reach back with your left hand to grab your left foot or ankle.",
+                "Gently pull your left foot towards your glutes, feeling a stretch in your left quad.",
+                "Hold the stretch for 20-30 seconds, then release.",
+                "Repeat with your right leg."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/2sEGxHCADU17VP",
+            "id": "1712",
+            "name": "assisted side lying adductor stretch",
+            "target": "adductors",
+            "secondaryMuscles": [
+                "hamstrings",
+                "glutes"
+            ],
+            "instructions": [
+                "Lie on your side with your legs straight and stacked on top of each other.",
+                "Bend your bottom leg slightly for stability.",
+                "Place your top foot on a stable surface, such as a bench or step.",
+                "Keeping your top leg straight, slowly lower it towards the ground, feeling a stretch in your inner thigh.",
+                "Hold the stretch for 20-30 seconds.",
+                "Return to the starting position and repeat on the other side."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "body weight",
+            "gifUrl": "https://v2.exercisedb.io/image/T0pHMI2geuhSdx",
+            "id": "1473",
+            "name": "backward jump",
+            "target": "quads",
+            "secondaryMuscles": [
+                "hamstrings",
+                "glutes",
+                "calves"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart.",
+                "Bend your knees slightly and jump backwards, pushing off with both feet.",
+                "Land softly on the balls of your feet, bending your knees to absorb the impact.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "body weight",
+            "gifUrl": "https://v2.exercisedb.io/image/QOQNMm4SNctoI-",
+            "id": "0020",
+            "name": "balance board",
+            "target": "quads",
+            "secondaryMuscles": [
+                "calves",
+                "hamstrings",
+                "glutes"
+            ],
+            "instructions": [
+                "Place the balance board on a flat surface.",
+                "Step onto the balance board with one foot, ensuring it is centered.",
+                "Slowly shift your weight onto the foot on the balance board, keeping your core engaged.",
+                "Maintain your balance and stability as you hold the position for a desired amount of time.",
+                "Repeat the exercise with the other foot."
+            ]
+        },
+        {
+            "bodyPart": "upper legs",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/cad2HNxvOsQskK",
+            "id": "0980",
+            "name": "band bent-over hip extension",
+            "target": "glutes",
+            "secondaryMuscles": [
+                "hamstrings",
+                "lower back"
+            ],
+            "instructions": [
+                "Attach the band to a sturdy anchor point at ankle height.",
+                "Stand facing away from the anchor point with your feet shoulder-width apart.",
+                "Step back to create tension in the band, keeping your knees slightly bent.",
+                "Hinge at the hips and lean forward, maintaining a neutral spine.",
+                "Extend your right leg straight back, squeezing your glutes at the top.",
+                "Lower your right leg back down and repeat with the left leg.",
+                "Continue alternating legs for the desired number of repetitions."
+            ]
+        }
+    ]
+}

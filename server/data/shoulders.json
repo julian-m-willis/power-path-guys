@@ -1,0 +1,200 @@
+{
+    "data": [
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/fyp0T-X6QrQtaX",
+            "id": "0977",
+            "name": "band front lateral raise",
+            "target": "delts",
+            "secondaryMuscles": [
+                "traps",
+                "upper back"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold the band in front of your thighs with your palms facing down.",
+                "Keep your arms straight and lift the band up in front of you until your arms are parallel to the ground.",
+                "Pause for a moment at the top, then slowly lower the band back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/Xv-jeOMhaaWYLR",
+            "id": "0978",
+            "name": "band front raise",
+            "target": "delts",
+            "secondaryMuscles": [
+                "triceps",
+                "upper back"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold the band in front of your thighs with your palms facing down.",
+                "Keep your arms straight and slowly raise them forward until they are parallel to the ground.",
+                "Pause for a moment at the top, then slowly lower your arms back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/FyHCYMXxT6wnnL",
+            "id": "0993",
+            "name": "band reverse fly",
+            "target": "delts",
+            "secondaryMuscles": [
+                "upper back",
+                "trapezius"
+            ],
+            "instructions": [
+                "Attach the band to a stationary object at chest height.",
+                "Stand with your feet shoulder-width apart and hold the band with both hands in front of you.",
+                "Keep your arms straight and lift them out to the sides until they are parallel to the ground.",
+                "Squeeze your shoulder blades together at the top of the movement.",
+                "Slowly lower your arms back to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/uw0TyYC4zfE9jK",
+            "id": "0997",
+            "name": "band shoulder press",
+            "target": "delts",
+            "secondaryMuscles": [
+                "triceps",
+                "upper back"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and place the band under your feet.",
+                "Hold the band with your palms facing forward and raise your hands to shoulder height, elbows bent.",
+                "Press the band overhead, fully extending your arms.",
+                "Pause for a moment at the top, then slowly lower the band back to shoulder height.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/rLSFwQRWvADY6C",
+            "id": "1022",
+            "name": "band standing rear delt row",
+            "target": "delts",
+            "secondaryMuscles": [
+                "trapezius",
+                "rhomboids",
+                "biceps"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and place the band under your feet.",
+                "Hold the band handles with your palms facing each other and your arms extended in front of you.",
+                "Bend your knees slightly and hinge forward at the hips, keeping your back straight.",
+                "Pull the band towards your chest, squeezing your shoulder blades together.",
+                "Pause for a moment at the top, then slowly release the tension and return to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/bwvREJ4Fr0HxVu",
+            "id": "1012",
+            "name": "band twisting overhead press",
+            "target": "delts",
+            "secondaryMuscles": [
+                "triceps",
+                "upper back"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and place the band under your feet.",
+                "Hold the band handles at shoulder height with your palms facing forward.",
+                "Engage your core and press the band overhead, fully extending your arms.",
+                "As you press, twist your torso to one side, keeping your hips stable.",
+                "Pause for a moment at the top, then return to the starting position.",
+                "Repeat the press and twist on the opposite side.",
+                "Continue alternating sides for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/uXMwdulYcWXF9O",
+            "id": "1017",
+            "name": "band y-raise",
+            "target": "delts",
+            "secondaryMuscles": [
+                "traps",
+                "rhomboids"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold the band in front of your thighs with your palms facing inwards.",
+                "Keep your arms straight and lift them up and out to the sides, forming a 'Y' shape with your body.",
+                "Squeeze your shoulder blades together at the top of the movement.",
+                "Slowly lower your arms back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/YRK2ZTQSEyeed6",
+            "id": "0041",
+            "name": "barbell front raise",
+            "target": "delts",
+            "secondaryMuscles": [
+                "biceps",
+                "triceps"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold a barbell in front of your thighs with an overhand grip.",
+                "Keep your arms straight and lift the barbell forward and upward until it reaches shoulder level.",
+                "Pause for a moment at the top, then slowly lower the barbell back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/tdUIyXIRXQxhdO",
+            "id": "0067",
+            "name": "barbell one arm snatch",
+            "target": "delts",
+            "secondaryMuscles": [
+                "traps",
+                "forearms",
+                "core"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart, toes pointing slightly outwards.",
+                "Hold the barbell with an overhand grip, hands slightly wider than shoulder-width apart.",
+                "Bend your knees and lower your hips into a squat position, keeping your back straight and chest up.",
+                "Explosively extend your hips, knees, and ankles, driving the barbell upwards.",
+                "As the barbell reaches chest level, pull it upwards with your arm, keeping it close to your body.",
+                "Rotate your elbow under the barbell and extend your arm fully overhead, locking out your elbow.",
+                "Lower the barbell back down to the starting position in a controlled manner.",
+                "Repeat for the desired number of repetitions, then switch arms."
+            ]
+        },
+        {
+            "bodyPart": "shoulders",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/aJUlMP01zVlOc4",
+            "id": "0075",
+            "name": "barbell rear delt raise",
+            "target": "delts",
+            "secondaryMuscles": [
+                "traps",
+                "rhomboids"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold a barbell with an overhand grip, palms facing down.",
+                "Bend your knees slightly and hinge forward at the hips, keeping your back straight.",
+                "Raise the barbell out to the sides, keeping your arms straight, until they are parallel to the ground.",
+                "Pause for a moment at the top, then slowly lower the barbell back to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        }
+    ]
+}

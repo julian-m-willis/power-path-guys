@@ -1,0 +1,192 @@
+{
+    "data": [
+        {
+            "bodyPart": "upper arms",
+            "equipment": "assisted",
+            "gifUrl": "https://v2.exercisedb.io/image/nJ7OTq-oylr3uu",
+            "id": "0018",
+            "name": "assisted standing triceps extension (with towel)",
+            "target": "triceps",
+            "secondaryMuscles": [
+                "shoulders"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold a towel with both hands behind your head.",
+                "Keep your elbows close to your ears and your upper arms stationary.",
+                "Slowly extend your forearms upward, squeezing your triceps at the top.",
+                "Pause for a moment, then slowly lower the towel back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "leverage machine",
+            "gifUrl": "https://v2.exercisedb.io/image/hAPQxXgvQfLBdE",
+            "id": "0019",
+            "name": "assisted triceps dip (kneeling)",
+            "target": "triceps",
+            "secondaryMuscles": [
+                "chest",
+                "shoulders"
+            ],
+            "instructions": [
+                "Adjust the machine to your desired weight and height.",
+                "Kneel down on the pad facing the machine, with your hands gripping the handles.",
+                "Lower your body by bending your elbows, keeping your back straight and close to the machine.",
+                "Pause for a moment at the bottom, then push yourself back up to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/FHvF7sT8j8KneG",
+            "id": "0968",
+            "name": "band alternating biceps curl",
+            "target": "biceps",
+            "secondaryMuscles": [
+                "forearms"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold the band with an underhand grip, palms facing up.",
+                "Keep your elbows close to your sides and slowly curl one arm up towards your shoulder, squeezing your biceps at the top.",
+                "Lower the arm back down to the starting position and repeat with the other arm.",
+                "Continue alternating arms for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/zt87LgWgFEFEef",
+            "id": "0975",
+            "name": "band close-grip push-up",
+            "target": "triceps",
+            "secondaryMuscles": [
+                "chest",
+                "shoulders"
+            ],
+            "instructions": [
+                "Place a band around your upper arms, just above the elbows.",
+                "Assume a push-up position with your hands directly under your shoulders and your body in a straight line from head to heels.",
+                "Bend your elbows and lower your chest towards the ground, keeping your elbows close to your sides.",
+                "Push through your palms to extend your arms and return to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/bWOcBoQX7zui3d",
+            "id": "0976",
+            "name": "band concentration curl",
+            "target": "biceps",
+            "secondaryMuscles": [
+                "forearms"
+            ],
+            "instructions": [
+                "Sit on a bench or chair with your legs spread apart and your feet flat on the ground.",
+                "Hold one end of the band in your hand and step on the other end with your foot on the same side.",
+                "Lean forward slightly and rest your elbow on the inside of your thigh, just above the knee.",
+                "With your palm facing up, slowly curl your hand towards your shoulder, keeping your upper arm stationary.",
+                "Pause for a moment at the top, then slowly lower your hand back down to the starting position.",
+                "Repeat for the desired number of repetitions, then switch sides."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/NmyiV2FrbAWswm",
+            "id": "0986",
+            "name": "band one arm overhead biceps curl",
+            "target": "biceps",
+            "secondaryMuscles": [
+                "forearms",
+                "shoulders"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and place one end of the band under your foot.",
+                "Hold the other end of the band with your arm fully extended overhead, palm facing forward.",
+                "Keeping your upper arm stationary, curl your forearm towards your shoulder, squeezing your biceps.",
+                "Pause for a moment at the top, then slowly lower your forearm back to the starting position.",
+                "Repeat for the desired number of repetitions, then switch arms."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "band",
+            "gifUrl": "https://v2.exercisedb.io/image/Wapda0IjKfzpMf",
+            "id": "0998",
+            "name": "band side triceps extension",
+            "target": "triceps",
+            "secondaryMuscles": [
+                "shoulders"
+            ],
+            "instructions": [
+                "Stand with your feet shoulder-width apart and hold the band with both hands, palms facing down.",
+                "Extend your arms straight out to the sides, keeping them parallel to the ground.",
+                "Slowly bend your elbows and bring your hands towards your shoulders, keeping your upper arms still.",
+                "Pause for a moment, then slowly extend your arms back out to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/8RN8KM-vW3daTD",
+            "id": "0023",
+            "name": "barbell alternate biceps curl",
+            "target": "biceps",
+            "secondaryMuscles": [
+                "forearms"
+            ],
+            "instructions": [
+                "Stand up straight with your feet shoulder-width apart and hold a barbell in each hand, palms facing forward.",
+                "Keep your upper arms stationary and exhale as you curl the weights while contracting your biceps.",
+                "Continue to raise the barbells until your biceps are fully contracted and the barbells are at shoulder level.",
+                "Hold the contracted position for a brief pause as you squeeze your biceps.",
+                "Inhale as you slowly begin to lower the barbells back to the starting position.",
+                "Repeat for the desired number of repetitions, alternating arms."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/Sf-JXDJfGwmugB",
+            "id": "2407",
+            "name": "barbell biceps curl (with arm blaster)",
+            "target": "biceps",
+            "secondaryMuscles": [
+                "forearms"
+            ],
+            "instructions": [
+                "Stand up straight with your feet shoulder-width apart and hold a barbell with an underhand grip, palms facing up.",
+                "Place your upper arms against the arm blaster, keeping your elbows close to your torso.",
+                "Keeping your upper arms stationary, exhale and curl the weights while contracting your biceps.",
+                "Continue to raise the barbell until your biceps are fully contracted and the bar is at shoulder level.",
+                "Hold the contracted position for a brief pause as you squeeze your biceps.",
+                "Inhale and slowly begin to lower the barbell back to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        },
+        {
+            "bodyPart": "upper arms",
+            "equipment": "barbell",
+            "gifUrl": "https://v2.exercisedb.io/image/iSOCvO6zRArkTX",
+            "id": "0030",
+            "name": "barbell close-grip bench press",
+            "target": "triceps",
+            "secondaryMuscles": [
+                "chest",
+                "shoulders"
+            ],
+            "instructions": [
+                "Lie flat on a bench with your feet flat on the ground and your back pressed against the bench.",
+                "Grasp the barbell with a close grip, slightly narrower than shoulder-width apart.",
+                "Unrack the barbell and lower it slowly towards your chest, keeping your elbows close to your body.",
+                "Pause for a moment when the barbell touches your chest.",
+                "Push the barbell back up to the starting position, fully extending your arms.",
+                "Repeat for the desired number of repetitions."
+            ]
+        }
+    ]
+}
