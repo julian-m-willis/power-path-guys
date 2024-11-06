@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Box, Grid, Button, TextField, Typography, Paper, Tabs, Tab } from "@mui/material";
+import TinderComponent from "./tinder"
 
 const Diet = () => {
   let today = new Date().getDay(); // 0 (Sunday) - 6 (Saturday)
@@ -203,16 +204,14 @@ const Diet = () => {
         </>
       )}
 
-      {selectedTab === 1 && (
+{selectedTab === 1 && (
         <>
-          <Typography variant="h4" align="center" gutterBottom>
-            Diet Plan Recommendation
-          </Typography>
-          {/* Your existing code for Meal Plan Recommendations */}
+          <TinderComponent/>
         </>
       )}
     </Box>
   );
 };
+       
 
 export default Diet;

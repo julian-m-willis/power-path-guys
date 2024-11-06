@@ -49,3 +49,171 @@
     margin-top: 10px;
     font-size: 18px;
   }
+
+
+
+
+
+
+
+
+
+
+/* 
+    // Your meals data remains unchanged here
+    // Example:
+   
+       Monday: [
+      {
+        meal: "Breakfast",
+        title: "Fluffy Pancakes",
+        calories: 420,
+        macros: { protein: 10, fats: 14, carbs: 45 },
+        image: "https://images.unsplash.com/photo-1559638740-3d5419b8b16a",
+      },
+      {
+        meal: "Lunch",
+        title: "Grilled Salmon Salad",
+        calories: 520,
+        macros: { protein: 30, fats: 20, carbs: 40 },
+        image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74",
+      },
+      {
+        meal: "Dinner",
+        title: "Pasta Carbonara",
+        calories: 700,
+        macros: { protein: 25, fats: 30, carbs: 70 },
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
+      },
+    ],
+    Tuesday: [
+      {
+        meal: "Breakfast",
+        title: "Greek Yogurt Parfait",
+        calories: 350,
+        macros: { protein: 20, fats: 5, carbs: 50 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Lunch",
+        title: "Chicken Caesar Wrap",
+        calories: 600,
+        macros: { protein: 35, fats: 25, carbs: 45 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Dinner",
+        title: "Stir-Fried Tofu and Vegetables",
+        calories: 450,
+        macros: { protein: 20, fats: 15, carbs: 60 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+    ],
+    Wednesday: [
+      {
+        meal: "Breakfast",
+        title: "Oatmeal with Berries",
+        calories: 250,
+        macros: { protein: 10, fats: 5, carbs: 45 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Lunch",
+        title: "Quinoa Salad",
+        calories: 400,
+        macros: { protein: 15, fats: 10, carbs: 60 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Dinner",
+        title: "Beef Stir-Fry",
+        calories: 700,
+        macros: { protein: 40, fats: 30, carbs: 60 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+    ],
+    Thursday: [
+      {
+        meal: "Breakfast",
+        title: "Smoothie Bowl",
+        calories: 300,
+        macros: { protein: 15, fats: 8, carbs: 50 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Lunch",
+        title: "Turkey Sandwich",
+        calories: 500,
+        macros: { protein: 30, fats: 15, carbs: 50 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Dinner",
+        title: "Vegetable Curry",
+        calories: 600,
+        macros: { protein: 15, fats: 20, carbs: 85 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+    ],
+    Friday: [
+      {
+        meal: "Breakfast",
+        title: "Egg and Spinach Wrap",
+        calories: 350,
+        macros: { protein: 20, fats: 15, carbs: 30 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Lunch",
+        title: "Poke Bowl",
+        calories: 600,
+        macros: { protein: 30, fats: 20, carbs: 65 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Dinner",
+        title: "Shrimp Tacos",
+        calories: 500,
+        macros: { protein: 25, fats: 15, carbs: 55 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+    ],
+    Saturday: [
+      {
+        meal: "Breakfast",
+        title: "French Toast",
+        calories: 400,
+        macros: { protein: 12, fats: 18, carbs: 50 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Lunch",
+        title: "Caprese Salad",
+        calories: 350,
+        macros: { protein: 15, fats: 20, carbs: 30 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+      {
+        meal: "Dinner",
+        title: "BBQ Chicken",
+        calories: 700,
+        macros: { protein: 40, fats: 30, carbs: 60 },
+        image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8",
+      },
+    ],
+    Sunday: [
+      {
+        meal: "Breakfast",
+        title: "Avocado Toast",
+        calories: 300,
+        macros: { protein: 8, fats: 12, carbs: 40 },
+        image: "https://images.unsplash.com/photo-1555685812-4f7e1b0e1b58",
+      },
+    ],
+  
+  
+  
+  
+  
+     
+  }; */
