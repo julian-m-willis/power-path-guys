@@ -1,36 +1,55 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import axios from 'axios';
 
 export default function AdditionalInfoPage() {
     const router = useRouter();
-    const [email, setEmail] = useState(''); // Get this from the previous page's state if necessary
+    const [firstName, setFirstName] = useState("User");
+    const [email, setEmail] = useState(''); // Optionally set from previous page
     const [fitnessGoal, setFitnessGoal] = useState('');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [activityLevel, setActivityLevel] = useState('');
-    const [goalWeight, setGoalWeight] = useState('');
-    const [goalTimeline, setGoalTimeline] = useState('');
+    const [validationMessage, setValidationMessage] = useState(''); // Added validation message state
 
-  const handleSubmit = async () => {
-    if(true){
-        router.push('/main/workout');
+    useEffect(() => {
+      // Extract the query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const firstNameFromQuery = urlParams.get('firstName');
+
+      if (typeof firstNameFromQuery === "string") {
+            setFirstName(firstNameFromQuery);
+        }
+  }, []);
+
+    const handleSubmit = async () => {
+      if (!fitnessGoal || !height || !weight || !activityLevel) {
+        setValidationMessage("All fields are required.");
+        return;
     }
-    try{
-    const res = await axios.post('http://3.107.192.183:5006/auth/',{
-        email,
-        fitnessGoal,
-        height,
-        weight,
-        activityLevel,
-        goalWeight,
-        goalTimeline,
-    });
 
-    }catch (error) {
-        console.error('Failed to save additional information:', error.response?.data?.message || error.message);
-      }
+    // Clear validation message if fields are filled
+    setValidationMessage("");
+
+        // Redirect to /auth/goals if fitnessGoal is 'lose' or 'gain'
+        if (fitnessGoal === 'lose' || fitnessGoal === 'gain') {
+          router.push('/auth/goals');
+        } else {
+            try {
+                // Otherwise, save additional info directly
+                await axios.post('http://3.107.192.183:5006/auth/', {
+                    email,
+                    fitnessGoal,
+                    height,
+                    weight,
+                    activityLevel,
+                });
+                router.push('/main/workout'); // Redirect to workout page after saving info
+            } catch (error) {
+                console.error('Failed to save additional information:', error.response?.data?.message || error.message);
+            }
+        }
     };
 
     //     if (true) {
@@ -41,74 +60,63 @@ export default function AdditionalInfoPage() {
     //   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-    <h1 className="text-3xl font-bold mb-4">Let's get to know you better!</h1>
-    <form className="flex flex-col space-y-4" onSubmit={(e) => e.preventDefault()}>
-      <select
-        className="p-2 border rounded text-black"
-        value={fitnessGoal}
-        onChange={(e) => setFitnessGoal(e.target.value)}
-      >
-        <option value="">Select Fitness Goal</option>
-        <option value="lose">Lose Weight</option>
-        <option value="gain">Gain Weight</option>
-        <option value="maintain">Maintain Weight</option>
-      </select>
+    <div className="flex flex-col h-screen bg-cover bg-center px-10" style={{backgroundImage:"url('/Power path guys (2).jpg')"}}>
+    <style>
+        {`
+            @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+            h1, button {
+                font-family: 'Anton', sans-serif;
+            }
+        `}
+    </style>
+    <div className='flex flex-col items-start justify-center h-full pl-40'>
+    <h1 className="text-5xl font-bold mb-6" style={{color: "#c1ff72"}}>Hi {firstName}! <br /> Let's get to know you better!</h1>
+    <form className="flex flex-col space-y-4 w-full max-w-lg" onSubmit={(e) => e.preventDefault()}>
+      <div className="grid grid-cols-2 gap-4">
       <input
         type="number"
         placeholder="Height (in cm)"
-        className="p-2 border rounded text-black"
+        className="p-3 border rounded text-black"
         value={height}
         onChange={(e) => setHeight(e.target.value)}
       />
       <input
-        type="number"
-        placeholder="Weight (in kg)"
-        className="p-2 border rounded text-black"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
+          type="number"
+          placeholder="Weight (in kg)"
+          className="p-3 border rounded text-black"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
       />
       <select
-        className="p-2 border rounded text-black"
-        value={activityLevel}
-        onChange={(e) => setActivityLevel(e.target.value)}
+          className="p-3 border rounded text-black"
+          value={fitnessGoal}
+          onChange={(e) => setFitnessGoal(e.target.value)}
       >
-        <option value="">Select Activity Level</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
+          <option value="">Select Fitness Goal</option>
+          <option value="lose">Lose Weight</option>
+          <option value="gain">Gain Weight</option>
+          <option value="maintain">Maintain Weight</option>
       </select>
-      {fitnessGoal === 'lose' || fitnessGoal === 'gain' ? (
-        <>
-          <input
-            type="number"
-            placeholder="Goal Weight (in kg)"
-            className="p-2 border rounded text-black"
-            value={goalWeight}
-            onChange={(e) => setGoalWeight(e.target.value)}
-          />
-          <select
-            className="p-2 border rounded text-black"
-            value={goalTimeline}
-            onChange={(e) => setGoalTimeline(e.target.value)}
-          >
-            <option value="">Select Timeline</option>
-            <option value="1 month">1 Month</option>
-            <option value="2 months">2 Months</option>
-            <option value="3 months">3 Months</option>
-            <option value="6 months">6 Months</option>
-            <option value="1 year">1 Year</option>
-          </select>
-        </>
-      ) : null}
-      <button
-        type="button"
-        onClick={handleSubmit}
-        className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+      <select
+          className="p-3 border rounded text-black"
+          value={activityLevel}
+          onChange={(e) => setActivityLevel(e.target.value)}
       >
-        Submit
+          <option value="">Select Activity Level</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select>
+      </div>
+      <button
+          type="button"
+          onClick={handleSubmit}
+          className="text-m font-bold text-black bg-[#c1ff72] py-2 px-6 mt-4" style={{ width: "120px" }}
+      >
+          Submit
       </button>
     </form>
+    </div>
   </div>
   );
 }
