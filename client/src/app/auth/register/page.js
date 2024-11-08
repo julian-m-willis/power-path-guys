@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "../../globals.css";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -31,19 +32,37 @@ export default function RegisterPage() {
     // If validation passes, clear the error and proceed
     setError(null);
 
-    // const res = await fetch('/api/auth/register', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ firstName, lastName, age, email, password }),
-    // });
+    try {
+      const response = await axios.post(
+        "http://3.107.192.183:5006/auth/",
+        {
+          "username": email,
+          "email": email,
+          "first_name": firstName,
+          "last_name": lastName,
+          "password": password
+        },
+      );
 
-    if (true) { //res.ok
-      router.push(`/auth/additional-info?firstName=${encodeURIComponent(firstName)}`); // Redirect after successful registration
-    } else {
-      const errorData = await res.json();
-      setError(errorData.message); // Display error message
+      if (response.status === 200 || response.status === 201) {
+        const data = response.data;
+        console.log(data)
+
+        // Store the user ID and access token in localStorage or sessionStorage
+        localStorage.setItem("user_id", data.id);
+
+        // Redirect to the main page
+        router.push(`/auth/additional-info?firstName=${encodeURIComponent(firstName)}`); // Redirect after successful registration
+      }
+    } catch (error) {
+      console.log(error)
+      if (error.response) {
+        // Server responded with a status other than 200 range
+        setError(error.response.data.detail || "An error occurred");
+      } else {
+        // Network or other errors
+        setError("An error occurred while signing in");
+      }
     }
   };
 
