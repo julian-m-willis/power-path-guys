@@ -25,20 +25,20 @@ class FoodCreate(BaseModel):
     calories: float
 
 # Endpoint to add a new food entry
-@router.post("/create-food")
-def create_food_in_db(food: FoodCreate, db: Session = Depends(get_db)):
-    # Check if food already exists (case-insensitive)
-    existing_food = db.query(Food).filter(func.lower(Food.name) == food.name.lower()).first()
-    if existing_food:
-        raise HTTPException(status_code=400, detail="Food already exists")
+# @router.post("/create-food")
+# def create_food_in_db(food: FoodCreate, db: Session = Depends(get_db)):
+#     # Check if food already exists (case-insensitive)
+#     existing_food = db.query(Food).filter(func.lower(Food.name) == food.name.lower()).first()
+#     if existing_food:
+#         raise HTTPException(status_code=400, detail="Food already exists")
     
-    # Add new food to the database
-    new_food = Food(name=food.name, calories=food.calories)
-    db.add(new_food)
-    db.commit()
-    db.refresh(new_food)
+#     # Add new food to the database
+#     new_food = Food(name=food.name, calories=food.calories)
+#     db.add(new_food)
+#     db.commit()
+#     db.refresh(new_food)
     
-    return {"message": "Food added successfully", "food": new_food}
+#     return {"message": "Food added successfully", "food": new_food}
 
 # 1. Add food record for a user
 @router.post("/add-food-record")

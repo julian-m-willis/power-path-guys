@@ -31,13 +31,13 @@ export default function RegisterPage() {
     // If validation passes, clear the error and proceed
     setError(null);
 
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ firstName, lastName, age, email, password }),
-    });
+    // const res = await fetch('/api/auth/register', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ firstName, lastName, age, email, password }),
+    // });
 
     if (true) { //res.ok
       router.push(`/auth/additional-info?firstName=${encodeURIComponent(firstName)}`); // Redirect after successful registration

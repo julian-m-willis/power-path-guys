@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import models
 from database import SessionLocal, engine
 from typing import Annotated, List, Dict
-from routers import diet, auth, workout
+from routers import diet, auth, workout, goals
 from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
@@ -27,3 +27,4 @@ def health_check():
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(diet.router, prefix="/diet", tags=["Diet"])
 app.include_router(workout.router, prefix="/workout", tags=["Workout"])
+app.include_router(goals.router, prefix="/goal", tags=["Goal"])
