@@ -1,6 +1,6 @@
 // src/components/TaskList.js
 import React, { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from "@mui/material";
 import axios from "axios";
 
 const TaskList = () => {
@@ -12,10 +12,9 @@ const TaskList = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        // Uncomment the following lines to fetch real data
+        // Uncomment and replace with actual API call for real data
         // const response = await axios.get("https://your-backend-api.com/api/tasks");
-        // setTasks(response.data); // Set fetched tasks data
-
+        // setTasks(response.data);
       } catch (error) {
         console.error("Error fetching tasks data:", error);
       }
@@ -25,16 +24,16 @@ const TaskList = () => {
   }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Typography variant="h6" style={{ padding: "10px" }}>
+    <TableContainer component={Paper} elevation={3} sx={{ mb: 2 }}>
+      <Typography variant="h6" sx={{ padding: 2, fontWeight: "bold", color: "text.primary" }}>
         Task List
       </Typography>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Task</TableCell>
-            <TableCell>Planned</TableCell>
-            <TableCell>Status</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Task</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Planned</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
