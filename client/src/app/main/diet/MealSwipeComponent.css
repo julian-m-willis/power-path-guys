@@ -1,0 +1,228 @@
+/* MealSwipeComponent.css */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #CCFBFE;
+    font-family: sans-serif;
+  }
+  
+  .day-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #006064;
+  }
+  
+  .day-button {
+    background: #00838F;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .day-button:hover:not(:disabled) {
+    background: #00ACC1;
+  }
+  
+  .day-button:disabled {
+    background: #004d5a;
+    cursor: not-allowed;
+  }
+  
+  .tick-icon {
+    color: #4CAF50;
+    font-size: 16px;
+  }
+  
+  .tinder {
+    width: 100vw;
+    height: calc(100vh - 60px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .tinder--cards {
+    position: relative;
+    width: 90vw;
+    max-width: 450px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tinder--card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: grab;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+  }
+  
+  .mini-card {
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    font-size: 14px;
+    margin: 10px 0;
+    padding-right: 5px;
+  }
+  
+  .meal-image-container {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .meal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .calorie-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #4CAF50, #83e68c);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .meal-info {
+    width: 50%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .meal-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  .macros {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .macro-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .protein .dot {
+    background-color: #F3A830;
+  }
+  
+  .fats .dot {
+    background-color: #5C85D6;
+  }
+  
+  .carbs .dot {
+    background-color: #68B168;
+  }
+  
+  .chosen-plan {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+  }
+  
+  .day-section {
+    margin-bottom: 20px;
+  }
+  
+  .day-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .chosen-meals-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .tinder--buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .tinder--buttons button {
+    background-color: #00838F;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100px;
+  }
+  
+  .tinder--buttons button:hover {
+    background-color: #00ACC1;
+  }
+  
+  #redoPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure the popup is above all other elements */
+  }
+  

@@ -25,10 +25,6 @@ const mealsData = {
       ]
     ]
   },
-
-  
-  
-  
   
   Tuesday: {
     meals: [
@@ -44,7 +40,6 @@ const mealsData = {
       ]
     ]
   },
-
 
   Wednesday: {
     meals: [
@@ -76,7 +71,6 @@ const mealsData = {
     ]
   },
 
-
   Friday: {
     meals: [
       [
@@ -91,7 +85,6 @@ const mealsData = {
       ]
     ]
   },
-
 
   Saturday: {
     meals: [
@@ -108,7 +101,6 @@ const mealsData = {
     ]
   },
 
-
   Sunday: {
     meals: [
       [
@@ -124,9 +116,8 @@ const mealsData = {
     ]
   },
   
-  // Other days...
 };
-
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const TinderComponent = () => {
   const [currentDay, setCurrentDay] = useState('');
   const [tinderVisible, setTinderVisible] = useState(false);
@@ -195,11 +186,9 @@ const TinderComponent = () => {
 
   const handleRightSwipe = (el) => {
     setLastSwipeDirection('right');
-    
-    // Swipe card to the right with animation
     el.style.transition = 'transform 0.3s ease';
     el.style.transform = 'translate(600px, 0) rotate(25deg)';
-
+  
     setTimeout(() => {
       const selectedMeal = tinderCards[0];
       setSelectedCard(selectedMeal);
@@ -210,13 +199,31 @@ const TinderComponent = () => {
       setSelectedDays((prev) => [...new Set([...prev, currentDay])]);
       setTinderCards([]);
       setSwipingDisabled(true);
-
-      if (enteredFromRedoButton) {
-        showChosenPlan();
+  
+      let nextDay;
+      const currentIndex = weekDays.indexOf(currentDay);
+  
+      if (currentIndex === -1) {
+        nextDay = "Monday";
+      } else if (currentIndex === weekDays.length - 1) {
+        nextDay = "Monday"; // Loop back to Monday
+      } else {
+        nextDay = weekDays[currentIndex + 1];
       }
+  
+      setCurrentDay(nextDay);
+  
+      setTimeout(() => {
+        // Check if meals are already chosen for the next day
+        if (chosenMeals[nextDay].length > 0) {
+          showChosenPlan(); // Navigate to chosen plan
+        } else {
+          showTinderCard(nextDay); // Show Tinder card for next day
+        }
+      }, 300);
     }, 300);
   };
-
+  
   const showTinderCard = (day) => {
     setCurrentDay(day);
     setTinderVisible(true);
@@ -244,12 +251,18 @@ const TinderComponent = () => {
   const closeRedoPopup = () => {
     setOpenRedoPopup(false);
     setSwipingDisabled(true);
+  
+    // Check if the user entered from the redo button
     if (enteredFromRedoButton) {
       showChosenPlan();
     } else {
+      // Navigate to the next day if not coming from redo
       const nextDay = daysOfWeek[(daysOfWeek.indexOf(currentDay) + 1) % daysOfWeek.length];
       showTinderCard(nextDay);
     }
+  
+    // Reset the enteredFromRedoButton flag
+    setEnteredFromRedoButton(false);
   };
 
   const redoDay = (day) => {
@@ -261,18 +274,20 @@ const TinderComponent = () => {
     setShowChosenMeals(false);
     setSwipedDays((prev) => prev.filter((d) => d !== day));
     setSelectedDays((prev) => prev.filter((d) => d !== day));
+  
+    // Set flags for redo context
     setRedoFromChosenDiet(true);
-    setEnteredFromRedoButton(true);
+    setEnteredFromRedoButton(true); // Indicate that we came from the redo button
     setSwipingDisabled(false);
     setSelectedCard(null);
   };
-
+  
   const showChosenPlan = () => {
     setShowChosenMeals(true);
     setTinderVisible(false);
     setOpenRedoPopup(false);
+    setEnteredFromRedoButton(false); // Reset the flag
   };
-
   return (
     <Box>
       <style>

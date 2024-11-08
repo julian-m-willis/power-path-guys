@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Hammer from 'hammerjs';
+<link rel="stylesheet" href="MealSwipeComponent.css"></link>
 
 const mealsData = {
   Monday: {
@@ -17,15 +18,10 @@ const mealsData = {
         { meal: "Breakfast", title: "Fluffy Pancakes", calories: 420, macros: { protein: 10, fats: 14, carbs: 45 }, image: "https://images.unsplash.com/photo-1559638740-3d5419b8b16a" },
         { meal: "Lunch", title: "Grilled Salmon Salad", calories: 520, macros: { protein: 30, fats: 20, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Pasta Carbonara", calories: 700, macros: { protein: 25, fats: 30, carbs: 70 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],
-      [
-        { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
+      // Add more meals for each day as needed
     ]
   },
-
   
   
   
@@ -124,8 +120,10 @@ const mealsData = {
     ]
   },
   
-  // Other days...
+  // Other days with meals
 };
+
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 const TinderComponent = () => {
   const [currentDay, setCurrentDay] = useState('');
@@ -144,12 +142,14 @@ const TinderComponent = () => {
   const [swipingDisabled, setSwipingDisabled] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const daysOfWeek = Object.keys(mealsData);
-
   useEffect(() => {
     if (!swipingDisabled) setupHammerEvents();
     return cleanupHammerEvents;
   }, [tinderCards, swipingDisabled]);
+
+  useEffect(() => {
+    console.log("Tinder cards updated:", tinderCards);
+  }, [tinderCards]);
 
   const setupHammerEvents = () => {
     const allCards = Array.from(document.querySelectorAll('.tinder--card'));
@@ -158,11 +158,11 @@ const TinderComponent = () => {
       hammertime.on('pan', (event) => {
         if (swipingDisabled) return;
 
-        if (event.deltaX < -20) {
+        if (event.deltaX < -15) {
           handleLeftSwipe(el);
           hammertime.stop();
         }
-        if (event.deltaX > 20) {
+        if (event.deltaX > 15) {
           handleRightSwipe(el);
           hammertime.stop();
         }
@@ -181,43 +181,63 @@ const TinderComponent = () => {
   const handleLeftSwipe = (el) => {
     setLastSwipeDirection('left');
     el.style.transition = 'transform 0.2s ease';
-    el.style.transform = 'translate(-600px, 0) rotate(-25deg)';
-
+    el.style.transform = 'translate(-300px, 0) rotate(-15deg)';
+  
     setTimeout(() => {
-      setTinderCards((prev) => prev.slice(1));
-      updateCards();
-      if (tinderCards.length === 1) {
-        setOpenRedoPopup(true);
-      }
-      setSwipingDisabled(true);
+      setTinderCards((prev) => {
+        const newCards = prev.slice(1);
+        if (newCards.length > 0) {
+          const nextCard = document.querySelector('.tinder--card');
+          if (nextCard) {
+            nextCard.style.transform = 'translate(0, 0) rotate(0deg)';
+            nextCard.style.zIndex = 1;
+          }
+        }
+        if (newCards.length === 0) {
+          setOpenRedoPopup(true);
+          setSwipingDisabled(true);
+        }
+        return newCards;
+      });
     }, 200);
   };
 
   const handleRightSwipe = (el) => {
     setLastSwipeDirection('right');
-    
-    // Swipe card to the right with animation
     el.style.transition = 'transform 0.3s ease';
-    el.style.transform = 'translate(600px, 0) rotate(25deg)';
-
+    el.style.transform = 'translate(300px, 0) rotate(15deg)';
+  
     setTimeout(() => {
-      const selectedMeal = tinderCards[0];
-      setSelectedCard(selectedMeal);
+      const selectedMeals = tinderCards[0]; // All meals for the current day
       setChosenMeals((prev) => ({
         ...prev,
-        [currentDay]: [...prev[currentDay], selectedMeal],
+        [currentDay]: [...prev[currentDay], ...selectedMeals], // Add all meals for the day
       }));
       setSelectedDays((prev) => [...new Set([...prev, currentDay])]);
       setTinderCards([]);
       setSwipingDisabled(true);
+  
+      goToNextDay();
+    }, 300);
+  };
 
-      if (enteredFromRedoButton) {
+  const goToNextDay = () => {
+    const currentIndex = weekDays.indexOf(currentDay);
+    const nextDay = (currentIndex === weekDays.length - 1) ? weekDays[0] : weekDays[currentIndex + 1];
+  
+    setCurrentDay(nextDay);
+  
+    setTimeout(() => {
+      if (chosenMeals[nextDay].length > 0) {
         showChosenPlan();
+      } else {
+        showTinderCard(nextDay);
       }
     }, 300);
   };
 
   const showTinderCard = (day) => {
+    console.log("Showing Tinder card for:", day);
     setCurrentDay(day);
     setTinderVisible(true);
     setTinderCards(mealsData[day]?.meals || []);
@@ -228,28 +248,19 @@ const TinderComponent = () => {
     setSelectedCard(null);
   };
 
-  const updateCards = () => {
-    const remainingCards = Array.from(document.querySelectorAll('.tinder--card:not(.removed)'));
-    remainingCards.forEach((card, index) => {
-      card.style.zIndex = remainingCards.length - index;
-      card.style.opacity = '1';
-      card.style.transform = 'translate(0, 0) rotate(0deg)';
-    });
-
-    if (remainingCards.length === 0 && lastSwipeDirection === 'left' && !redoFromChosenDiet) {
-      setOpenRedoPopup(true);
-    }
-  };
-
-  const closeRedoPopup = () => {
+  const closeRedoPopup = (noClicked = false) => {
     setOpenRedoPopup(false);
     setSwipingDisabled(true);
-    if (enteredFromRedoButton) {
+  
+    if (noClicked) {
+      setSwipedDays((prev) => [...prev, currentDay]);
+      goToNextDay();
+    } else if (enteredFromRedoButton) {
       showChosenPlan();
     } else {
-      const nextDay = daysOfWeek[(daysOfWeek.indexOf(currentDay) + 1) % daysOfWeek.length];
-      showTinderCard(nextDay);
+      goToNextDay();
     }
+    setEnteredFromRedoButton(false);
   };
 
   const redoDay = (day) => {
@@ -271,6 +282,7 @@ const TinderComponent = () => {
     setShowChosenMeals(true);
     setTinderVisible(false);
     setOpenRedoPopup(false);
+    setEnteredFromRedoButton(false);
   };
 
   return (
@@ -282,7 +294,7 @@ const TinderComponent = () => {
             justify-content: center;
             gap: 10px;
             padding: 10px;
-            background-color: #006064;
+          
           }
           .day-button {
             background: #00838F;
@@ -376,56 +388,32 @@ const TinderComponent = () => {
       </Box>
 
       <Box className="tinder">
-        {selectedCard ? (
-          <Box className="tinder--card">
-            {selectedCard.map((meal, index) => (
-              <div key={index} className="mini-card">
-                <div className="meal-image-container">
-                  {meal.image ? (
-                    <img src={meal.image} alt={meal.title || 'Meal'} className="meal-image" />
-                  ) : (
-                    <div>No Image</div>
-                  )}
-                  <div className="calorie-badge">{meal.calories || 'N/A'} Calories</div>
-                </div>
-                <div className="meal-info">
-                  <div className="meal-title">{meal.meal}</div>
-                  <Typography variant="body2" color="textSecondary">{meal.title}</Typography>
-                  <div className="macros">
-                    {meal.macros?.protein}g Protein • {meal.macros?.fats}g Fats • {meal.macros?.carbs}g Carbs
+        {tinderCards.length > 0 && (
+          <>
+            <Button onClick={() => handleLeftSwipe(document.querySelector('.tinder--card'))}>Nope</Button>
+            <Box className="tinder--card">
+              {tinderCards[0].map((meal, index) => (
+                <div key={index} className="mini-card">
+                  <div className="meal-image-container">
+                    {meal.image ? (
+                      <img src={meal.image} alt={meal.title || 'Meal'} className="meal-image" />
+                    ) : (
+                      <div>No Image</div>
+                    )}
+                    <div className="calorie-badge">{meal.calories || 'N/A'} Calories</div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </Box>
-        ) : (
-          tinderCards.length > 0 && (
-            <>
-              <Button onClick={() => handleLeftSwipe(document.querySelector('.tinder--card'))}>Nope</Button>
-              <Box className="tinder--card">
-                {tinderCards[0].map((meal, index) => (
-                  <div key={index} className="mini-card">
-                    <div className="meal-image-container">
-                      {meal.image ? (
-                        <img src={meal.image} alt={meal.title || 'Meal'} className="meal-image" />
-                      ) : (
-                        <div>No Image</div>
-                      )}
-                      <div className="calorie-badge">{meal.calories || 'N/A'} Calories</div>
-                    </div>
-                    <div className="meal-info">
-                      <div className="meal-title">{meal.meal}</div>
-                      <Typography variant="body2" color="textSecondary">{meal.title}</Typography>
-                      <div className="macros">
-                        {meal.macros?.protein}g Protein • {meal.macros?.fats}g Fats • {meal.macros?.carbs}g Carbs
-                      </div>
+                  <div className="meal-info">
+                    <div className="meal-title">{meal.meal}</div>
+                    <Typography variant="body2" color="textSecondary">{meal.title}</Typography>
+                    <div className="macros">
+                      {meal.macros?.protein}g Protein • {meal.macros?.fats}g Fats • {meal.macros?.carbs}g Carbs
                     </div>
                   </div>
-                ))}
-              </Box>
-              <Button onClick={() => handleRightSwipe(document.querySelector('.tinder--card'))}>Love</Button>
-            </>
-          )
+                </div>
+              ))}
+            </Box>
+            <Button onClick={() => handleRightSwipe(document.querySelector('.tinder--card'))}>Love</Button>
+          </>
         )}
       </Box>
 
@@ -475,14 +463,14 @@ const TinderComponent = () => {
           zIndex: 3000,
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
         }}>
-          <IconButton onClick={closeRedoPopup} sx={{ position: 'absolute', top: 8, right: 8 }}>
+          <IconButton onClick={() => closeRedoPopup()} sx={{ position: 'absolute', top: 8, right: 8 }}>
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" gutterBottom>Select Your Option</Typography>
           <Typography variant="body1" gutterBottom>Do you want to redo?</Typography>
           <Box display="flex" justifyContent="center" gap={2}>
             <Button variant="contained" color="primary" onClick={() => redoDay(currentDay)}>Yes</Button>
-            <Button variant="outlined" color="secondary" onClick={closeRedoPopup}>No</Button>
+            <Button variant="outlined" color="secondary" onClick={() => closeRedoPopup(true)}>No</Button>
           </Box>
         </Paper>
       </Modal>
