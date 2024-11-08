@@ -1,12 +1,17 @@
+'use client'; // Add this at the top if this layout is intended to run client-side
+
 import '../globals.css';
 import { FloatingDock } from '../../components/ui/floating-dock';
 import { IconHome2, IconBarbell, IconTargetArrow, IconApple, IconMessages } from '@tabler/icons-react';
-import { ModeToggle } from "../../components/modetoggle";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
-export const metadata = {
-  title: 'Fitness App',
-  description: 'Track your workouts and calories.',
-};
+// Create a dark theme for MUI components
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function RootLayout({ children }) {
   const items = [
@@ -18,14 +23,16 @@ export default function RootLayout({ children }) {
   ];
 
   return (
-    <>
-  <main>{children}
-    <FloatingDock
-      items={items}
-      desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
-      mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
-    />
-    </main>
-    </>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <main>
+        {children}
+        <FloatingDock
+          items={items}
+          desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
+          mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
+        />
+      </main>
+    </ThemeProvider>
   );
 }
