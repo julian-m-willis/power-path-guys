@@ -1,7 +1,12 @@
 // src/components/CaloriesBurntChart.js
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Typography, Box } from "@mui/material";
 import axios from "axios";
+
+// Register the necessary components with Chart.js
+ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 
 const CaloriesBurntChart = ({ view }) => {
   const [caloriesBurntData, setCaloriesBurntData] = useState([]);
@@ -42,11 +47,36 @@ const CaloriesBurntChart = ({ view }) => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(...caloriesBurntData) + 50, // Dynamically adjust max y-axis based on data
+        title: {
+          display: true,
+          text: "Calories",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: view === "today" ? "Today" : view === "week" ? "Days of the Week" : "Days of the Month",
+        },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h3>Calories Burnt Chart ({view})</h3>
-      <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true, max: 600 } } }} />
-    </div>
+    <Box>
+      <Typography variant="h6" align="center" gutterBottom sx={{ color: "text.primary", fontWeight: "bold" }}>
+        Calories Burnt ({view})
+      </Typography>
+      <Box sx={{ height: { xs: 250, md: 300 } }}>
+        <Bar data={chartData} options={options} />
+      </Box>
+    </Box>
   );
 };
 

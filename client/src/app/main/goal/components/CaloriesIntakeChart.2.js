@@ -1,7 +1,12 @@
 // src/components/CaloriesIntakeChart2.js
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Typography, Box } from "@mui/material";
 import axios from "axios";
+
+// Register the necessary components with Chart.js
+ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 
 const CaloriesIntakeChart2 = ({ view }) => {
   const [caloriesIntakeData, setCaloriesIntakeData] = useState([]);
@@ -10,7 +15,7 @@ const CaloriesIntakeChart2 = ({ view }) => {
     const fetchCaloriesIntakeData = async () => {
       try {
         // Uncomment the following lines to fetch real data
-        // const response = await axios.get(`https://your-backend-api.com/api/calories-intake`, { params: { view } });
+        // const response = await axios.get("https://your-backend-api.com/api/calories-intake", { params: { view } });
         // setCaloriesIntakeData(response.data);
 
         // Mock data based on view
@@ -42,11 +47,36 @@ const CaloriesIntakeChart2 = ({ view }) => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(...caloriesIntakeData) + 500, // Adjust max y-axis based on data
+        title: {
+          display: true,
+          text: "Calories",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: view === "today" ? "Today" : view === "week" ? "Days of the Week" : "Days of the Month",
+        },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h3>Calories Intake Chart ({view})</h3>
-      <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true, max: 3000 } } }} />
-    </div>
+    <Box>
+      <Typography variant="h6" align="center" gutterBottom sx={{ color: "text.primary", fontWeight: "bold" }}>
+        Calories Intake ({view})
+      </Typography>
+      <Box sx={{ height: { xs: 250, md: 300 } }}>
+        <Bar data={chartData} options={options} />
+      </Box>
+    </Box>
   );
 };
 

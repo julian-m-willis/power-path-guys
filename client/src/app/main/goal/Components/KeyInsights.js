@@ -1,6 +1,6 @@
 // src/components/KeyInsights.js
 import React, { useState, useEffect } from "react";
-import { Paper, Typography } from "@mui/material";
+import { Paper, Typography, Box } from "@mui/material";
 import axios from "axios";
 
 const KeyInsights = () => {
@@ -12,10 +12,9 @@ const KeyInsights = () => {
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        // Uncomment the following lines to fetch real data
+        // Uncomment and replace with actual API call for real data
         // const response = await axios.get("https://your-backend-api.com/api/insights");
-        // setInsights(response.data); // Set fetched insights data
-
+        // setInsights(response.data);
       } catch (error) {
         console.error("Error fetching insights data:", error);
       }
@@ -25,13 +24,17 @@ const KeyInsights = () => {
   }, []);
 
   return (
-    <Paper style={{ padding: "20px" }}>
-      <Typography variant="h6">Key Insights</Typography>
-      <ul>
+    <Paper elevation={3} sx={{ padding: { xs: 2, md: 3 }, mb: 2 }}>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold", color: "text.primary" }}>
+        Key Insights
+      </Typography>
+      <Box component="ul" sx={{ pl: 2, color: "text.secondary" }}>
         {insights.map((insight, index) => (
-          <li key={index}>{insight}</li>
+          <Box component="li" key={index} sx={{ mb: 1 }}>
+            {insight}
+          </Box>
         ))}
-      </ul>
+      </Box>
     </Paper>
   );
 };

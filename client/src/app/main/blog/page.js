@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { 
   Container, Typography, Grid, Card, CardContent, CardActions, Button, Avatar, 
-  TextField, IconButton, Collapse 
+  TextField, IconButton, Collapse, Box, CircularProgress
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
-import axios from "axios"; // Import axios
+import axios from "axios";
 
 const mockPosts = [
   {
@@ -35,16 +35,20 @@ const BlogPage = () => {
   const [posts, setPosts] = useState(mockPosts);
   const [expandedPost, setExpandedPost] = useState(null);
   const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Fetch posts from the backend
     const fetchPosts = async () => {
+      setLoading(true);
       try {
-        // Uncomment the following lines to fetch data from your backend
+        // Uncomment to fetch data
         // const response = await axios.get("https://your-backend-api.com/api/posts");
-        // setPosts(response.data); // Set posts from backend response
+        // setPosts(response.data);
+        console.log("Fetched posts:", posts);
       } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -95,69 +99,59 @@ const BlogPage = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4, padding: { xs: 2, md: 3 } }}>
+    <Container maxWidth="sm" sx={{ mt: 4, padding: { xs: 2, md: 3 }, pb: 8 }}>
       <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
         Friends' Achievements
       </Typography>
-      <Grid container spacing={2}>
-        {posts.map((post) => (
-          <Grid item xs={12} key={post.id}>
-            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
-              <CardContent>
-                <Grid container alignItems="center" spacing={2}>
-                  <Grid item>
-                    <Avatar alt={post.user} src={post.avatar} sx={{ width: 48, height: 48 }} />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: { xs: '1rem', md: '1.25rem' } }}>
-                      {post.user}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {post.date}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Typography variant="body1" sx={{ mt: 2, mb: 1, fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  {post.goal}
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ justifyContent: 'space-between' }}>
-                <Button size="small" color="primary" startIcon={<FavoriteIcon />} onClick={() => handleLike(post.id)}>
-                  {post.likes} Likes
-                </Button>
-                <Button size="small" color="primary" startIcon={<CommentIcon />} onClick={() => handleToggleComments(post.id)}>
-                  {post.comments.length} Comments
-                </Button>
-              </CardActions>
-              <Collapse in={expandedPost === post.id} timeout="auto" unmountOnExit>
+      {loading ? (
+        <Box display="flex" justifyContent="center" mt={2}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid container spacing={2}>
+          {posts.map((post) => (
+            <Grid item xs={12} key={post.id}>
+              <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
                 <CardContent>
-                  {post.comments.map((comment, index) => (
-                    <Typography key={index} variant="body2" sx={{ mb: 1 }}>
-                      <strong>{comment.user}:</strong> {comment.text}
-                    </Typography>
-                  ))}
-                  <Grid container spacing={2} alignItems="center" sx={{ mt: 1 }}>
-                    <Grid item xs>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        placeholder="Add a comment"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                      />
+                  <Grid container alignItems="center" spacing={2}>
+                    <Grid item>
+                      <Avatar alt={post.user} src={post.avatar} sx={{ width: 48, height: 48 }} />
                     </Grid>
                     <Grid item>
-                      <IconButton color="primary" onClick={() => handleAddComment(post.id)}>
-                        <SendIcon />
-                      </IconButton>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        {post.user}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {post.date}
+                      </Typography>
                     </Grid>
                   </Grid>
+                  <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                    {post.goal}
+                  </Typography>
                 </CardContent>
-              </Collapse>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                <CardActions>
+                  <Button onClick={() => handleLike(post.id)}>{post.likes} Likes</Button>
+                  <Button onClick={() => handleToggleComments(post.id)}>{post.comments.length} Comments</Button>
+                </CardActions>
+                <Collapse in={expandedPost === post.id}>
+                  <CardContent>
+                    {post.comments.map((comment, index) => (
+                      <Typography key={index}><strong>{comment.user}:</strong> {comment.text}</Typography>
+                    ))}
+                    <Grid container>
+                      <TextField fullWidth size="small" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                      <IconButton onClick={() => handleAddComment(post.id)}><SendIcon /></IconButton>
+                    </Grid>
+                  </CardContent>
+                </Collapse>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+      {/* Spacer for the bottom of the page */}
+      <Box height="60px" />
     </Container>
   );
 };
