@@ -17,3 +17,4 @@ EXPOSE 80
 
 # Use the entrypoint script to run the seed and start the server
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+

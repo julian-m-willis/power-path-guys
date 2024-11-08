@@ -1,6 +1,3 @@
-#!/bin/sh
-
-# Run the seed script
 python seed_food.py
 
 # Start the server
