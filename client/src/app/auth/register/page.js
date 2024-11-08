@@ -1,5 +1,5 @@
 "use client"
-import localFont from "next/font/local";
+
 import "../../globals.css";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -67,22 +67,42 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="bg-cover bg-center h-screen w-full" style={{backgroundImage:"url('/bg.jpg')"}}>
+    <div
+      className="bg-responsive min-h-screen w-full"
+      style={{
+        backgroundImage: "url('/bg.jpg')",
+        backgroundColor: "#0a141b", // Black background color for uncovered areas
+        
+        backgroundRepeat: "no-repeat",
+      }}
+    >
             <style>
-            {`
+            {
+            `
               @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
               h1 {
                 font-family: 'Anton', sans-serif;
               }
+
+              .bg-responsive {
+                background-size: cover;
+              }
+    
+              @media (max-width: 768px) {
+                .bg-responsive {
+                  background-size: contain;
+                  background-position: top;
+                }
+              }
             `}
           </style> 
-    <div className="flex flex-col items-start justify-center h-screen pl-40" >
-      <div className="flex flex-col items-center mb-8 w-full max-w-lg">
-        <h1 className="text-7xl font-bold" style={{fontFamily: "'Anton', sans-serif", color: "white"}}>REGISTER HERE</h1>
+    <div className="flex flex-col items-start justify-center min-h-screen pl-4 md:pl-40 pr-4 md:pr-0" >
+      <div className="mb-8 w-full max-w-lg">
+        <h1 className="text-4xl md:text-7xl font-bold text-white" style={{fontFamily: "'Anton', sans-serif", color: "white"}}>REGISTER HERE</h1>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
       <form className="flex flex-col space-y-4 w-full max-w-lg" onSubmit={(e) => e.preventDefault()}>
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
           <input
             type="text"
             placeholder="First Name"
@@ -134,9 +154,8 @@ export default function RegisterPage() {
         <button
           type="button"
           onClick={handleRegister}
-          className="text-xl text-black font-bold py-3 px-8 hover:opacity-90 w-full"
+          className="text-lg md:text-xl text-black font-bold py-3 px-6 md:px-8 hover:opacity-90 w-full md:w-auto"
           style={{backgroundColor: "#c1ff72", fontFamily: "'Anton', sans-serif", width: "150px", // Adjust width as desired
-          height: "50px", // Adjust height as desired
           marginTop: "20px", }}
         >
           POWER ON

@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react";
+import "./homepage.css"; // Import the CSS file
 
 export default function Home() {
   const userId = localStorage.getItem("access_token");
@@ -11,40 +12,18 @@ export default function Home() {
     console.log("User is not logged in");
   }
   return (
-    <h1>
-      Welcome to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness AppWelcome to the Fitness
-      AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to the
-      Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome to
-      the Fitness AppWelcome to the Fitness AppWelcome to the Fitness AppWelcome
-      to the Fitness AppWelcome to the Fitness App
-    </h1>
+      <div>
+        <div
+          className="bg-fixed h-screen w-full"
+          style={{
+            backgroundImage: "url(/homepage.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Additional content can go here */}
+        </div>
+      </div>
   );
 }
