@@ -416,7 +416,7 @@ const WorkoutList = () => {
         </Select>
       </FormControl>
 
-      {/* Personalize Your Workout Card */}
+      {/* Personalize Your Workout Card using Link */}
       <Grid container justifyContent="center" style={{ marginBottom: 24 }}>
         <Grid item xs={12}>
         <Link href={`workout/swipe?theme=${encodeURIComponent(theme)}`} passHref>
@@ -445,7 +445,7 @@ const WorkoutList = () => {
           </Link>
         </Grid>
       </Grid>
-
+      
       {/* Suggested Workouts Cards */}
       <Grid container spacing={3}>
         {workoutCards.map((cardExercises, cardIndex) => {
