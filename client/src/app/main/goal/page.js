@@ -2,11 +2,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Container, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup, Box } from "@mui/material";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import WaterChart from "./components/WaterChart";
 import CaloriesBurntChart from "./components/CaloriesBurntChart";
-import CaloriesIntakeChart2 from "./components/CaloriesIntakeChart.2"; // Bar chart version
-import CaloriesIntakeChart from "./components/CaloriesIntakeChart"; // Pie chart version
+import CaloriesIntakeChart2 from "./components/CaloriesIntakeChart.2";
+import CaloriesIntakeChart from "./components/CaloriesIntakeChart";
 import NetCaloriesChart from "./components/NetCaloriesChart";
 import TaskList from "./components/TaskList";
 import KeyInsights from "./components/KeyInsights";
@@ -78,7 +78,7 @@ const GoalTrackingPage = () => {
   }, [view]);
 
   return (
-    <Container maxWidth="lg" sx={{ padding: { xs: 2, md: 4 } }}>
+    <Container maxWidth="xl" sx={{ padding: { xs: 2, md: 4 }, pb: 6 }}>
       <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
         Goal Tracking
       </Typography>
@@ -96,43 +96,47 @@ const GoalTrackingPage = () => {
       </ToggleButtonGroup>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Paper elevation={3} sx={{ padding: 2 }}>
             <WaterChart view={view} data={waterData} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Paper elevation={3} sx={{ padding: 2 }}>
             <CaloriesBurntChart view={view} data={caloriesBurntData} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Paper elevation={3} sx={{ padding: 2 }}>
             <CaloriesIntakeChart view={view} data={caloriesIntakeData} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Paper elevation={3} sx={{ padding: 2 }}>
             <CaloriesIntakeChart2 view={view} data={caloriesIntakeData} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Paper elevation={3} sx={{ padding: 2 }}>
             <NetCaloriesChart view={view} data={netCaloriesData} />
           </Paper>
         </Grid>
       </Grid>
 
-      <Paper elevation={3} sx={{ mt: 3, padding: 2 }}>
-        <TaskList view={view} />
-      </Paper>
+      <Box sx={{ mt: 4 }}>
+        <Paper elevation={3} sx={{ padding: 2 }}>
+          <TaskList view={view} />
+        </Paper>
+      </Box>
 
-      <Paper elevation={3} sx={{ mt: 3, padding: 2 }}>
-        <KeyInsights view={view} />
-      </Paper>
+      <Box sx={{ mt: 3 }}>
+        <Paper elevation={3} sx={{ padding: 2 }}>
+          <KeyInsights view={view} />
+        </Paper>
+      </Box>
 
-      {/* Add bottom padding for extra spacing */}
-      <Box sx={{ mt: 4, pb: 6 }} />
+      {/* Spacer for bottom navigation */}
+      <Box sx={{ height: 60 }} />
     </Container>
   );
 };

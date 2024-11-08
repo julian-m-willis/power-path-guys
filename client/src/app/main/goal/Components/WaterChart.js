@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Typography, Box } from "@mui/material";
 import axios from "axios";
 
 // Register the necessary components with Chart.js
@@ -42,11 +43,36 @@ const WaterChart = ({ view }) => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(...waterData) + 1, // Dynamically sets the max y-axis based on the data
+        title: {
+          display: true,
+          text: "Liters",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: view === "today" ? "Today" : view === "week" ? "Days of the Week" : "Days of the Month",
+        },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h3>Water Consumption Chart ({view})</h3>
-      <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true, max: 4 } } }} />
-    </div>
+    <Box>
+      <Typography variant="h6" align="center" gutterBottom sx={{ color: "text.primary", fontWeight: "bold" }}>
+        Water Consumption ({view})
+      </Typography>
+      <Box sx={{ height: { xs: 250, md: 300 } }}>
+        <Bar data={chartData} options={options} />
+      </Box>
+    </Box>
   );
 };
 
