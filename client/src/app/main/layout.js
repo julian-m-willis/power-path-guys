@@ -2,7 +2,11 @@
 
 import '../globals.css';
 import { FloatingDock } from '../../components/ui/floating-dock';
-import { IconHome2, IconBarbell, IconTargetArrow, IconApple, IconMessages } from '@tabler/icons-react';
+import IconApple from '@tabler/icons-react/IconApple';
+import IconBarbell from '@tabler/icons-react/IconBarbell';
+import IconHome2 from '@tabler/icons-react/IconHome2';
+import IconMessages from '@tabler/icons-react/IconMessages';
+import IconTargetArrow from '@tabler/icons-react/IconTargetArrow';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
