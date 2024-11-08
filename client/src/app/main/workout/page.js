@@ -311,6 +311,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Grid, Card, CardContent, Typography, Button, List, ListItem, Collapse, Select, MenuItem, FormControl } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const WorkoutList = () => {
   const [workoutCards, setWorkoutCards] = useState([]);
@@ -379,10 +380,6 @@ const WorkoutList = () => {
     router.push('/placeholder');
   };
 
-  const handlePersonalize = () => {
-    router.push('/personalize-placeholder');
-  };
-
   const toggleExpand = (index) => {
     setExpandedCardIndex(expandedCardIndex === index ? null : index);
   };
@@ -422,29 +419,30 @@ const WorkoutList = () => {
       {/* Personalize Your Workout Card */}
       <Grid container justifyContent="center" style={{ marginBottom: 24 }}>
         <Grid item xs={12}>
-          <Card
-            onClick={handlePersonalize}
-            sx={{
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '1px solid #ccc',
-              boxShadow: 'none',
-              padding: 1,
-              width: '100%',
-            }}
-          >
-            <CardContent sx={{ padding: '8px' }}>
-              <Typography variant="h5" align="center">
-                Personalize Your Workout
-              </Typography>
-              <Typography align="center" color="textSecondary">
-                Click here to personalize your workout plan
-              </Typography>
-            </CardContent>
-          </Card>
+        <Link href={`workout/swipe?theme=${encodeURIComponent(theme)}`} passHref>
+            <Card
+              sx={{
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid #ccc',
+                boxShadow: 'none',
+                padding: 1,
+                width: '100%',
+              }}
+            >
+              <CardContent sx={{ padding: '8px' }}>
+                <Typography variant="h5" align="center">
+                  Personalize Your Workout
+                </Typography>
+                <Typography align="center" color="textSecondary">
+                  Click here to personalize your workout plan
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
         </Grid>
       </Grid>
 
