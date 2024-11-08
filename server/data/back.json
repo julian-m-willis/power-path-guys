@@ -1,9 +1,9 @@
 {
-    "data":[
+    "data": [
         {
             "bodyPart": "back",
             "equipment": "cable",
-            "gifUrl": "https://v2.exercisedb.io/image/f3hCIh4t9hOzs0",
+            "gifUrl": "https://v2.exercisedb.io/image/8PGpzBGvMcRA5z",
             "id": "0007",
             "name": "alternate lateral pulldown",
             "target": "lats",
@@ -22,7 +22,7 @@
         {
             "bodyPart": "back",
             "equipment": "body weight",
-            "gifUrl": "https://v2.exercisedb.io/image/0Ns90ocj52MKW0",
+            "gifUrl": "https://v2.exercisedb.io/image/7Y7KA8xSAskhxX",
             "id": "3293",
             "name": "archer pull up",
             "target": "lats",
@@ -42,7 +42,7 @@
         {
             "bodyPart": "back",
             "equipment": "leverage machine",
-            "gifUrl": "https://v2.exercisedb.io/image/tLXCJ1flCe2eAy",
+            "gifUrl": "https://v2.exercisedb.io/image/GCeT-LOdYDXZEp",
             "id": "0015",
             "name": "assisted parallel close grip pull-up",
             "target": "lats",
@@ -63,7 +63,7 @@
         {
             "bodyPart": "back",
             "equipment": "leverage machine",
-            "gifUrl": "https://v2.exercisedb.io/image/wSPydbARL81Ckm",
+            "gifUrl": "https://v2.exercisedb.io/image/E2l1DL4NRFPwvA",
             "id": "0017",
             "name": "assisted pull-up",
             "target": "lats",
@@ -84,7 +84,7 @@
         {
             "bodyPart": "back",
             "equipment": "leverage machine",
-            "gifUrl": "https://v2.exercisedb.io/image/8Q0GyLe50GDvzl",
+            "gifUrl": "https://v2.exercisedb.io/image/OygIOPnGN-kp34",
             "id": "1431",
             "name": "assisted standing chin-up",
             "target": "lats",
@@ -105,7 +105,7 @@
         {
             "bodyPart": "back",
             "equipment": "leverage machine",
-            "gifUrl": "https://v2.exercisedb.io/image/lprNRoITtMZItJ",
+            "gifUrl": "https://v2.exercisedb.io/image/-fp8koKewu4mAW",
             "id": "1432",
             "name": "assisted standing pull-up",
             "target": "lats",
@@ -126,7 +126,7 @@
         {
             "bodyPart": "back",
             "equipment": "stability ball",
-            "gifUrl": "https://v2.exercisedb.io/image/FPAaDwvBfFAEG2",
+            "gifUrl": "https://v2.exercisedb.io/image/jx09sUmoUY9kj1",
             "id": "1314",
             "name": "back extension on exercise ball",
             "target": "spine",
@@ -145,7 +145,7 @@
         {
             "bodyPart": "back",
             "equipment": "body weight",
-            "gifUrl": "https://v2.exercisedb.io/image/sOh2qCVjIkFP6c",
+            "gifUrl": "https://v2.exercisedb.io/image/rjsuja77b3F5Ld",
             "id": "3297",
             "name": "back lever",
             "target": "upper back",
@@ -166,7 +166,7 @@
         {
             "bodyPart": "back",
             "equipment": "body weight",
-            "gifUrl": "https://v2.exercisedb.io/image/cexe5CPD5pZJLD",
+            "gifUrl": "https://v2.exercisedb.io/image/HIjgJgR8pNWN1i",
             "id": "1405",
             "name": "back pec stretch",
             "target": "lats",
@@ -187,7 +187,7 @@
         {
             "bodyPart": "back",
             "equipment": "band",
-            "gifUrl": "https://v2.exercisedb.io/image/97jvZpaDeKMwkC",
+            "gifUrl": "https://v2.exercisedb.io/image/2hvLLJZU00B19G",
             "id": "0970",
             "name": "band assisted pull-up",
             "target": "lats",

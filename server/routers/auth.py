@@ -77,7 +77,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency,
                       create_user_request: CreateUserRequest):
-    # Check if the user already exists by email or username
+    # Check if the user already exists by email or username222
     existing_user = db.query(Users).filter(
         (Users.email == create_user_request.email) |
         (Users.username == create_user_request.username)
