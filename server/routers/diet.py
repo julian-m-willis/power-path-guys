@@ -78,24 +78,45 @@ def add_food_record(user_id: int, food_name: str, db: db_dependency):
 # 2. Get total calories eaten by a user on a specific day
 @router.get("/user-calories")
 def get_user_calories(user_id: int, date: date, db: db_dependency):
-    # Check if user exists
     user = db.query(Users).filter(Users.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
-    # Query for food records by the user on the specific day
+
     food_records = db.query(FoodRecord).filter(
         FoodRecord.user_id == user_id,
         FoodRecord.date.between(datetime(date.year, date.month, date.day), datetime(date.year, date.month, date.day, 23, 59, 59))
     ).all()
     
+    total_water = db.query(func.sum(WaterConsumption.amount_ml)).filter(
+        WaterConsumption.user_id == user_id,
+        func.date(WaterConsumption.date) == date
+    ).scalar() or 0
+
     if not food_records:
-        return {"user_id": user_id, "date": date, "total_calories": 0}
-    
-    # Calculate total calories
+        return {
+            "user_id": user_id, 
+            "date": date, 
+            "total_calories": 0,
+            "total_protein": 0,
+            "total_fat": 0,
+            "total_carbs": 0,
+            "total_water": 0
+        }
+
     total_calories = sum(record.food.calories for record in food_records)
-    
-    return {"user_id": user_id, "date": date, "total_calories": total_calories}
+    total_protein = sum(record.food.protein for record in food_records)
+    total_fat = sum(record.food.fat for record in food_records)
+    total_carbs = sum(record.food.calories * 0.15 for record in food_records)  # Simple carb calculation
+
+    return {
+        "user_id": user_id,
+        "date": date,
+        "total_calories": total_calories,
+        "total_protein": total_protein,
+        "total_fat": total_fat,
+        "total_carbs": total_carbs,
+        "total_water": total_water
+    }
 
 @router.get("/weekly-nutrition/{user_id}")
 async def get_weekly_nutrition(user_id: int, db: Session = Depends(get_db)):
@@ -141,3 +162,58 @@ async def get_weekly_nutrition(user_id: int, db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating weekly nutrition data: {str(e)}")
+
+@router.post("/log-water")
+def log_water(user_id: int, amount_ml: float, db: db_dependency):
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    water_record = WaterConsumption(user_id=user_id, amount_ml=amount_ml)
+    db.add(water_record)
+    db.commit()
+    db.refresh(water_record)
+
+    return {"message": "Water consumption logged successfully", "total_water": amount_ml}
+
+@router.get("/user-water")
+def get_user_water(user_id: int, date: date = datetime.utcnow().date(), db: Session = Depends(get_db)):
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    total_water = db.query(func.sum(WaterConsumption.amount_ml)).filter(
+        WaterConsumption.user_id == user_id,
+        func.date(WaterConsumption.date) == date
+    ).scalar() or 0
+
+    return {"user_id": user_id, "date": date, "total_water": total_water}
+@router.delete("/remove-all-records")
+def remove_all_records(user_id: int, date: date, db: db_dependency):
+    # Check if the user exists
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Delete food records for the given user and date
+    food_records_deleted = db.query(FoodRecord).filter(
+        FoodRecord.user_id == user_id,
+        func.date(FoodRecord.date) == date
+    ).delete(synchronize_session=False)
+
+    # Delete water records for the given user and date
+    water_records_deleted = db.query(WaterConsumption).filter(
+        WaterConsumption.user_id == user_id,
+        func.date(WaterConsumption.date) == date
+    ).delete(synchronize_session=False)
+
+    db.commit()
+
+    if food_records_deleted == 0 and water_records_deleted == 0:
+        return {"message": "No records found for the given user and date"}
+    
+    return {
+        "message": "Records deleted successfully",
+        "food_records_deleted": food_records_deleted,
+        "water_records_deleted": water_records_deleted
+    }
