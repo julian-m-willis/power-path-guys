@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
-const API_BASE_URL = "http://localhost:5006/diet"; // Replace with your backend base URL
+const API_BASE_URL = "http://3.107.192.183:5006/diet"; // Replace with your backend base URL
 
 const Diet = () => {
   const today = new Date().getDay(); // 0 (Sunday) - 6 (Saturday)
