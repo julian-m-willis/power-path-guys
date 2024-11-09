@@ -206,75 +206,77 @@ const Workout = () => {
   }, []);
 
   useEffect(() => {
-    const cards =
-      workoutContainerRef.current?.querySelectorAll(".workout--card");
+    const cards = workoutContainerRef.current?.querySelectorAll(".workout--card");
+    let activeCard = null;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+  
     if (cards) {
+      const handleStart = (e) => {
+        if (isDragging) return; // Only allow one active drag
+        activeCard = e.currentTarget;
+        startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+        isDragging = true;
+        activeCard.style.transition = "none";
+      };
+  
+      const handleMove = (e) => {
+        if (!isDragging || !activeCard) return;
+        currentX = (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) - startX;
+        activeCard.style.transform = `translateX(calc(-50% + ${currentX}px))`;
+      };
+  
+      const handleEnd = () => {
+        if (!isDragging || !activeCard) return;
+        isDragging = false;
+        activeCard.style.transition = "transform 0.3s ease-out";
+  
+        if (currentX > 100) {
+          // Swiped right
+          activeCard.style.transform = `translateX(100vw)`;
+          setTimeout(() => {
+            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
+            activeCard = null;
+          }, 300);
+        } else if (currentX < -100) {
+          // Swiped left
+          activeCard.style.transform = `translateX(-100vw)`;
+          setTimeout(() => {
+            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
+            activeCard = null;
+          }, 300);
+        } else {
+          // Reset to the true original center position
+          activeCard.style.transform = `translateX(-50%)`;
+        }
+  
+        activeCard = null;
+      };
+  
       cards.forEach((card) => {
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
-
-        const handleStart = (e) => {
-          startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-          isDragging = true;
-          card.style.transition = "none";
-        };
-
-        const handleMove = (e) => {
-          if (!isDragging) return;
-          currentX =
-            (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) -
-            startX;
-          card.style.transform = `translateX(${currentX}px)`;
-        };
-
-        const handleEnd = () => {
-          if (!isDragging) return;
-          isDragging = false;
-          card.style.transition = "transform 0.5s ease-out";
-
-          if (currentX > 50) {
-            // Swiped right
-            card.style.transform = `translateX(100vw)`;
-            setTimeout(() => {
-              setWorkouts((prev) => prev.slice(1));
-            }, 300);
-          } else if (currentX < -50) {
-            // Swiped left
-            card.style.transform = `translateX(-100vw)`;
-            setTimeout(() => {
-              card.style.display = "none"; // Ensure the card is hidden after swipe
-              setWorkouts((prev) => prev.slice(1));
-            }, 300);
-          } else {
-            // Return to original position
-            card.style.transform = "translateX(0)";
-          }
-        };
-
-        // Add event listeners for touch and mouse events
-        card.addEventListener("touchstart", handleStart);
-        card.addEventListener("touchmove", handleMove);
-        card.addEventListener("touchend", handleEnd);
-
         card.addEventListener("mousedown", handleStart);
         card.addEventListener("mousemove", handleMove);
         card.addEventListener("mouseup", handleEnd);
         card.addEventListener("mouseleave", handleEnd);
-
+        card.addEventListener("touchstart", handleStart);
+        card.addEventListener("touchmove", handleMove);
+        card.addEventListener("touchend", handleEnd);
+  
+        // Clean up event listeners on component unmount
         return () => {
-          card.removeEventListener("touchstart", handleStart);
-          card.removeEventListener("touchmove", handleMove);
-          card.removeEventListener("touchend", handleEnd);
-
           card.removeEventListener("mousedown", handleStart);
           card.removeEventListener("mousemove", handleMove);
           card.removeEventListener("mouseup", handleEnd);
           card.removeEventListener("mouseleave", handleEnd);
+          card.removeEventListener("touchstart", handleStart);
+          card.removeEventListener("touchmove", handleMove);
+          card.removeEventListener("touchend", handleEnd);
         };
       });
     }
   }, [workouts]);
+  
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
