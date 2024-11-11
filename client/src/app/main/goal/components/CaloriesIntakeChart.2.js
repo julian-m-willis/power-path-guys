@@ -13,38 +13,65 @@ const CaloriesIntakeChart2 = ({ view }) => {
 
   useEffect(() => {
     const fetchCaloriesIntakeData = async () => {
+      const userId = localStorage.getItem("user_id") || 2;
       try {
-        // Uncomment the following lines to fetch real data
-        // const response = await axios.get("https://your-backend-api.com/api/calories-intake", { params: { view } });
-        // setCaloriesIntakeData(response.data);
-
-        // Mock data based on view
+        // Replace with actual API call
+        const response = await axios.get(`/calories-intake/${userId}`);
+  
+        // Update the state based on the selected view
         if (view === "today") {
-          setCaloriesIntakeData([2000]); // Single day intake
+          setCaloriesIntakeData([response.data.today]); // Single day data as an array for consistency
         } else if (view === "week") {
-          setCaloriesIntakeData([1800, 2000, 2200, 2100, 1900, 2400, 2300]); // Weekly intake
+          setCaloriesIntakeData(response.data.week); // Array of 7 days
         } else if (view === "month") {
-          setCaloriesIntakeData([1900, 2000, 2100, 2300, 2200, 2100, 1900, 2000, 2100, 2200, 2300, 1900, 2400, 2200, 2000, 2100]); // 16-day intake
+          setCaloriesIntakeData(response.data.month); // Array of 30 days
         }
       } catch (error) {
-        console.error("Error fetching calories intake data:", error);
+        console.error("Error fetching calories burnt data:", error);
       }
     };
-
     fetchCaloriesIntakeData();
   }, [view]);
+  const getLast7Days = () => {
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push(date.toLocaleDateString('en-US', { weekday: 'short' })); // e.g., "Sun", "Mon"
+    }
+    return days;
+  };
+
+const weekLabels = getLast7Days();
+
+
+  const getLast30Days = () => {
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })); // e.g., "Nov 1"
+    }
+    return days;
+  };
+  
+  const monthLabels = getLast30Days();
 
   const chartData = {
-    labels: view === "today" ? ["Today"] : view === "week" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : Array.from({ length: 16 }, (_, i) => `Day ${i + 1}`),
-    datasets: [
-      {
-        label: "Calories Intake",
-        data: caloriesIntakeData,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
+    labels: view === "today"
+      ? ["Today"]
+      : view === "week"
+        ? weekLabels // Use dynamically generated week labels
+        : monthLabels, // Use dynamically generated month labels
+        datasets: [
+          {
+            label: "Calories Intake",
+            data: caloriesIntakeData,
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
   };
 
   const options = {

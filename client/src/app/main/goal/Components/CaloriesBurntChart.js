@@ -7,35 +7,65 @@ import axios from "axios";
 
 // Register the necessary components with Chart.js
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
+// axios.defaults.baseURL = "http://localhost:5006/goal"; 
+axios.defaults.baseURL = "http://3.107.192.183:5006/goal"; 
 
 const CaloriesBurntChart = ({ view }) => {
   const [caloriesBurntData, setCaloriesBurntData] = useState([]);
 
   useEffect(() => {
     const fetchCaloriesBurntData = async () => {
+      const userId = localStorage.getItem("user_id") || 2;
       try {
-        // Uncomment and replace with the actual endpoint for real data
-        // const response = await axios.get(`https://your-backend-api.com/api/calories-burnt`, { params: { view } });
-        // setCaloriesBurntData(response.data);
-
-        // Mock data based on view
+        // Replace with actual API call
+        const response = await axios.get(`/calories-burnt/${userId}`);
+  
+        // Update the state based on the selected view
         if (view === "today") {
-          setCaloriesBurntData([450]); // Single day
+          setCaloriesBurntData([response.data.today]); // Single day data as an array for consistency
         } else if (view === "week") {
-          setCaloriesBurntData([400, 500, 450, 520, 470, 490, 510]); // 7 days
+          setCaloriesBurntData(response.data.week); // Array of 7 days
         } else if (view === "month") {
-          setCaloriesBurntData([400, 500, 450, 520, 470, 490, 510, 480, 530, 510, 550, 460, 520, 500, 480, 540]); // 16 days
+          setCaloriesBurntData(response.data.month); // Array of 30 days
         }
       } catch (error) {
         console.error("Error fetching calories burnt data:", error);
       }
     };
-
+  
     fetchCaloriesBurntData();
   }, [view]);
+  const getLast7Days = () => {
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push(date.toLocaleDateString('en-US', { weekday: 'short' })); // e.g., "Sun", "Mon"
+    }
+    return days;
+  };
+
+const weekLabels = getLast7Days();
+
+
+  const getLast30Days = () => {
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })); // e.g., "Nov 1"
+    }
+    return days;
+  };
+  
+  const monthLabels = getLast30Days();
 
   const chartData = {
-    labels: view === "today" ? ["Today"] : view === "week" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : Array.from({ length: 16 }, (_, i) => `Day ${i + 1}`),
+    labels: view === "today"
+      ? ["Today"]
+      : view === "week"
+        ? weekLabels // Use dynamically generated week labels
+        : monthLabels, // Use dynamically generated month labels
     datasets: [
       {
         label: "Calories Burnt",
@@ -46,7 +76,7 @@ const CaloriesBurntChart = ({ view }) => {
       },
     ],
   };
-
+  
   const options = {
     responsive: true,
     maintainAspectRatio: false,

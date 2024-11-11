@@ -185,3 +185,104 @@ def get_posts(user_id: int, db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching posts: {str(e)}")
+ 
+def get_user(user_id: int, db: Session):
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+   
+@router.get("/water-consumption/{user_id}", status_code=status.HTTP_200_OK)
+async def get_water_consumption(user_id: int, db: Session = Depends(get_db)):
+    try:
+        get_user(user_id, db)
+
+        today = datetime.utcnow()
+        start_of_today = today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # Fetch data for today
+        today_water = db.query(func.sum(WaterConsumption.amount_ml)).filter(
+            WaterConsumption.user_id == user_id,
+            func.date(WaterConsumption.date) == date.today()
+        ).scalar() or 0
+
+        # Fetch data for the last 7 days (week)
+        start_of_week = date.today() - timedelta(days=6)
+        week_records = db.query(
+            func.date(WaterConsumption.date).label('day'),
+            func.sum(WaterConsumption.amount_ml).label('total')
+        ).filter(
+            WaterConsumption.user_id == user_id,
+            func.date(WaterConsumption.date) >= start_of_week
+        ).group_by('day').all()
+        week_water_data = {record.day: record.total for record in week_records}
+        week_water_list = [week_water_data.get(start_of_week + timedelta(days=i), 0) for i in range(7)]
+
+        # Fetch data for the last 30 days (month)
+        start_of_month = date.today() - timedelta(days=29)
+        month_records = db.query(
+            func.date(WaterConsumption.date).label('day'),
+            func.sum(WaterConsumption.amount_ml).label('total')
+        ).filter(
+            WaterConsumption.user_id == user_id,
+            func.date(WaterConsumption.date) >= start_of_month
+        ).group_by('day').all()
+        month_water_data = {record.day: record.total for record in month_records}
+        month_water_list = [month_water_data.get(start_of_month + timedelta(days=i), 0) for i in range(30)]
+
+        return {
+            "today": today_water,
+            "week": week_water_list,
+            "month": month_water_list
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching water consumption data: {str(e)}")
+
+# Endpoint for Caloric Intake
+@router.get("/calories-intake/{user_id}", status_code=status.HTTP_200_OK)
+async def get_calories_intake(user_id: int, db: Session = Depends(get_db)):
+    try:
+        get_user(user_id, db)
+
+        today = datetime.utcnow()
+        start_of_today = today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # Fetch data for today
+        today_calories = db.query(func.sum(Food.calories)).join(FoodRecord).filter(
+            FoodRecord.user_id == user_id,
+            func.date(FoodRecord.date) == date.today()
+        ).scalar() or 0
+
+        # Fetch data for the last 7 days (week)
+        start_of_week = date.today() - timedelta(days=6)
+        week_records = db.query(
+            func.date(FoodRecord.date).label('day'),
+            func.sum(Food.calories).label('total')
+        ).join(Food).filter(
+            FoodRecord.user_id == user_id,
+            func.date(FoodRecord.date) >= start_of_week
+        ).group_by('day').all()
+        week_calories_data = {record.day: record.total for record in week_records}
+        week_calories_list = [week_calories_data.get(start_of_week + timedelta(days=i), 0) for i in range(7)]
+
+        # Fetch data for the last 30 days (month)
+        start_of_month = date.today() - timedelta(days=29)
+        month_records = db.query(
+            func.date(FoodRecord.date).label('day'),
+            func.sum(Food.calories).label('total')
+        ).join(Food).filter(
+            FoodRecord.user_id == user_id,
+            func.date(FoodRecord.date) >= start_of_month
+        ).group_by('day').all()
+        month_calories_data = {record.day: record.total for record in month_records}
+        month_calories_list = [month_calories_data.get(start_of_month + timedelta(days=i), 0) for i in range(30)]
+
+        return {
+            "today": today_calories,
+            "week": week_calories_list,
+            "month": month_calories_list
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching calories intake data: {str(e)}")
