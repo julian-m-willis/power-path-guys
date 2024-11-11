@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Hammer from 'hammerjs';
-<link rel="stylesheet" href="MealSwipeComponent.css"></link>
 
 const mealsData = {
   Monday: {
@@ -18,16 +17,6 @@ const mealsData = {
         { meal: "Breakfast", title: "Fluffy Pancakes", calories: 420, macros: { protein: 10, fats: 14, carbs: 45 }, image: "https://images.unsplash.com/photo-1559638740-3d5419b8b16a" },
         { meal: "Lunch", title: "Grilled Salmon Salad", calories: 520, macros: { protein: 30, fats: 20, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Pasta Carbonara", calories: 700, macros: { protein: 25, fats: 30, carbs: 70 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ], [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],
-
-      [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
       // Add more meals for each day as needed
     ]
@@ -47,11 +36,6 @@ const mealsData = {
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],
-      [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -68,10 +52,6 @@ const mealsData = {
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -86,10 +66,6 @@ const mealsData = {
       [
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
@@ -107,10 +83,6 @@ const mealsData = {
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -127,10 +99,6 @@ const mealsData = {
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -146,10 +114,6 @@ const mealsData = {
       [
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
@@ -175,10 +139,7 @@ const TinderComponent = () => {
   const [redoFromChosenDiet, setRedoFromChosenDiet] = useState(false);
   const [enteredFromRedoButton, setEnteredFromRedoButton] = useState(false);
   const [swipingDisabled, setSwipingDisabled] = useState(false);
-  const [swipeCount, setSwipeCount] = useState(0); // Track the swipe index
-
   const [selectedCard, setSelectedCard] = useState(null);
-
 
   useEffect(() => {
     if (!swipingDisabled) setupHammerEvents();
@@ -224,7 +185,6 @@ const TinderComponent = () => {
     setTimeout(() => {
       setTinderCards((prev) => {
         const newCards = prev.slice(1);
-        setSwipeCount((count) => count + 1);
         if (newCards.length > 0) {
           const nextCard = document.querySelector('.tinder--card');
           if (nextCard) {
@@ -247,29 +207,37 @@ const TinderComponent = () => {
     el.style.transform = 'translate(300px, 0) rotate(15deg)';
   
     setTimeout(() => {
-      const selectedMeals = tinderCards[swipeCount] || []; // All meals for the current day
+      const selectedMeals = tinderCards[0].filter((_, index) => index === 0 || index === 1 || index === 2); // Only add the swiped right meals
       setChosenMeals((prev) => ({
         ...prev,
-        [currentDay]: [...prev[currentDay], ...selectedMeals], // Add all meals for the day
+        [currentDay]: [...prev[currentDay], ...selectedMeals], // Add the swiped right meals for the day
       }));
-      setSelectedDays((prev) => [...new Set([...prev, currentDay])]);
-      setSwipeCount((count) => count + 1);
+  
+      // Check if all meals for the current day have been swiped right
+      if (selectedMeals.length === tinderCards[0].length) {
+        setSelectedDays((prev) => [...new Set([...prev, currentDay])]);
+      }
+  
       setTinderCards([]);
       setSwipingDisabled(true);
   
       goToNextDay();
     }, 300);
   };
+  
 
   const goToNextDay = () => {
     const currentIndex = weekDays.indexOf(currentDay);
     const nextDay = (currentIndex === weekDays.length - 1) ? weekDays[0] : weekDays[currentIndex + 1];
-  
+
     setCurrentDay(nextDay);
-  
+
     setTimeout(() => {
       if (chosenMeals[nextDay].length > 0) {
         showChosenPlan();
+      } else if (swipedDays.includes(nextDay) && !selectedDays.includes(nextDay)) {
+        // Skip the day if it has been swiped but not selected
+        goToNextDay();
       } else {
         showTinderCard(nextDay);
       }
@@ -286,8 +254,14 @@ const TinderComponent = () => {
     setEnteredFromRedoButton(false);
     setSwipingDisabled(false);
     setSelectedCard(null);
-    setSwipeCount(0); 
+  
+    // Disable all day buttons except the current day
+    const dayButtons = document.querySelectorAll('.day-button');
+    dayButtons.forEach((button) => {
+      button.disabled = button.textContent !== day;
+    });
   };
+  
 
   const closeRedoPopup = (noClicked = false) => {
     setOpenRedoPopup(false);
@@ -317,7 +291,6 @@ const TinderComponent = () => {
     setEnteredFromRedoButton(true);
     setSwipingDisabled(false);
     setSelectedCard(null);
-    setSwipeCount(0); 
   };
 
   const showChosenPlan = () => {
@@ -336,7 +309,7 @@ const TinderComponent = () => {
             justify-content: center;
             gap: 10px;
             padding: 10px;
-          
+            background-color: #006064;
           }
           .day-button {
             background: #00838F;
@@ -417,7 +390,7 @@ const TinderComponent = () => {
             key={day}
             className={`day-button ${currentDay === day ? 'active-day' : ''}`}
             onClick={() => showTinderCard(day)}
-            disabled={swipedDays.includes(day) || selectedDays.includes(day)}
+            disabled={swipedDays.includes(day) && !selectedDays.includes(day)}
           >
             {day}
             {selectedDays.includes(day) && <span style={{ color: 'green', fontSize: '16px' }}>✔️</span>}

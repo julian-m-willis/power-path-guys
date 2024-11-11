@@ -1,5 +1,12 @@
 "use client";
 
+<<<<<<< HEAD
+import React, { useState } from "react";
+import { Box, Grid, Button, TextField, Typography, Paper, Tabs, Tab } from "@mui/material";
+// import TinderComponent from "./tinder"
+import TinderComponent from './tindert'
+
+=======
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -13,9 +20,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import TinderComponent from "./tindert";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet"; // Replace with your backend base URL
+>>>>>>> b981857f36a339ea5c3b13f40f5ddd1255786fba
 
 const Diet = () => {
   const today = new Date().getDay(); // 0 (Sunday) - 6 (Saturday)
@@ -407,10 +414,17 @@ const handleFoodAdd = async (event) => {
         </>
       )}
 
+<<<<<<< HEAD
 {selectedTab === 1 && (
         <>
            < TinderComponent/>
         </>
+=======
+      {selectedTab === 1 && (
+        <Typography variant="h4" align="center" gutterBottom>
+          Diet Plan Recommendation
+        </Typography>
+>>>>>>> b981857f36a339ea5c3b13f40f5ddd1255786fba
       )}
     </Box>
   );
