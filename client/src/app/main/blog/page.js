@@ -1,8 +1,7 @@
-// src/app/main/blog/index.js
 "use client";
 import React, { useState, useEffect } from "react";
 import { 
-  Container, Typography, Grid, Card, CardContent, CardActions, Button, Avatar, 
+  Container, Typography, Grid, Card, CardHeader, CardMedia, CardContent, CardActions, Button, Avatar, 
   TextField, IconButton, Collapse, Box, CircularProgress
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -10,29 +9,11 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 
-const mockPosts = [
-  {
-    id: 1,
-    user: "Jane Doe",
-    avatar: "/user1.jpg",
-    date: "October 29, 2024",
-    goal: "Completed a 5K run in 30 minutes",
-    comments: [{ user: "Alice", text: "Great job!" }],
-    likes: 15,
-  },
-  {
-    id: 2,
-    user: "John Smith",
-    avatar: "/user2.jpg",
-    date: "October 28, 2024",
-    goal: "Lost 5 pounds in 2 weeks",
-    comments: [{ user: "Bob", text: "Congrats!" }],
-    likes: 20,
-  },
-];
+axios.defaults.baseURL = "http://localhost:5006/goal/"; // Replace with your actual backend URL
+
 
 const BlogPage = () => {
-  const [posts, setPosts] = useState(mockPosts);
+  const [posts, setPosts] = useState([]);
   const [expandedPost, setExpandedPost] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,114 +21,207 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
+      const userId = localStorage.getItem("user_id") || 2; // Replace with logic to get the current user ID
       try {
-        // Uncomment to fetch data
-        // const response = await axios.get("https://your-backend-api.com/api/posts");
-        // setPosts(response.data);
-        console.log("Fetched posts:", posts);
+        const response = await axios.get(`posts/`, {
+          params: { user_id: userId }
+        });
+        setPosts(response.data);
+        console.log("Fetched posts:", response.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
         setLoading(false);
       }
     };
+  
 
     fetchPosts();
   }, []);
-
-  const handleLike = async (id) => {
-    const updatedPosts = posts.map((post) =>
-      post.id === id ? { ...post, likes: post.likes + 1 } : post
-    );
-    setPosts(updatedPosts);
-
-    try {
-      // Uncomment to send a like update to the backend
-      // await axios.post(`https://your-backend-api.com/api/posts/${id}/like`);
-    } catch (error) {
-      console.error("Error updating likes:", error);
-    }
-  };
 
   const handleToggleComments = (id) => {
     setExpandedPost(expandedPost === id ? null : id);
   };
 
+  const handleLike = async (id) => {
+    const userId = localStorage.getItem("user_id") || 2;
+    try {
+      // Find the post in the posts array
+      const updatedPosts = posts.map((post) => {
+        if (post.id === id) {
+          if (post.liked_by_user) {
+            // If the post is already liked, unlike it
+            post.liked_by_user = false;
+            post.likes -= 1;
+          } else {
+            // If the post is not liked, like it
+            post.liked_by_user = true;
+            post.likes += 1;
+          }
+        }
+        return post;
+      });
+  
+      // Update the post state with the modified array
+      setPosts(updatedPosts);
+  
+      // Make the backend call to update like status
+      axios.post(`posts/${id}/like`, null, {
+        params: { user_id: userId }
+      });
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
+  
   const handleAddComment = async (id) => {
     if (newComment.trim() === "") return;
-
-    const updatedPosts = posts.map((post) =>
-      post.id === id
-        ? {
-            ...post,
-            comments: [...post.comments, { user: "CurrentUser", text: newComment }],
-          }
-        : post
-    );
-    setPosts(updatedPosts);
-    setNewComment("");
-
+    const userId = localStorage.getItem("user_id") || 2;
+    const userName = localStorage.getItem("user_name") || "Me";
     try {
-      // Uncomment to send the new comment to the backend
-      // await axios.post(`https://your-backend-api.com/api/posts/${id}/comments`, {
-      //   user: "CurrentUser",
-      //   text: newComment
-      // });
+      // Use query parameters for comment data
+      await axios.post(`posts/${id}/comment`, null, {
+        params: { user_id: userId, text: newComment }
+      });
+      const updatedPosts = posts.map((post) =>
+        post.id === id
+          ? {
+              ...post,
+              comments: [...post.comments, { user: userName, text: newComment }],
+            }
+          : post
+      );
+      setPosts(updatedPosts);
+      setNewComment("");
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   };
+  
 
   return (
     <Container maxWidth="sm" sx={{ mt: 4, padding: { xs: 2, md: 3 }, pb: 8 }}>
-      <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
-        Friends' Achievements
-      </Typography>
+  <Box 
+    sx={{ 
+      position: 'sticky', 
+      top: 0, 
+      zIndex: 1000, 
+      backgroundColor: 'background.default', // Ensures background matches the rest of the page
+      pt: 1, 
+      pb: 1 
+    }}
+  >
+    <Typography 
+      variant="h4" 
+      gutterBottom 
+      align="center" 
+      sx={{ 
+        fontWeight: 'bold', 
+        fontSize: { xs: '1.5rem', md: '2.125rem' } 
+      }}
+    >
+      Friends' Achievements
+    </Typography>
+  </Box>
       {loading ? (
         <Box display="flex" justifyContent="center" mt={2}>
           <CircularProgress />
         </Box>
       ) : (
         <Grid container spacing={2}>
-          {posts.map((post) => (
-            <Grid item xs={12} key={post.id}>
-              <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
-                <CardContent>
-                  <Grid container alignItems="center" spacing={2}>
-                    <Grid item>
-                      <Avatar alt={post.user} src={post.avatar} sx={{ width: 48, height: 48 }} />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                        {post.user}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {post.date}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-                    {post.goal}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button onClick={() => handleLike(post.id)}>{post.likes} Likes</Button>
-                  <Button onClick={() => handleToggleComments(post.id)}>{post.comments.length} Comments</Button>
-                </CardActions>
-                <Collapse in={expandedPost === post.id}>
-                  <CardContent>
-                    {post.comments.map((comment, index) => (
-                      <Typography key={index}><strong>{comment.user}:</strong> {comment.text}</Typography>
-                    ))}
-                    <Grid container>
-                      <TextField fullWidth size="small" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-                      <IconButton onClick={() => handleAddComment(post.id)}><SendIcon /></IconButton>
-                    </Grid>
-                  </CardContent>
-                </Collapse>
-              </Card>
-            </Grid>
+{posts.map((post) => (
+  <Grid item xs={12} key={post.id}>
+    <Card sx={{ borderRadius: 2, boxShadow: 3, mb: 2, maxWidth: 600, margin: 'auto' }}>
+      <CardHeader
+        avatar={<Avatar alt={post.user} src={post.avatar} />}
+        title={
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {post.user}
+          </Typography>
+        }
+        subheader={
+          <Typography variant="caption" color="textSecondary">
+            {post.subTitle}
+          </Typography>
+        }
+        action={
+          <Typography variant="caption" color="textSecondary">
+            {post.time}
+          </Typography>
+        }
+      />
+      <CardContent sx={{ pb: 0 }}>
+        <Typography variant="body2" color="textPrimary">
+          {post.goal}
+        </Typography>
+      </CardContent>
+      {post.image && (
+        <CardMedia
+          component="img"
+          image={post.image}
+          alt="Post image"
+          sx={{ borderRadius: 1, marginTop: 1 }}
+        />
+      )}
+      <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pt: 1 }}>
+        <Box display="flex" alignItems="center">
+          <IconButton
+            aria-label="like"
+            size="small"
+            color="primary"
+            onClick={() => handleLike(post.id)}
+          >
+            {post.liked_by_user}
+            {(post.liked_by_user === true)? (
+              <FavoriteIcon fontSize="small" color="primary"/>
+            ) : (
+              <FavoriteIcon fontSize="small" color="disabled" />
+            )}
+          </IconButton>
+          <Typography variant="caption" color="textSecondary" sx={{ ml: 0.5 }}>
+            {post.likes} Likes
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center">
+          <IconButton
+            aria-label="comment"
+            size="small"
+            color="primary"
+            onClick={() => handleToggleComments(post.id)}
+          >
+            <CommentIcon fontSize="small" />
+          </IconButton>
+          <Typography variant="caption" color="textSecondary" sx={{ ml: 0.5 }}>
+            {post.comments.length} Comments
+          </Typography>
+        </Box>
+      </CardContent>
+      <Collapse in={expandedPost === post.id}>
+        <CardContent>
+          {post.comments.map((comment, index) => (
+            <Typography key={index} sx={{ mb: 1 }}>
+              <strong>{comment.user}:</strong> {comment.text}
+            </Typography>
           ))}
+          <Box display="flex" alignItems="center" mt={2}>
+            <TextField
+              fullWidth
+              size="small"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment..."
+            />
+            <IconButton onClick={() => handleAddComment(post.id)}>
+              <SendIcon />
+            </IconButton>
+          </Box>
+        </CardContent>
+      </Collapse>
+    </Card>
+  </Grid>
+))}
+
+
         </Grid>
       )}
       {/* Spacer for the bottom of the page */}

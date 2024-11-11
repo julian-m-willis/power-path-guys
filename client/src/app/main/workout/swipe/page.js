@@ -90,7 +90,7 @@ const Workout = () => {
           }, 300);
         } else if (currentX < -100) {
           // Swiped left
-          activeCard.style.transform = `translateX(-100vw)`;
+          activeCard.style.transform = `translateX(-200vw)`;
           setTimeout(() => {
             setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
             activeCard = null;

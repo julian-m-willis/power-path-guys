@@ -50,6 +50,7 @@ export default function RegisterPage() {
 
         // Store the user ID and access token in localStorage or sessionStorage
         localStorage.setItem("user_id", data.id);
+        localStorage.setItem("user_name", data.first_name +" "+data.last_name);
 
         // Redirect to the main page
         router.push(`/auth/additional-info?firstName=${encodeURIComponent(firstName)}`); // Redirect after successful registration

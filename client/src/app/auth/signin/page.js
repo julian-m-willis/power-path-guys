@@ -32,6 +32,7 @@ export default function SignInPage() {
 
         // Store the user ID and access token in localStorage or sessionStorage
         localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("user_name", data.first_name +" "+data.last_name);
         localStorage.setItem("access_token", data.access_token);
 
         // Redirect to the main page
