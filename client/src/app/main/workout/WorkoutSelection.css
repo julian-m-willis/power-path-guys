@@ -55,13 +55,22 @@
     width: 100%;
   }
   
-  .workout-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    text-align: center;
-    width: 200px;
+  .workout--cards {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .workout--card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease-out;
+    width: 300px;
+    margin: 10px;
   }
   
   .workout-card h3 {

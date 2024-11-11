@@ -1,837 +1,360 @@
-// "use client";
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/navigation';
-// import './swipestyle.css';
-
-// const Hammer = dynamic(() => import('hammerjs').then((mod) => mod.default || mod), { ssr: false });
-
-// const Workout = () => {
-//     const router = useRouter();
-//     const [cards, setCards] = useState(Array.from({ length: 5 }, (_, index) => index));
-//     const workoutContainerRef = useRef(null);
-//     const [isHovered, setIsHovered] = useState(false);
-
-//     const initCards = () => {
-//         const newCards = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         newCards.forEach((card, index) => {
-//             card.style.zIndex = cards.length - index;
-//             card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
-//             card.style.opacity = (10 - index) / 10;
-//         });
-//         workoutContainerRef.current.classList.add('loaded');
-//     };
-
-//     const handleSwipe = (direction) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0) return;
-
-//         const card = cardsArray[0];
-//         card.classList.add('removed');
-
-//         const moveOutWidth = document.body.clientWidth * 1.5;
-//         card.style.transform = direction === 'left'
-//             ? `translate(-${moveOutWidth}px, -100px) rotate(-30deg)`
-//             : `translate(${moveOutWidth}px, -100px) rotate(30deg)`;
-
-//         setCards((prevCards) => prevCards.slice(1));
-//         initCards();
-//     };
-
-//     const handlePan = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         const xMulti = event.deltaX * 0.03;
-//         const yMulti = event.deltaY / 80;
-//         const rotate = xMulti * yMulti;
-
-//         card.style.transform = `translate(${event.deltaX}px, ${event.deltaY}px) rotate(${rotate}deg)`;
-//         workoutContainerRef.current.classList.toggle('tinder_love', event.deltaX > 0);
-//         workoutContainerRef.current.classList.toggle('tinder_nope', event.deltaX < 0);
-//     };
-
-//     const handlePanEnd = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         workoutContainerRef.current.classList.remove('tinder_love', 'tinder_nope');
-
-//         const moveOutWidth = document.body.clientWidth;
-//         const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
-
-//         if (keep) {
-//             card.style.transform = '';
-//         } else {
-//             const endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
-//             const toX = event.deltaX > 0 ? endX : -endX;
-//             const endY = Math.abs(event.velocityY) * moveOutWidth;
-//             const toY = event.deltaY > 0 ? endY : -endY;
-
-//             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${event.deltaX * 0.03 * event.deltaY / 80}deg)`;
-//             handleSwipe(event.deltaX > 0 ? 'right' : 'left');
-//         }
-//     };
-
-//     const backButton = () => {
-//         router.back();
-//     };
-
-//     useEffect(() => {
-//         initCards();
-
-//         if (typeof window !== 'undefined' && Hammer) {
-//             const cardsElements = workoutContainerRef.current.querySelectorAll('.workout--card');
-//             cardsElements.forEach((el) => {
-//                 const hammertime = new Hammer(el);
-//                 if (hammertime && typeof hammertime.on === 'function') {
-//                     hammertime.on('pan', handlePan);
-//                     hammertime.on('panend', handlePanEnd);
-//                 }
-//             });
-//         }
-//     }, [cards]);
-
-//     return (
-//         <div className="workout" ref={workoutContainerRef}>
-//             <div
-//                 style={{
-//                     position: 'fixed',
-//                     top: '16px', // Adjusted for slight shift upwards
-//                     right: '16px', // Adjusted for slight shift to the right
-//                     cursor: 'pointer',
-//                     zIndex: 10,
-//                     display: 'flex',
-//                     justifyContent: 'center',
-//                     alignItems: 'center',
-//                     width: '44px', // Container size adjusted
-//                     height: '48px',
-//                     borderRadius: '50%',
-//                     backgroundColor: isHovered ? 'rgba(128, 128, 128, 0.1)' : 'transparent',
-//                     transition: 'background-color 0.3s ease',
-//                 }}
-//                 onMouseEnter={() => setIsHovered(true)}
-//                 onMouseLeave={() => setIsHovered(false)}
-//                 onClick={backButton}
-//             >
-//                 <span
-//                     style={{
-//                         position: 'relative',
-//                         display: 'block',
-//                         width: '20px', // Size of cross
-//                         height: '24px',
-//                     }}
-//                 >
-//                     <span
-//                         style={{
-//                             position: 'absolute',
-//                             top: '50%',
-//                             left: '50%',
-//                             width: '20px',
-//                             height: '2px', // Thinner line for lighter appearance
-//                             backgroundColor: 'grey',
-//                             opacity: 0.8, // Lower opacity for a lighter look
-//                             transform: 'translate(-50%, -50%) rotate(45deg)',
-//                             transformOrigin: 'center',
-//                         }}
-//                     ></span>
-//                     <span
-//                         style={{
-//                             position: 'absolute',
-//                             top: '50%',
-//                             left: '50%',
-//                             width: '20px',
-//                             height: '2px', // Thinner line for lighter appearance
-//                             backgroundColor: 'grey',
-//                             opacity: 0.8, // Lower opacity for a lighter look
-//                             transform: 'translate(-50%, -50%) rotate(-45deg)',
-//                             transformOrigin: 'center',
-//                         }}
-//                     ></span>
-//                 </span>
-//             </div>
-
-//             <div className="workout--status">
-//                 <i className="fa fa-remove"></i>
-//                 <i className="fa fa-heart"></i>
-//             </div>
-//             <div className="workout--cards">
-//                 {cards.map((index) => (
-//                     <div className="workout--card" key={index}>
-//                         <img src={`https://placeimg.com/600/300/${index % 2 === 0 ? 'people' : 'nature'}`} alt={`Demo card ${index + 1}`} />
-//                         <h3>Demo card {index + 1}</h3>
-//                         <p>This is a demo for Tinder-like swipe cards</p>
-//                     </div>
-//                 ))}
-//             </div>
-//             <div className="workout--buttons">
-//                 <button onClick={() => handleSwipe('left')} id="nope"><i className="fa fa-remove"></i> Nope</button>
-//                 <button onClick={() => handleSwipe('right')} id="love"><i className="fa fa-heart"></i> Love</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Workout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client";
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/navigation';
-// import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
-// import './swipestyle.css';
-
-// const Hammer = dynamic(() => import('hammerjs').then((mod) => mod.default || mod), { ssr: false });
-
-// const Workout = () => {
-//     const router = useRouter();
-//     const [cards, setCards] = useState(Array.from({ length: 5 }, (_, index) => index));
-//     const workoutContainerRef = useRef(null);
-//     const [isHovered, setIsHovered] = useState(false);
-//     const [openDialog, setOpenDialog] = useState(false); // State for controlling the dialog
-
-//     const initCards = () => {
-//         const newCards = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         newCards.forEach((card, index) => {
-//             card.style.zIndex = cards.length - index;
-//             card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
-//             card.style.opacity = (10 - index) / 10;
-//         });
-//         workoutContainerRef.current.classList.add('loaded');
-//     };
-
-//     const handleSwipe = (direction) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0) return;
-
-//         const card = cardsArray[0];
-//         card.classList.add('removed');
-
-//         const moveOutWidth = document.body.clientWidth * 1.5;
-//         card.style.transform = direction === 'left'
-//             ? `translate(-${moveOutWidth}px, -100px) rotate(-30deg)`
-//             : `translate(${moveOutWidth}px, -100px) rotate(30deg)`;
-
-//         setCards((prevCards) => prevCards.slice(1));
-//         initCards();
-//     };
-
-//     const handlePan = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         const xMulti = event.deltaX * 0.03;
-//         const yMulti = event.deltaY / 80;
-//         const rotate = xMulti * yMulti;
-
-//         card.style.transform = `translate(${event.deltaX}px, ${event.deltaY}px) rotate(${rotate}deg)`;
-//         workoutContainerRef.current.classList.toggle('tinder_love', event.deltaX > 0);
-//         workoutContainerRef.current.classList.toggle('tinder_nope', event.deltaX < 0);
-//     };
-
-//     const handlePanEnd = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         workoutContainerRef.current.classList.remove('tinder_love', 'tinder_nope');
-
-//         const moveOutWidth = document.body.clientWidth;
-//         const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
-
-//         if (keep) {
-//             card.style.transform = '';
-//         } else {
-//             const endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
-//             const toX = event.deltaX > 0 ? endX : -endX;
-//             const endY = Math.abs(event.velocityY) * moveOutWidth;
-//             const toY = event.deltaY > 0 ? endY : -endY;
-
-//             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${event.deltaX * 0.03 * event.deltaY / 80}deg)`;
-//             handleSwipe(event.deltaX > 0 ? 'right' : 'left');
-//         }
-//     };
-
-//     const handleOpenDialog = () => {
-//         setOpenDialog(true); // Open the confirmation dialog
-//     };
-
-//     const handleCloseDialog = () => {
-//         setOpenDialog(false); // Close the confirmation dialog
-//     };
-
-//     const handleConfirmLeave = () => {
-//         setOpenDialog(false); // Close the dialog and navigate back
-//         router.back();
-//     };
-
-//     useEffect(() => {
-//         initCards();
-
-//         if (typeof window !== 'undefined' && Hammer) {
-//             const cardsElements = workoutContainerRef.current.querySelectorAll('.workout--card');
-//             cardsElements.forEach((el) => {
-//                 const hammertime = new Hammer(el);
-//                 if (hammertime && typeof hammertime.on === 'function') {
-//                     hammertime.on('pan', handlePan);
-//                     hammertime.on('panend', handlePanEnd);
-//                 }
-//             });
-//         }
-//     }, [cards]);
-
-//     return (
-//         <div className="workout" ref={workoutContainerRef}>
-//             <div
-//                 style={{
-//                     position: 'fixed',
-//                     top: '16px',
-//                     right: '16px',
-//                     cursor: 'pointer',
-//                     zIndex: 10,
-//                     display: 'flex',
-//                     justifyContent: 'center',
-//                     alignItems: 'center',
-//                     width: '48px',
-//                     height: '48px',
-//                     borderRadius: '50%',
-//                     backgroundColor: isHovered ? 'rgba(128, 128, 128, 0.1)' : 'transparent',
-//                     transition: 'background-color 0.3s ease',
-//                 }}
-//                 onMouseEnter={() => setIsHovered(true)}
-//                 onMouseLeave={() => setIsHovered(false)}
-//                 onClick={handleOpenDialog} // Open dialog on button click
-//             >
-//                 <span
-//                     style={{
-//                         position: 'relative',
-//                         display: 'block',
-//                         width: '24px',
-//                         height: '24px',
-//                     }}
-//                 >
-//                     <span
-//                         style={{
-//                             position: 'absolute',
-//                             top: '50%',
-//                             left: '50%',
-//                             width: '20px',
-//                             height: '2px',
-//                             backgroundColor: 'grey',
-//                             opacity: 0.8,
-//                             transform: 'translate(-50%, -50%) rotate(45deg)',
-//                             transformOrigin: 'center',
-//                         }}
-//                     ></span>
-//                     <span
-//                         style={{
-//                             position: 'absolute',
-//                             top: '50%',
-//                             left: '50%',
-//                             width: '20px',
-//                             height: '2px',
-//                             backgroundColor: 'grey',
-//                             opacity: 0.8,
-//                             transform: 'translate(-50%, -50%) rotate(-45deg)',
-//                             transformOrigin: 'center',
-//                         }}
-//                     ></span>
-//                 </span>
-//             </div>
-
-//             {/* Confirmation Dialog */}
-//             <Dialog open={openDialog} onClose={handleCloseDialog}>
-//                 <DialogTitle>Are you sure you want to leave?</DialogTitle>
-//                 <DialogContent>
-//                     <DialogContentText>
-//                         If you leave, any unsaved changes will be lost.
-//                     </DialogContentText>
-//                 </DialogContent>
-//                 <DialogActions>
-//                     <Button onClick={handleCloseDialog} style={{ color: '#8e3aac' }}>
-//                         No
-//                     </Button>
-//                     <Button onClick={handleConfirmLeave} color="primary" autoFocus>
-//                         Yes
-//                     </Button>
-//                 </DialogActions>
-//             </Dialog>
-
-//             <div className="workout--status">
-//                 <i className="fa fa-remove"></i>
-//                 <i className="fa fa-heart"></i>
-//             </div>
-//             <div className="workout--cards">
-//                 {cards.map((index) => (
-//                     <div className="workout--card" key={index}>
-//                         <img src={`https://placeimg.com/600/300/${index % 2 === 0 ? 'people' : 'nature'}`} alt={`Demo card ${index + 1}`} />
-//                         <h3>Demo card {index + 1}</h3>
-//                         <p>This is a demo for Tinder-like swipe cards</p>
-//                     </div>
-//                 ))}
-//             </div>
-//             <div className="workout--buttons">
-//                 <button onClick={() => handleSwipe('left')} id="nope"><i className="fa fa-remove"></i> Nope</button>
-//                 <button onClick={() => handleSwipe('right')} id="love"><i className="fa fa-heart"></i> Love</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Workout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client";
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/navigation';
-// import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
-// import './swipestyle.css';
-
-// const Hammer = dynamic(() => import('hammerjs').then((mod) => mod.default || mod), { ssr: false });
-
-// const Workout = () => {
-//     const router = useRouter();
-//     const [cards, setCards] = useState(Array.from({ length: 5 }, (_, index) => index));
-//     const workoutContainerRef = useRef(null);
-//     const [isHovered, setIsHovered] = useState(false);
-//     const [openDialog, setOpenDialog] = useState(false);
-
-//     const initCards = () => {
-//         const newCards = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         newCards.forEach((card, index) => {
-//             card.style.zIndex = cards.length - index;
-//             card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
-//             card.style.opacity = (10 - index) / 10;
-//         });
-//         workoutContainerRef.current.classList.add('loaded');
-//     };
-
-//     const handleSwipe = (direction) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0) return;
-
-//         const card = cardsArray[0];
-//         card.classList.add('removed');
-
-//         const moveOutWidth = document.body.clientWidth * 1.5;
-//         card.style.transform = direction === 'left'
-//             ? `translate(-${moveOutWidth}px, -100px) rotate(-30deg)`
-//             : `translate(${moveOutWidth}px, -100px) rotate(30deg)`;
-
-//         setCards((prevCards) => prevCards.slice(1));
-//         initCards();
-//     };
-
-//     const handlePan = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         const xMulti = event.deltaX * 0.03;
-//         const yMulti = event.deltaY / 80;
-//         const rotate = xMulti * yMulti;
-
-//         card.style.transform = `translate(${event.deltaX}px, ${event.deltaY}px) rotate(${rotate}deg)`;
-//         workoutContainerRef.current.classList.toggle('tinder_love', event.deltaX > 0);
-//         workoutContainerRef.current.classList.toggle('tinder_nope', event.deltaX < 0);
-//     };
-
-//     const handlePanEnd = (event) => {
-//         const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-//         if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-//         const card = event.target;
-//         workoutContainerRef.current.classList.remove('tinder_love', 'tinder_nope');
-
-//         const moveOutWidth = document.body.clientWidth;
-//         const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
-
-//         if (keep) {
-//             card.style.transform = '';
-//         } else {
-//             const endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
-//             const toX = event.deltaX > 0 ? endX : -endX;
-//             const endY = Math.abs(event.velocityY) * moveOutWidth;
-//             const toY = event.deltaY > 0 ? endY : -endY;
-
-//             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${event.deltaX * 0.03 * event.deltaY / 80}deg)`;
-//             handleSwipe(event.deltaX > 0 ? 'right' : 'left');
-//         }
-//     };
-
-//     const handleOpenDialog = () => {
-//         setOpenDialog(true);
-//     };
-
-//     const handleCloseDialog = () => {
-//         setOpenDialog(false);
-//     };
-
-//     const handleConfirmLeave = () => {
-//         setOpenDialog(false);
-//         router.back();
-//     };
-
-//     useEffect(() => {
-//         initCards();
-
-//         if (typeof window !== 'undefined' && Hammer) {
-//             const cardsElements = workoutContainerRef.current.querySelectorAll('.workout--card');
-//             cardsElements.forEach((el) => {
-//                 const hammertime = new Hammer(el);
-//                 if (hammertime && typeof hammertime.on === 'function') {
-//                     hammertime.on('pan', handlePan);
-//                     hammertime.on('panend', handlePanEnd);
-//                 }
-//             });
-//         }
-//     }, [cards]);
-
-//     return (
-//         <div className="workout" ref={workoutContainerRef}>
-//             <div
-//                 className={`floating-button ${isHovered ? 'hovered' : ''}`}
-//                 onMouseEnter={() => setIsHovered(true)}
-//                 onMouseLeave={() => setIsHovered(false)}
-//                 onClick={handleOpenDialog}
-//             >
-//                 <span className="icon-container">
-//                     <span className="icon-line rotate45"></span>
-//                     <span className="icon-line rotate-45"></span>
-//                 </span>
-//             </div>
-
-//             {/* Confirmation Dialog */}
-//             <Dialog open={openDialog} onClose={handleCloseDialog}>
-//                 <DialogTitle>Are you sure you want to leave?</DialogTitle>
-//                 <DialogContent>
-//                     <DialogContentText>
-//                         If you leave, any unsaved changes will be lost.
-//                     </DialogContentText>
-//                 </DialogContent>
-//                 <DialogActions>
-//                     <Button onClick={handleCloseDialog} className="cancel-button">
-//                         No
-//                     </Button>
-//                     <Button onClick={handleConfirmLeave} color="primary" autoFocus>
-//                         Yes
-//                     </Button>
-//                 </DialogActions>
-//             </Dialog>
-
-//             <div className="workout--status">
-//                 <i className="fa fa-remove"></i>
-//                 <i className="fa fa-heart"></i>
-//             </div>
-//             <div className="workout--cards">
-//                 {cards.map((index) => (
-//                     <div className="workout--card" key={index}>
-//                         <img src={`https://placeimg.com/600/300/${index % 2 === 0 ? 'people' : 'nature'}`} alt={`Demo card ${index + 1}`} />
-//                         <h3>Demo card {index + 1}</h3>
-//                         <p>This is a demo for Tinder-like swipe cards</p>
-//                     </div>
-//                 ))}
-//             </div>
-//             <div className="workout--buttons">
-//                 <button onClick={() => handleSwipe('left')} id="nope"><i className="fa fa-remove"></i> Nope</button>
-//                 <button onClick={() => handleSwipe('right')} id="love"><i className="fa fa-heart"></i> Love</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Workout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import Hammer from 'hammerjs'; // Directly import Hammer
-import { useRouter } from 'next/navigation';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
-import './swipestyle.css';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Divider,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import "./swipestyle.css";
 
 const Workout = () => {
-    const router = useRouter();
-    const [cards, setCards] = useState(Array.from({ length: 5 }, (_, index) => index));
-    const workoutContainerRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
-    const [openDialog, setOpenDialog] = useState(false);
+  const router = useRouter();
+  const workoutContainerRef = useRef(null);
+  const [workouts, setWorkouts] = useState([
+    {
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "https://v2.exercisedb.io/image/8PGpzBGvMcRA5z",
+      id: "0007",
+      name: "alternate lateral pulldown",
+      target: "lats",
+      secondaryMuscles: ["biceps", "rhomboids"],
+      instructions: [
+        "Sit on the cable machine with your back straight and feet flat on the ground.",
+        "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.",
+        "Lean back slightly and pull the handles towards your chest, squeezing your shoulder blades together.",
+        "Pause for a moment at the peak of the movement, then slowly release the handles back to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "body weight",
+      gifUrl: "https://v2.exercisedb.io/image/7Y7KA8xSAskhxX",
+      id: "3293",
+      name: "archer pull up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Start by hanging from a pull-up bar with an overhand grip, slightly wider than shoulder-width apart.",
+        "Engage your core and pull your shoulder blades down and back.",
+        "As you pull yourself up, bend one arm and bring your elbow towards your side, while keeping the other arm straight.",
+        "Continue pulling until your chin is above the bar and your bent arm is fully flexed.",
+        "Lower yourself back down with control, straightening the bent arm and repeating the movement on the other side.",
+        "Alternate sides with each repetition.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "leverage machine",
+      gifUrl: "https://v2.exercisedb.io/image/GCeT-LOdYDXZEp",
+      id: "0015",
+      name: "assisted parallel close grip pull-up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Adjust the machine to your desired weight and height.",
+        "Place your hands on the parallel bars with a close grip, palms facing each other.",
+        "Hang from the bars with your arms fully extended and your feet off the ground.",
+        "Engage your back muscles and pull your body up towards the bars, keeping your elbows close to your body.",
+        "Continue pulling until your chin is above the bars.",
+        "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "leverage machine",
+      gifUrl: "https://v2.exercisedb.io/image/E2l1DL4NRFPwvA",
+      id: "0017",
+      name: "assisted pull-up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Adjust the machine to your desired weight and height settings.",
+        "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.",
+        "Hang with your arms fully extended and your feet off the ground.",
+        "Engage your back muscles and pull your body up towards the handles, keeping your elbows close to your body.",
+        "Continue pulling until your chin is above the handles.",
+        "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "leverage machine",
+      gifUrl: "https://v2.exercisedb.io/image/OygIOPnGN-kp34",
+      id: "1431",
+      name: "assisted standing chin-up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Adjust the machine to your desired assistance level.",
+        "Stand on the foot platform and grip the handles with an overhand grip, slightly wider than shoulder-width apart.",
+        "Keep your chest up and shoulders back, engage your core, and slightly bend your knees.",
+        "Pull your body up by flexing your elbows and driving your elbows down towards your sides.",
+        "Continue pulling until your chin is above the bar.",
+        "Pause for a moment at the top, then slowly lower your body back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "leverage machine",
+      gifUrl: "https://v2.exercisedb.io/image/-fp8koKewu4mAW",
+      id: "1432",
+      name: "assisted standing pull-up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Adjust the machine to your desired weight and height settings.",
+        "Stand facing the machine with your feet shoulder-width apart.",
+        "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.",
+        "Engage your lats and biceps, and pull yourself up towards the handles.",
+        "Pause for a moment at the top, squeezing your back muscles.",
+        "Slowly lower yourself back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "stability ball",
+      gifUrl: "https://v2.exercisedb.io/image/jx09sUmoUY9kj1",
+      id: "1314",
+      name: "back extension on exercise ball",
+      target: "spine",
+      secondaryMuscles: ["glutes", "hamstrings"],
+      instructions: [
+        "Place the stability ball on the ground and lie face down on top of it, with your hips resting on the ball and your feet against a wall or other stable surface.",
+        "Position your hands behind your head or crossed over your chest.",
+        "Engage your core and slowly lift your upper body off the ball, extending your back until your body forms a straight line from your head to your heels.",
+        "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "body weight",
+      gifUrl: "https://v2.exercisedb.io/image/rjsuja77b3F5Ld",
+      id: "3297",
+      name: "back lever",
+      target: "upper back",
+      secondaryMuscles: ["biceps", "forearms", "core"],
+      instructions: [
+        "Start by hanging from a pull-up bar with an overhand grip, hands slightly wider than shoulder-width apart.",
+        "Engage your core and pull your shoulder blades down and back.",
+        "Bend your knees and tuck them towards your chest.",
+        "Slowly lift your legs up, keeping them straight, until your body is parallel to the ground.",
+        "Hold this position for a few seconds, then slowly lower your legs back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "body weight",
+      gifUrl: "https://v2.exercisedb.io/image/HIjgJgR8pNWN1i",
+      id: "1405",
+      name: "back pec stretch",
+      target: "lats",
+      secondaryMuscles: ["shoulders", "chest"],
+      instructions: [
+        "Stand tall with your feet shoulder-width apart.",
+        "Extend your arms straight out in front of you, parallel to the ground.",
+        "Cross your arms in front of your body, with your right arm over your left arm.",
+        "Interlock your fingers and rotate your palms away from your body.",
+        "Slowly raise your arms up and away from your body, feeling a stretch in your back and chest.",
+        "Hold the stretch for 15-30 seconds, then release.",
+        "Repeat on the opposite side.",
+      ],
+    },
+    {
+      bodyPart: "back",
+      equipment: "band",
+      gifUrl: "https://v2.exercisedb.io/image/2hvLLJZU00B19G",
+      id: "0970",
+      name: "band assisted pull-up",
+      target: "lats",
+      secondaryMuscles: ["biceps", "forearms"],
+      instructions: [
+        "Attach the band to a pull-up bar or sturdy anchor point.",
+        "Step onto the band and grip the bar with your palms facing away from you, hands slightly wider than shoulder-width apart.",
+        "Hang with your arms fully extended, keeping your core engaged and your shoulders down and back.",
+        "Pull your body up towards the bar by squeezing your shoulder blades together and driving your elbows down towards your hips.",
+        "Continue pulling until your chin is above the bar, then slowly lower yourself back down to the starting position.",
+        "Repeat for the desired number of repetitions.",
+      ],
+    },
+  ]);
+  const [openDialog, setOpenDialog] = useState(false);
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const workoutElement = document.querySelector(".workout");
+      if (workoutElement) {
+        workoutElement.classList.add("loaded");
+      }
+    }
+  }, []);
 
-    const initCards = () => {
-        const newCards = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-        newCards.forEach((card, index) => {
-            card.style.zIndex = cards.length - index;
-            card.style.transform = 'scale(' + (20 - index) / 20 + ') translateY(-' + 30 * index + 'px)';
-            card.style.opacity = (10 - index) / 10;
-        });
-        workoutContainerRef.current.classList.add('loaded');
-    };
-
-    const handleSwipe = (direction) => {
-        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-        if (cardsArray.length === 0) return;
-
-        const card = cardsArray[0];
-        card.classList.add('removed');
-
-        const moveOutWidth = document.body.clientWidth * 1.5;
-        card.style.transform = direction === 'left'
-            ? `translate(-${moveOutWidth}px, -100px) rotate(-30deg)`
-            : `translate(${moveOutWidth}px, -100px) rotate(30deg)`;
-
-        setCards((prevCards) => prevCards.slice(1));
-        initCards();
-    };
-
-    const handlePan = (event) => {
-        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-        if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-        const card = event.target;
-        const xMulti = event.deltaX * 0.03;
-        const yMulti = event.deltaY / 80;
-        const rotate = xMulti * yMulti;
-
-        card.style.transform = `translate(${event.deltaX}px, ${event.deltaY}px) rotate(${rotate}deg)`;
-        workoutContainerRef.current.classList.toggle('tinder_love', event.deltaX > 0);
-        workoutContainerRef.current.classList.toggle('tinder_nope', event.deltaX < 0);
-    };
-
-    const handlePanEnd = (event) => {
-        const cardsArray = workoutContainerRef.current.querySelectorAll('.workout--card:not(.removed)');
-        if (cardsArray.length === 0 || event.target !== cardsArray[0]) return;
-
-        const card = event.target;
-        workoutContainerRef.current.classList.remove('tinder_love', 'tinder_nope');
-
-        const moveOutWidth = document.body.clientWidth;
-        const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
-
-        if (keep) {
-            card.style.transform = '';
+  useEffect(() => {
+    const cards = workoutContainerRef.current?.querySelectorAll(".workout--card");
+    let activeCard = null;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+  
+    if (cards) {
+      const handleStart = (e) => {
+        if (isDragging) return; // Only allow one active drag
+        activeCard = e.currentTarget;
+        startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+        isDragging = true;
+        activeCard.style.transition = "none";
+      };
+  
+      const handleMove = (e) => {
+        if (!isDragging || !activeCard) return;
+        currentX = (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) - startX;
+        activeCard.style.transform = `translateX(calc(-50% + ${currentX}px))`;
+      };
+  
+      const handleEnd = () => {
+        if (!isDragging || !activeCard) return;
+        isDragging = false;
+        activeCard.style.transition = "transform 0.3s ease-out";
+  
+        if (currentX > 100) {
+          // Swiped right
+          activeCard.style.transform = `translateX(100vw)`;
+          setTimeout(() => {
+            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
+            activeCard = null;
+          }, 300);
+        } else if (currentX < -100) {
+          // Swiped left
+          activeCard.style.transform = `translateX(-100vw)`;
+          setTimeout(() => {
+            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
+            activeCard = null;
+          }, 300);
         } else {
-            const endX = Math.max(Math.abs(event.velocityX) * moveOutWidth, moveOutWidth);
-            const toX = event.deltaX > 0 ? endX : -endX;
-            const endY = Math.abs(event.velocityY) * moveOutWidth;
-            const toY = event.deltaY > 0 ? endY : -endY;
-
-            card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${event.deltaX * 0.03 * event.deltaY / 80}deg)`;
-            handleSwipe(event.deltaX > 0 ? 'right' : 'left');
+          // Reset to the true original center position
+          activeCard.style.transform = `translateX(-50%)`;
         }
-    };
-
-    const handleOpenDialog = () => {
-        setOpenDialog(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
-
-    const handleConfirmLeave = () => {
-        setOpenDialog(false);
-        router.back();
-    };
-
-    useEffect(() => {
-        initCards();
-
-        const hammers = []; // Store Hammer instances here
-        const cardsElements = workoutContainerRef.current.querySelectorAll('.workout--card');
-
-        cardsElements.forEach((el) => {
-            const hammertime = new Hammer(el); // Create Hammer instance for each card
-            hammertime.on('pan', handlePan);
-            hammertime.on('panend', handlePanEnd);
-            hammers.push(hammertime); // Store the instance for cleanup
-        });
-
+  
+        activeCard = null;
+      };
+  
+      cards.forEach((card) => {
+        card.addEventListener("mousedown", handleStart);
+        card.addEventListener("mousemove", handleMove);
+        card.addEventListener("mouseup", handleEnd);
+        card.addEventListener("mouseleave", handleEnd);
+        card.addEventListener("touchstart", handleStart);
+        card.addEventListener("touchmove", handleMove);
+        card.addEventListener("touchend", handleEnd);
+  
+        // Clean up event listeners on component unmount
         return () => {
-            // Cleanup Hammer instances
-            hammers.forEach((hammertime) => {
-                hammertime.off('pan', handlePan);
-                hammertime.off('panend', handlePanEnd);
-            });
+          card.removeEventListener("mousedown", handleStart);
+          card.removeEventListener("mousemove", handleMove);
+          card.removeEventListener("mouseup", handleEnd);
+          card.removeEventListener("mouseleave", handleEnd);
+          card.removeEventListener("touchstart", handleStart);
+          card.removeEventListener("touchmove", handleMove);
+          card.removeEventListener("touchend", handleEnd);
         };
-    }, [cards]);
+      });
+    }
+  }, [workouts]);
+  
 
-    return (
-        <div className="workout" ref={workoutContainerRef}>
-            <div
-                className={`floating-button ${isHovered ? 'hovered' : ''}`}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onClick={handleOpenDialog}
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  return (
+    <div className="workout" ref={workoutContainerRef}>
+      <div className="floating-button" onClick={handleOpenDialog}>
+        <span>Exit</span>
+      </div>
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Are you sure you want to leave?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            If you leave, any unsaved changes will be lost.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>No</Button>
+          <Button color="primary" onClick={() => router.back()} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <div className="workout--cards">
+        {workouts.length > 0 ? (
+          workouts.map((workout, index) => (
+            <Card
+              className="workout--card"
+              key={index}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "300px",
+                margin: "10px",
+                zIndex: workouts.length - index,
+              }}
             >
-                <span className="icon-container">
-                    <span className="icon-line rotate45"></span>
-                    <span className="icon-line rotate-45"></span>
-                </span>
-            </div>
-
-            {/* Confirmation Dialog */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Are you sure you want to leave?</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        If you leave, any unsaved changes will be lost.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} className="cancel-button">
-                        No
-                    </Button>
-                    <Button onClick={handleConfirmLeave} color="primary" autoFocus>
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <div className="workout--status">
-                <i className="fa fa-remove"></i>
-                <i className="fa fa-heart"></i>
-            </div>
-            <div className="workout--cards">
-                {cards.map((index) => (
-                    <div className="workout--card" key={index}>
-                        <img src={`https://placeimg.com/600/300/${index % 2 === 0 ? 'people' : 'nature'}`} alt={`Demo card ${index + 1}`} />
-                        <h3>Demo card {index + 1}</h3>
-                        <p>This is a demo for Tinder-like swipe cards</p>
-                    </div>
-                ))}
-            </div>
-            <div className="workout--buttons">
-                <button onClick={() => handleSwipe('left')} id="nope"><i className="fa fa-remove"></i> Nope</button>
-                <button onClick={() => handleSwipe('right')} id="love"><i className="fa fa-heart"></i> Love</button>
-            </div>
-        </div>
-    );
+              <CardMedia
+                component="img"
+                image={workout.gifUrl || "https://placeimg.com/600/300/tech"}
+                alt={workout.name}
+              />
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {workout.name}
+                </Typography>
+                <Divider style={{ margin: "10px 0" }} />
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Body Part:</strong> {workout.bodyPart}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Target:</strong> {workout.target}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Secondary Muscles:</strong>{" "}
+                  {workout.secondaryMuscles.join(", ")}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>Equipment:</strong> {workout.equipment}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Typography>No workouts available.</Typography>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Workout;

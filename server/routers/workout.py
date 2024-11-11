@@ -3,13 +3,30 @@ import os
 from typing import Optional
 from fastapi.responses import JSONResponse
 import json
+from models import ExerciseRecord, Users
 import http.client
+from pydantic import BaseModel
+from database import SessionLocal
+from typing import Annotated
+from sqlalchemy.orm import Session
 import random
+from datetime import datetime
 
 X_RAPIDAPI_KEY = os.getenv("X_RAPIDAPI_KEY")
 X_RAPIDAPI_HOST = os.getenv("X_RAPIDAPI_HOST")
 
 router = APIRouter()
+
+# Dependency to get the database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
 
 # Define available body part themes and JSON files
 BODY_PART_LIST = ["back", "cardio", "chest", "lower arms", "lower legs", "neck", "shoulders", "upper arms", "upper legs", "waist"]
@@ -25,6 +42,30 @@ THEME_FILE_MAPPING = {
 }
 
 DATA_DIRECTORY = "./data"
+
+class ExerciseRecordCreate(BaseModel):
+    user_id: int
+    calories_burned: float
+    date: datetime = datetime.utcnow()
+
+@router.post("/record-exercise", status_code=status.HTTP_201_CREATED)
+def record_exercise(data: ExerciseRecordCreate, db: Session = Depends(get_db)):
+    # Check if user exists
+    user = db.query(Users).filter(Users.id == data.user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    # Create a new exercise record
+    exercise_record = ExerciseRecord(
+        user_id=data.user_id,
+        calories_burned=data.calories_burned,
+        date=data.date
+    )
+    db.add(exercise_record)
+    db.commit()
+    db.refresh(exercise_record)
+
+    return {"message": "Exercise record added successfully", "record": exercise_record}
 
 @router.get("/suggest-exercises/{theme}", status_code=status.HTTP_200_OK)
 async def suggest_exercises(theme: Optional[str] = "random"):
