@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+
+
 module.exports = {
   darkMode: false, // Disable dark mode
   content: [
@@ -11,6 +14,15 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+      },
+      animation: {
+        move: "move 5s linear infinite",
+      },
+      keyframes: {
+        move: {
+          "0%": { transform: "translateX(-200px)" },
+          "100%": { transform: "translateX(200px)" },
+        },
       },
     },
   },
