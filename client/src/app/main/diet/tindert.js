@@ -9,31 +9,33 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Hammer from 'hammerjs';
-<link rel="stylesheet" href="MealSwipeComponent.css"></link>
+import ClearIcon from '@mui/icons-material/Clear';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+
+/* <link rel="stylesheet" href="MealSwipeComponent.css"></link> */
+// import './MealSwipeComponent.css'; 
 
 const mealsData = {
+  
   Monday: {
     meals: [
       [
         { meal: "Breakfast", title: "Fluffy Pancakes", calories: 420, macros: { protein: 10, fats: 14, carbs: 45 }, image: "https://images.unsplash.com/photo-1559638740-3d5419b8b16a" },
         { meal: "Lunch", title: "Grilled Salmon Salad", calories: 520, macros: { protein: 30, fats: 20, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Pasta Carbonara", calories: 700, macros: { protein: 25, fats: 30, carbs: 70 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ], [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],
-
       [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+      ], [
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
-      // Add more meals for each day as needed
     ]
   },
-  
-  
   
   
   Tuesday: {
@@ -47,11 +49,10 @@ const mealsData = {
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
-      ],
-      [
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+      ],[
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -69,9 +70,9 @@ const mealsData = {
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -88,9 +89,9 @@ const mealsData = {
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -108,9 +109,9 @@ const mealsData = {
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -128,9 +129,9 @@ const mealsData = {
         { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
@@ -140,20 +141,25 @@ const mealsData = {
     meals: [
       [
         { meal: "Breakfast", title: "Fluffy Pancakes", calories: 420, macros: { protein: 10, fats: 14, carbs: 45 }, image: "https://images.unsplash.com/photo-1559638740-3d5419b8b16a" },
-        { meal: "Lunch", title: "Grilled Salmon Salad", calories: 520, macros: { protein: 30, fats: 20, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Lunch", title: "Grilled Salmon Salad", calories: 520, macros: { protein: 30, fats: 20, carbs: 40 }, image: "" },
         { meal: "Dinner", title: "Pasta Carbonara", calories: 700, macros: { protein: 25, fats: 30, carbs: 70 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],
       [
         { meal: "Breakfast", title: "Fruit Smoothie", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
+        { meal: "Lunch", title: "Chicken Caesar Salad", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "" },
         { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ],[
-        { meal: "Breakfast", title: "chicken wrap", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
-        { meal: "Lunch", title: "Cheese pizza", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74" },
-        { meal: "Dinner", title: "Grilled Steak with Vegetables", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
+        { meal: "Breakfast", title: "soda", calories: 300, macros: { protein: 8, fats: 5, carbs: 50 }, image: "https://images.unsplash.com/photo-1589927986089-35812378b8e8" },
+        { meal: "Lunch", title: "chicken rice", calories: 450, macros: { protein: 25, fats: 15, carbs: 40 }, image: "" },
+        { meal: "Dinner", title: "steak", calories: 700, macros: { protein: 40, fats: 30, carbs: 35 }, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" }
       ]
     ]
   },
+  
+  
+  
+  
+  
   
   // Other days with meals
 };
@@ -187,7 +193,7 @@ const TinderComponent = () => {
 
   useEffect(() => {
     console.log("Tinder cards updated:", tinderCards);
-  }, [tinderCards]);
+  }, [tinderCards] );
 
   const setupHammerEvents = () => {
     const allCards = Array.from(document.querySelectorAll('.tinder--card'));
@@ -213,6 +219,7 @@ const TinderComponent = () => {
     allCards.forEach((el) => {
       const hammertime = new Hammer(el);
       hammertime.off('pan panend');
+
     });
   };
 
@@ -258,7 +265,7 @@ const TinderComponent = () => {
       setSwipingDisabled(true);
   
       goToNextDay();
-    }, 300);
+    }, 300);  
   };
 
   const goToNextDay = () => {
@@ -329,87 +336,143 @@ const TinderComponent = () => {
 
   return (
     <Box>
-      <style>
-        {`
-          .day-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-          
-          }
-          .day-button {
-            background: #00838F;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-          }
-          .active-day {
-            background-color: #004D40;
-            border: 2px solid #FFFFFF;
-          }
-          .tinder {
-            display: ${tinderVisible ? 'flex' : 'none'};
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: auto;
-            gap: 20px;
-            margin-top: 20px;
-          }
-          .tinder--card {
-            background-color: #FFF;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-          }
-          .mini-card {
-            background-color: #FFF;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 250px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-          }
-          .meal-image-container {
-            width: 120px;
-            height: 120px;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-          }
-          .meal-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-          .calorie-badge {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            background: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-          }
-        `}
+   
+     <style>
+      {`
+  .day-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+  }
+  .day-button {
+    background: #00838F;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .active-day {
+    background-color: #004D40;
+    border: 2px solid #FFFFFF;
+  }
+ .tinder {
+      display: ${tinderVisible ? 'flex' : 'none'};
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 300px;
+      gap: 20px;
+      margin-top: 50px; /* Increase this value to move it further down */
+    }
+  .tinder--card {
+    background-color:  #000000;
+    border-radius: 15px;
+     box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3), 
+              0 4px 15px rgba(255, 255, 255, 0.2), 
+              0 4px 10px rgba(255, 255, 255, 0.5);
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+  }
+  .mini-card {
+  background-color: #FFF;
+  border-radius: 10px;
+    0 6px 10px rgba(255, 255, 255, 0.25),  /* Medium shadow for depth */
+    0 2px 4px rgba(255, 255, 255, 0.35); 
+  width: 300px; /* Set fixed width for mini-card */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.meal-image-container {
+  width: 100%; /* Make it take the full width of the mini-card */
+  height: auto; /* Let height adjust automatically */
+  aspect-ratio: 1 / 1; /* Maintain a square aspect ratio */
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.meal-image {
+  width: 100%; /* Make the image fill the container width */
+  height: 100%; /* Adjust height to fit the container */
+  object-fit: cover; /* Ensure the image covers the container without distortion */
+}
+
+  .calorie-badge {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .meal-title {
+  font-weight: bold;
+  margin-top: 5px;
+  display: block;
+  color: black; /* Ensures visibility on a dark background */
+  font-size: 16px; /* Slightly larger for visibility */
+}
+  .meal-info {
+    margin-top: 8px;
+    text-align: center;
+    display: block;
+    color: black;
+     /* Ensure block display for visibility */
+  }
+ .macros {
+  color: #AAAAAA; /* Lighter gray for readability */
+  font-size: 14px;
+  margin-top: 5px;
+  margin-right:1px;
+}
+ /* General dot styling for size and shape */
+.dot {
+  width: 8px; /* Define the size */
+  height: 8px; /* Define the size */
+  border-radius: 50%; /* Make it circular */
+  display: inline-block; /* Allows it to appear next to text */
+  margin-right: 2px; /* Space between the dot and text */
+}
+
+/* Specific colors for each macro type */
+.protein-dot {
+  background-color: red; /* Red for protein */
+}
+
+.fats-dot {
+  background-color: yellow; /* Yellow for fats */
+}
+
+.carbs-dot {
+  background-color: green; /* Green for carbs */
+}
+
+`}
+
       </style>
+            
+          
+       
+          
+       
+ 
 
       <Box className="day-buttons">
         {Object.keys(mealsData).map((day) => (
@@ -430,34 +493,45 @@ const TinderComponent = () => {
       </Box>
 
       <Box className="tinder">
-        {tinderCards.length > 0 && (
-          <>
-            <Button onClick={() => handleLeftSwipe(document.querySelector('.tinder--card'))}>Nope</Button>
-            <Box className="tinder--card">
-              {tinderCards[0].map((meal, index) => (
-                <div key={index} className="mini-card">
-                  <div className="meal-image-container">
-                    {meal.image ? (
-                      <img src={meal.image} alt={meal.title || 'Meal'} className="meal-image" />
-                    ) : (
-                      <div>No Image</div>
-                    )}
-                    <div className="calorie-badge">{meal.calories || 'N/A'} Calories</div>
-                  </div>
-                  <div className="meal-info">
-                    <div className="meal-title">{meal.meal}</div>
-                    <Typography variant="body2" color="textSecondary">{meal.title}</Typography>
-                    <div className="macros">
-                      {meal.macros?.protein}g Protein • {meal.macros?.fats}g Fats • {meal.macros?.carbs}g Carbs
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </Box>
-            <Button onClick={() => handleRightSwipe(document.querySelector('.tinder--card'))}>Love</Button>
-          </>
-        )}
+  {tinderCards.length > 0 && (
+    <>
+      <IconButton onClick={() => handleLeftSwipe(document.querySelector('.tinder--card'))} size="large">
+  <HeartBrokenIcon sx={{ color: '#c1ff72' }} />
+</IconButton>
+      <Box className="tinder--card">
+        {tinderCards[0].map((meal, index) => (
+          <div key={index} className="mini-card">
+            <div className="meal-image-container">
+              {meal.image ? (
+                <img src={meal.image} alt={meal.title || 'Meal'} className="meal-image" />
+              ) : (
+                <div>No Image</div>
+              )}
+              <div className="calorie-badge">{meal.calories || 'N/A'} Calories</div>
+            </div>
+            <div className="meal-info">
+              <div className="meal-title">{meal.meal || 'Meal Type'}</div> {/* Fallback for missing meal type */}
+              <Typography variant="body2" color="textSecondary">{meal.title || 'Meal Title'}</Typography> {/* Fallback for missing meal title */}
+              <div className="macros">
+  <span className="dot protein-dot"></span> {meal.macros?.protein}g Protein
+  <span className="dot fats-dot"></span> {meal.macros?.fats}g Fats
+  <span className="dot carbs-dot"></span> {meal.macros?.carbs}g Carbs
+</div>
+
+            </div>
+          </div>
+        ))}
       </Box>
+      <IconButton onClick={() => handleRightSwipe(document.querySelector('.tinder--card'))} size="large">
+  <FavoriteIcon sx={{ color: '#c1ff72' }} />
+</IconButton>
+
+    </>
+  )}
+</Box>
+
+               
+            
 
       {showChosenMeals && (
         <Box sx={{ marginTop: 2 }}>
@@ -481,9 +555,15 @@ const TinderComponent = () => {
                     <div className="meal-info">
                       <div className="meal-title">{meal.meal}</div>
                       <Typography variant="body2" color="textSecondary">{meal.title}</Typography>
+                    
                       <div className="macros">
-                        {meal.macros?.protein}g Protein • {meal.macros?.fats}g Fats • {meal.macros?.carbs}g Carbs
-                      </div>
+  <span className="dot protein-dot"></span> {meal.macros?.protein}g Protein
+  <span className="dot fats-dot"></span> {meal.macros?.fats}g Fats
+  <span className="dot carbs-dot"></span> {meal.macros?.carbs}g Carbs
+</div>
+
+
+                    
                     </div>
                   </Box>
                 ))}
