@@ -72,7 +72,7 @@ export default function AdditionalInfoPage() {
       <div className="flex flex-col items-start justify-center min-h-screen pl-4 md:pl-40 pr-4 md:pr-0">
         <h1
           className="text-4xl md:text-5xl font-bold mb-6"
-          style={{ color: "#c1ff72" }}
+          style={{ color: "#c1ff72", letterSpacing:'0.03em', fontWeight:'500', }}
         >
           Hi {firstName}! <br /> Let's get to know you better!
         </h1>
@@ -123,7 +123,7 @@ export default function AdditionalInfoPage() {
             type="button"
             onClick={handleSubmit}
             className="text-lg font-bold text-black bg-[#c1ff72] py-2 px-6 mt-4"
-            style={{ width: "120px" }}
+            style={{ width: "120px", letterSpacing:'0.03em', fontWeight:'500',}}
           >
             Submit
           </button>

@@ -79,7 +79,7 @@ export default function SignInPage() {
       </style>
       <div className="flex flex-col items-start justify-center min-h-screen pl-4 md:pl-40 pr-4 md:pr-0">
         <div className="mb-8 w-full max-w-lg">
-          <h1 className="text-4xl md:text-7xl font-bold text-white" style={{ fontFamily: "'Anton', sans-serif", color: "white" }}>SIGN IN</h1>
+          <h1 className="text-4xl md:text-7xl font-bold text-white" style={{ fontFamily: "'Anton', sans-serif", color: "white", letterSpacing:'0.03em', fontWeight:'500' }}>SIGN IN</h1>
           {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
         <form className="flex flex-col space-y-4 w-full max-w-lg" onSubmit={(e) => e.preventDefault()}>
@@ -111,6 +111,7 @@ export default function SignInPage() {
                 fontFamily: "'Anton', sans-serif",
                 width: "150px",
                 marginTop: "20px",
+                letterSpacing:'0.03em', fontWeight:'500'
               }}
             >
               POWER ON
