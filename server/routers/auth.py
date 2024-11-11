@@ -32,6 +32,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     user_id: int
+    first_name: str
+    last_name: str
 
 
 def get_db():
@@ -113,7 +115,7 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
                             detail='Could not validate user.')
     token = create_access_token(user.username, user.id, timedelta(minutes=20))
 
-    return {'access_token': token, 'token_type': 'bearer', 'user_id': user.id}
+    return {'access_token': token, 'token_type': 'bearer', 'user_id': user.id, "first_name": user.first_name, "last_name": user.last_name}
 
 
 

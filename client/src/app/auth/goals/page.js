@@ -64,7 +64,7 @@ export default function GoalsPage(){
             </style>
 
             <div className="absolute top-10 left-10">
-                <h1 className="text-4xl md:text-7xl font-bold text-[#c1ff72]">
+                <h1 className="text-4xl md:text-7xl font-bold text-[#c1ff72]" style={{letterSpacing:'0.03em', fontWeight:'500',}}>
                     Set Your Goals
                 </h1>
             </div>
@@ -97,6 +97,7 @@ export default function GoalsPage(){
                         type="button"
                         onClick={handleSubmit}
                         className="text-lg font-bold text-[#c1ff72] bg-[#000000] py-2 px-6"
+                        style={{fontFamily: "'Anton', sans-serif",letterSpacing:'0.03em', fontWeight:'500', }}
                     >
                         Submit
                     </button>

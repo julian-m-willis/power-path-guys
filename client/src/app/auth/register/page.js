@@ -50,6 +50,7 @@ export default function RegisterPage() {
 
         // Store the user ID and access token in localStorage or sessionStorage
         localStorage.setItem("user_id", data.id);
+        localStorage.setItem("user_name", data.first_name +" "+data.last_name);
 
         // Redirect to the main page
         router.push(`/auth/additional-info?firstName=${encodeURIComponent(firstName)}`); // Redirect after successful registration
@@ -98,7 +99,7 @@ export default function RegisterPage() {
           </style> 
     <div className="flex flex-col items-start justify-center min-h-screen pl-4 md:pl-40 pr-4 md:pr-0" >
       <div className="mb-8 w-full max-w-lg">
-        <h1 className="text-4xl md:text-7xl font-bold text-white" style={{fontFamily: "'Anton', sans-serif", color: "white"}}>REGISTER HERE</h1>
+        <h1 className="text-4xl md:text-7xl font-bold text-white" style={{fontFamily: "'Anton', sans-serif", color: "white", letterSpacing:'0.03em', fontWeight:'500'}}>REGISTER HERE</h1>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
       <form className="flex flex-col space-y-4 w-full max-w-lg" onSubmit={(e) => e.preventDefault()}>
@@ -156,7 +157,7 @@ export default function RegisterPage() {
           onClick={handleRegister}
           className="text-lg md:text-xl text-black font-bold py-3 px-6 md:px-8 hover:opacity-90 w-full md:w-auto"
           style={{backgroundColor: "#c1ff72", fontFamily: "'Anton', sans-serif", width: "150px", // Adjust width as desired
-          marginTop: "20px", }}
+          marginTop: "20px",letterSpacing: "0.03em",fontWeight: "500", }}
         >
           POWER ON
         </button>

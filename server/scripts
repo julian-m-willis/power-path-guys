@@ -1,0 +1,3 @@
+docker exec -it power-path-server python seed_posts.py
+docker exec -it power-path-server python seed_food.py
+

@@ -1,18 +1,18 @@
 /* HomePage.css */
-.bg-fixed {
+/* .bg-fixed {
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-  }
+  } */
   
   /* Adjust background on smaller screens */
-  @media (max-width: 768px) {
-    .bg-fixed {
-      background-attachment: scroll; /* Prevents performance issues on mobile */
-      background-size: contain;      /* Scales the image to fit within the viewport */
-      background-position: top;      /* Positions the image at the top */
-      height: 100vh;                 /* Ensures the div takes full viewport height */
-      width: 100vh;
+  /* @media (max-width: 768px) {
+    .bg-fixed { */
+      /* background-attachment: scroll; /* Prevents performance issues on mobile */
+      /* background-size: contain;      Scales the image to fit within the viewport */
+      /* background-position: top;      Positions the image at the top */
+      /* height: 100vh;                 Ensures the div takes full viewport height */ 
+      /* width: 100vh;
     }
-  }
+  } */
