@@ -11,6 +11,7 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 import random
 from datetime import datetime
+import requests
 
 X_RAPIDAPI_KEY = os.getenv("X_RAPIDAPI_KEY")
 X_RAPIDAPI_HOST = os.getenv("X_RAPIDAPI_HOST")
@@ -71,22 +72,43 @@ def record_exercise(data: ExerciseRecordCreate, db: Session = Depends(get_db)):
 async def suggest_exercises(theme: Optional[str] = "random"):
     if theme is None or theme == "random":
         theme = random.choice(FULLBODY_THEMES)
-    
-    # Select appropriate files based on the theme
-    if theme in THEME_FILE_MAPPING:
-        selected_files = [os.path.join(DATA_DIRECTORY, f"{part}.json") for part in THEME_FILE_MAPPING[theme]]
-    else:
-        selected_files = [os.path.join(DATA_DIRECTORY, f"{theme}.json")]
 
-    # Collect exercises from selected files
+    if theme not in THEME_FILE_MAPPING:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No exercises found for theme '{theme}'"
+        )
+
     all_exercises = []
-    for file_path in selected_files:
-        if os.path.isfile(file_path):
-            with open(file_path, "r") as file:
-                data = json.load(file).get("data", [])
-                all_exercises.extend(data)
 
-    # Check if we have exercises to select from
+    headers = {
+        'x-rapidapi-key': X_RAPIDAPI_KEY,
+        'x-rapidapi-host': X_RAPIDAPI_HOST
+    }
+
+    # Call the API for each body part based on the theme
+    for body_part in THEME_FILE_MAPPING[theme]:
+        api_url = f"https://{X_RAPIDAPI_HOST}/exercises/bodyPart/{body_part}?limit=20&offset=0"
+        
+        try:
+            response = requests.get(api_url, headers=headers)
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail=f"API call failed for body part '{body_part}' with status {response.status_code}"
+                )
+
+            # Append the exercises from the response
+            body_part_exercises = response.json()
+            all_exercises.extend(body_part_exercises)
+
+        except requests.exceptions.RequestException as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"An error occurred while fetching exercises for body part '{body_part}': {str(e)}"
+            )
+
+    # Check if we have exercises to return
     if not all_exercises:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -96,7 +118,6 @@ async def suggest_exercises(theme: Optional[str] = "random"):
     # Randomly select 20 exercises or fewer if there aren't 20 available
     selected_exercises = random.sample(all_exercises, min(20, len(all_exercises)))
 
-    # Return the selected exercises as JSON response
     return {"theme": theme, "suggested_exercises": selected_exercises}
 
 
@@ -106,17 +127,27 @@ async def get_body_part_list():
 
 @router.get("/bodyPartList/{bodypart}", status_code=status.HTTP_200_OK)
 async def get_exercise_by_body_part(bodypart: str):
-    directory = "./data"
-    file_path = os.path.join(directory, f"{bodypart}.json")
-    if not os.path.isfile(file_path):
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={"error": f"Data for body part '{bodypart}' not found"}
-        )
+    # Construct the API URL
+    api_url = f"https://{X_RAPIDAPI_HOST}/exercises/bodyPart/{bodypart}?limit=20&offset=0"
+    
+    headers = {
+        'x-rapidapi-key': X_RAPIDAPI_KEY,
+        'x-rapidapi-host': X_RAPIDAPI_HOST
+    }
+    
+    try:
+        # Make the request to the external API
+        response = requests.get(api_url, headers=headers)
+        
+        # Check if the response is successful
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail=f"API call failed with status {response.status_code}")
 
-    # Read the JSON file
-    with open(file_path, "r") as file:
-        data = json.load(file)
+        # Parse the response JSON
+        exercises = response.json()
 
-    # Return the data as JSON response
-    return data
+        # Return the data as JSON response
+        return {"bodypart": bodypart, "data": exercises}
+
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
