@@ -10,6 +10,46 @@ import CssBaseline from '@mui/material/CssBaseline';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#c1ff72', // Neon green primary color
+    },
+    secondary: {
+      main: '#2ec4b6', // Teal secondary color
+    },
+    background: {
+      default: '#121212', // Main background color
+      paper: '#262626', // Card/paper background color
+    },
+    text: {
+      primary: '#ffffff', // Primary text color
+      secondary: '#b0b0b0', // Secondary text color
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h5: {
+      fontWeight: 700,
+    },
+    body1: {
+      color: '#c1ff72', // Primary color for text highlights
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          textTransform: 'none',
+          fontWeight: 600,
+        },
+        containedSecondary: {
+          color: '#121212',
+          '&:hover': {
+            backgroundColor: '#c1ff72', // Darker shade for hover effect
+          },
+        },
+      },
+    },
   },
 });
 

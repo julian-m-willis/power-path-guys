@@ -6,6 +6,8 @@ import { Typography, Box } from "@mui/material";
 import axios from "axios";
 
 // Register the necessary components with Chart.js
+import annotationPlugin from 'chartjs-plugin-annotation';
+ChartJS.register(annotationPlugin);
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 
 const WaterChart = ({ view }) => {
@@ -83,7 +85,7 @@ const weekLabels = getLast7Days();
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...waterData) + 1, // Dynamically sets the max y-axis based on the data
+        max: 3000, // Dynamically sets the max y-axis based on the data
         title: {
           display: true,
           text: "Liters",
@@ -96,14 +98,35 @@ const weekLabels = getLast7Days();
         },
       },
     },
+    plugins: {
+      annotation: {
+        annotations: {
+          line1: {
+            type: 'line',
+            yMin: 2500,
+            yMax: 2500,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+              content: '2.5L Goal',
+              enabled: true,
+              position: 'end',
+              backgroundColor: 'rgba(255, 99, 132, 0.8)',
+              color: '#fff',
+            },
+          },
+        },
+      },
+    },
   };
+  
 
   return (
     <Box>
-      <Typography variant="h6" align="center" gutterBottom sx={{ color: "text.primary", fontWeight: "bold" }}>
-        Water Consumption ({view})
-      </Typography>
-      <Box sx={{ height: { xs: 250, md: 300 } }}>
+      {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "text.primary", fontWeight: "bold" }}> */}
+        {/* Water Consumption ({view})
+      </Typography> */}
+      <Box sx={{ height: 350 }}>
         <Bar data={chartData} options={options} />
       </Box>
     </Box>

@@ -14,6 +14,8 @@ import { Typography, Box } from "@mui/material";
 import axios from "axios";
 
 // Register the necessary components with Chart.js
+import annotationPlugin from 'chartjs-plugin-annotation';
+ChartJS.register(annotationPlugin);
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 
 axios.defaults.baseURL = "http://3.107.192.183:5006/goal"; // Replace with your base URL
@@ -113,9 +115,10 @@ const CaloriesChart = ({ view }) => {
     scales: {
       y: {
         beginAtZero: true,
+        max: 3000, // Dynamically sets the max y-axis based on the data
         title: {
           display: true,
-          text: "Calories",
+          text: "Liters",
         },
       },
       x: {
@@ -125,19 +128,31 @@ const CaloriesChart = ({ view }) => {
         },
       },
     },
+    plugins: {
+      annotation: {
+        annotations: {
+          line1: {
+            type: 'line',
+            yMin: 2000,
+            yMax: 2000,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+              content: '200 Goal',
+              enabled: true,
+              position: 'end',
+              backgroundColor: 'rgba(255, 99, 132, 0.8)',
+              color: '#fff',
+            },
+          },
+        },
+      },
+    },
   };
 
   return (
     <Box>
-      <Typography
-        variant="h6"
-        align="center"
-        gutterBottom
-        sx={{ color: "text.primary", fontWeight: "bold" }}
-      >
-        Calories Overview ({view})
-      </Typography>
-      <Box sx={{ height: { xs: 250, md: 300 } }}>
+      <Box sx={{ height: 350 }}>
         <Bar data={chartData} options={options} />
       </Box>
     </Box>

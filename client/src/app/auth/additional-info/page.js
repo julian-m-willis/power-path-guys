@@ -105,8 +105,8 @@ export default function AdditionalInfoPage() {
             >
               <option value="">Select Fitness Goal</option>
               <option value="lose">Lose Weight</option>
-              <option value="gain">Gain Weight</option>
-              <option value="maintain">Maintain Weight</option>
+              <option value="gain">Gain Muscle</option>
+              <option value="maintain">Maintain Health</option>
             </select>
             <select
               className="p-3 border rounded text-black"
