@@ -14,25 +14,17 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import TinderComponent from "./tindert";
-import { TypewriterEffect } from "@/components/ui/typewriter-effect"; // Assuming you have a TypewriterEffect component
+import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 
-const API_BASE_URL = "http://3.107.192.183:5006/diet"; // Replace with your backend base URL
+const API_BASE_URL = "http://3.107.192.183:5006/diet";
 
 const Diet = () => {
-  const today = new Date().getDay(); // 0 (Sunday) - 6 (Saturday)
+  const today = new Date().getDay();
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  const daysOfWeekFull = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const daysOfWeekFull = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const daysOfWeekShort = ["M", "T", "W", "T", "F", "S", "S"];
-  const adjustedToday = today === 0 ? 6 : today - 1; // Adjust to make Monday the first day
+  const adjustedToday = today === 0 ? 6 : today - 1;
 
   const [selectedDay, setSelectedDay] = useState(adjustedToday);
   const [foodAddMessage, setFoodAddMessage] = useState("");
@@ -42,7 +34,7 @@ const Diet = () => {
   const [fat, setFat] = useState(0);
   const [protein, setProtein] = useState(0);
   const [water, setWater] = useState(0);
-  const [userId] = useState(1); // Replace with actual user ID
+  const [userId] = useState(1);
 
   useEffect(() => {
     fetchUserDataForDay(userId, getDateString(selectedDay));
@@ -52,16 +44,6 @@ const Diet = () => {
     const date = new Date();
     date.setDate(date.getDate() - (adjustedToday - dayOffset));
     return date.toISOString().split("T")[0];
-  };
-
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
-
-  const handleDaySelection = (index) => {
-    if (index <= adjustedToday) {
-      setSelectedDay(index);
-    }
   };
 
   const fetchUserDataForDay = async (userId, date) => {
@@ -104,13 +86,12 @@ const Diet = () => {
     const foodInput = document.getElementById("foodInput").value;
     if (foodInput) {
       try {
-        await axios.post(`${API_BASE_URL}/add-food-record`, null, {
+        const response = await axios.post(`${API_BASE_URL}/add-food-record`, null, {
           params: {
             user_id: userId,
             food_name: foodInput,
           },
         });
-
         setFoodAddMessage("Food added successfully.");
         fetchUserDataForDay(userId, getDateString(selectedDay));
         document.getElementById("foodInput").value = "";
@@ -137,7 +118,7 @@ const Diet = () => {
           sx={{
             fontWeight: 'bold',
             fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-            color: "#c1ff72",
+            color: "white",
             marginBottom: 1,
           }}
         >
@@ -149,7 +130,6 @@ const Diet = () => {
             { text: "Manage Your Goals" },
             { text: "Stay Hydrated" }
           ]}
-          className="text-lg md:text-xl"
           style={{ color: "#c1ff72", fontWeight: 'bold' }}
         />
       </Box>
@@ -167,7 +147,7 @@ const Diet = () => {
       >
         <Tabs
           value={selectedTab}
-          onChange={handleTabChange}
+          onChange={(event, newValue) => setSelectedTab(newValue)}
           centered
           aria-label="diet navigation tabs"
           TabIndicatorProps={{
@@ -195,15 +175,15 @@ const Diet = () => {
             {(isMobile ? daysOfWeekShort : daysOfWeekFull).map((d, index) => (
               <Button
                 key={index}
-                onClick={() => handleDaySelection(index)}
+                onClick={() => setSelectedDay(index)}
                 disabled={index > adjustedToday}
                 sx={{
-                  color: index === selectedDay ? "white" : index === adjustedToday ? "#c1ff72" : "#888",
+                  color: index === selectedDay ? "black" : index === adjustedToday ? "#c1ff72" : "#888",
                   backgroundColor: index === selectedDay ? "#c1ff72" : "transparent",
                   fontWeight: index === adjustedToday ? "bold" : "normal",
                   "&:hover": {
                     backgroundColor: index !== selectedDay ? "#c1ff72" : "transparent",
-                    color: "white"
+                    color: "black"
                   },
                   margin: isMobile ? "0 2px" : "0 5px",
                   padding: isMobile ? "5px 4px" : "10px 15px",
@@ -219,162 +199,80 @@ const Diet = () => {
             ))}
           </Box>
 
-          <Grid container spacing={isMobile ? 2 : 4} alignItems="center" justifyContent="center">
-            {/* Calorie Tracker */}
-            <Grid item xs={12} md={5}>
-              <Paper
-                elevation={3}
-                sx={{
-                  padding: 3,
-                  marginBottom: 3,
-                  animation: "fadeIn 1s",
-                  height: 550,
-                  width: 350,
-                  backgroundColor: "#1c1c1e",
-                  color: "white",
-                }}
-              >
-                <Typography variant="h6" align="center" gutterBottom sx={{ color: "#c1ff72" }}>
-                  Calorie Tracker
-                </Typography>
+          <Grid container spacing={isMobile ? 2 : 4} alignItems="stretch" justifyContent="center">
+  {/* Calorie Tracker */}
+  <Grid item xs={12} md={5}>
+    <Paper
+      elevation={3}
+      sx={{
+        padding: 3,
+        height: 550,
+        backgroundColor: "#1c1c1e",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}
+    >
+      <Typography variant="h6" align="center" gutterBottom sx={{ color: "#c1ff72" }}>
+        Calorie Tracker
+      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "center", marginBottom: 2 }}>
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          {/* SVG rings for each nutrient */}
+          <circle cx="100" cy="100" r="90" stroke="#333" strokeWidth="10" fill="none" />
+          <circle cx="100" cy="100" r="70" stroke="#333" strokeWidth="10" fill="none" />
+          <circle cx="100" cy="100" r="50" stroke="#333" strokeWidth="10" fill="none" />
+          <circle cx="100" cy="100" r="30" stroke="#333" strokeWidth="10" fill="none" />
+          <circle cx="100" cy="100" r="90" stroke={calories > 1520 ? "red" : "#6A1B9A"} strokeDasharray="565" strokeDashoffset={565 - (updateProgress(calories, 1520) * 565) / 100} strokeWidth="10" fill="none" strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }} />
+          <circle cx="100" cy="100" r="70" stroke={carbs > 175 ? "red" : "#FBC02D"} strokeDasharray="440" strokeDashoffset={440 - (updateProgress(carbs, 175) * 440) / 100} strokeWidth="10" fill="none" strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }} />
+          <circle cx="100" cy="100" r="50" stroke={fat > 55 ? "red" : "#8BC34A"} strokeDasharray="314" strokeDashoffset={314 - (updateProgress(fat, 55) * 314) / 100} strokeWidth="10" fill="none" strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }} />
+          <circle cx="100" cy="100" r="30" stroke={protein > 70 ? "red" : "#03A9F4"} strokeDasharray="188" strokeDashoffset={188 - (updateProgress(protein, 70) * 188) / 100} strokeWidth="10" fill="none" strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }} />
+        </svg>
+      </Box>
+      <Box sx={{ textAlign: "center", marginBottom: 2 }}>
+        <Typography style={{ color: calories > 1520 ? "red" : "#6A1B9A" }}>Calories: {calories} / 1520 kcal</Typography>
+        <Typography style={{ color: carbs > 175 ? "red" : "#FBC02D" }}>Carbs: {carbs} / 175 g</Typography>
+        <Typography style={{ color: fat > 55 ? "red" : "#8BC34A" }}>Fat: {fat} / 55 g</Typography>
+        <Typography style={{ color: protein > 70 ? "red" : "#03A9F4" }}>Protein: {protein} / 70 g</Typography>
+      </Box>
+      <Box sx={{ justifyContent: "center", alignItems: "center", width: "100%" }}>
+        <TextField id="foodInput" label="Enter food item" variant="outlined" sx={{ width: "100%", marginBottom: 2, backgroundColor: "white", borderRadius: 1 }} />
+        <Button onClick={handleFoodAdd} variant="contained" fullWidth>Add Food</Button>
+        <Typography variant="body2" color={foodAddMessage.includes("successfully") ? "green" : "red"} sx={{ marginTop: 2 }}>{foodAddMessage}</Typography>
+      </Box>
+    </Paper>
+  </Grid>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: 2,
-                    height: 200,
-                  }}
-                >
-                  <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="90" stroke="#333" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="70" stroke="#333" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="50" stroke="#333" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="30" stroke="#333" strokeWidth="10" fill="none" />
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="90"
-                      stroke={calories > 1520 ? "red" : "#6A1B9A"}
-                      strokeDasharray="565"
-                      strokeDashoffset={565 - (updateProgress(calories, 1520) * 565) / 100}
-                      strokeWidth="10"
-                      fill="none"
-                      strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-                    />
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="70"
-                      stroke={carbs > 175 ? "red" : "#FBC02D"}
-                      strokeDasharray="440"
-                      strokeDashoffset={440 - (updateProgress(carbs, 175) * 440) / 100}
-                      strokeWidth="10"
-                      fill="none"
-                      strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-                    />
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="50"
-                      stroke={fat > 55 ? "red" : "#8BC34A"}
-                      strokeDasharray="314"
-                      strokeDashoffset={314 - (updateProgress(fat, 55) * 314) / 100}
-                      strokeWidth="10"
-                      fill="none"
-                      strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-                    />
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="30"
-                      stroke={protein > 70 ? "red" : "#03A9F4"}
-                      strokeDasharray="188"
-                      strokeDashoffset={188 - (updateProgress(protein, 70) * 188) / 100}
-                      strokeWidth="10"
-                      fill="none"
-                      strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-                    />
-                  </svg>
-                </Box>
+  {/* Water Tracker */}
+  <Grid item xs={12} md={5}>
+    <Paper elevation={3} sx={{ padding: 3, height: 550, backgroundColor: "#1c1c1e", color: "white", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+      <Typography variant="h6" align="center" gutterBottom sx={{ color: "#c1ff72" }}>Water Tracker</Typography>
+      <Box sx={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+        <Box sx={{ width: 80, height: '100%', backgroundColor: '#333', borderRadius: 1, position: 'relative' }}>
+          <Box sx={{
+            width: '100%',
+            height: `${Math.min((water / 1320) * 100, 100)}%`,
+            backgroundColor: water >= 1320 ? "green" : "#00BFFF",
+            transition: "height 0.5s ease-in-out",
+            borderRadius: 1,
+            position: 'absolute',
+            bottom: 0
+          }}></Box>
+        </Box>
+      </Box>
+      <Typography sx={{ color: water >= 1320 ? "green" : "white", textAlign: 'center', fontWeight: 'bold', marginTop: 1 }}>
+        {water} / 1320 ml
+      </Typography>
+      <Box sx={{ width: "100%" }}>
+        <TextField id="waterInput" label="Add Water (ml)" type="number" variant="outlined" fullWidth sx={{ backgroundColor: "white", borderRadius: 1 }} />
+        <Button onClick={handleWaterAdd} variant="contained" fullWidth sx={{ marginTop: 2 }}>Add Water</Button>
+      </Box>
+    </Paper>
+  </Grid>
+</Grid>
 
-                <Box sx={{ textAlign: "center", marginBottom: 2 }}>
-                  <Typography style={{ color: calories > 1520 ? "red" : "#6A1B9A" }}>
-                    Calories: {calories} / 1520 kcal
-                  </Typography>
-                  <Typography style={{ color: carbs > 175 ? "red" : "#FBC02D" }}>
-                    Carbs: {carbs} / 175 g
-                  </Typography>
-                  <Typography style={{ color: fat > 55 ? "red" : "#8BC34A" }}>
-                    Fat: {fat} / 55 g
-                  </Typography>
-                  <Typography style={{ color: protein > 70 ? "red" : "#03A9F4" }}>
-                    Protein: {protein} / 70 g
-                  </Typography>
-                </Box>
-              </Paper>
-            </Grid>
-
-            {/* Water Tracker */}
-            <Grid item xs={12} md={5}>
-              <Paper
-                elevation={3}
-                sx={{
-                  padding: 3,
-                  marginBottom: 3,
-                  animation: "fadeIn 1s",
-                  width: 350,
-                  height: 550,
-                  backgroundColor: "#1c1c1e",
-                  color: "white",
-                }}
-              >
-                <Typography variant="h6" align="center" gutterBottom sx={{ color: "#c1ff72" }}>
-                  Water Tracker
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: 2,
-                    height: 310,
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: 100,
-                      height: 200,
-                      border: "3px solid #333",
-                      borderRadius: 1,
-                      position: "relative",
-                      minHeight: 250,
-                      marginBottom: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: `calc(${(Math.min(water, 1320) / 1320) * 100}%)`,
-                        backgroundColor: water >= 1320 ? "green" : "#00BFFF",
-                        position: "absolute",
-                        bottom: 0,
-                        width: "100%",
-                        transition: "height 0.5s ease-in-out",
-                      }}
-                    ></Box>
-                  </Box>
-                  <Typography variant="h6" align="center">
-                    {water} / 1320 ml
-                  </Typography>
-                </Box>
-              </Paper>
-            </Grid>
-          </Grid>
         </>
       )}
 
