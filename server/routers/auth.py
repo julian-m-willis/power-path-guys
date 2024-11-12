@@ -77,9 +77,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
                             detail='Could not validate user.')
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_user(db: db_dependency,
-                      create_user_request: CreateUserRequest):
-    # Check if the user already exists by email or username222
+async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
+    # Check if the user already exists by email or username
     existing_user = db.query(Users).filter(
         (Users.email == create_user_request.email) |
         (Users.username == create_user_request.username)
@@ -104,7 +103,23 @@ async def create_user(db: db_dependency,
     db.commit()
     db.refresh(create_user_model)
 
-    return create_user_model
+    # Create an access token for the new user
+    token = create_access_token(
+        username=create_user_model.username,
+        user_id=create_user_model.id,
+        expires_delta=timedelta(minutes=20)
+    )
+
+    return {
+        'access_token': token,
+        'token_type': 'bearer',
+        'id': create_user_model.id,
+        'first_name': create_user_model.first_name,
+        'last_name': create_user_model.last_name,
+        "username":create_user_model.username,
+        "email":create_user_model.email,
+    }
+
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],

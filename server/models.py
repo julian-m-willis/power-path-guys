@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime, ARRAY
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from database import Base
@@ -97,3 +97,19 @@ class Comment(Base):
 
 # Add this line to the Users class:
 Users.posts = relationship('Post', back_populates='user', cascade='all, delete-orphan')
+class WorkoutPlan(Base):
+    __tablename__ = 'workout_plans'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    workout_ids = Column(ARRAY(String), nullable=False)  # Array to store multiple workout IDs
+    status = Column(String, default="Not Completed")  # "Not Completed" or "Completed"
+    calories = Column(Float, nullable=True)  # Estimated calories burned
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship('Users', back_populates='workout_plans')
+
+# Add this line to the Users class:
+Users.workout_plans = relationship('WorkoutPlan', back_populates='user', cascade='all, delete-orphan')
+
+

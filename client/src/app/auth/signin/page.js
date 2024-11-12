@@ -28,6 +28,7 @@ export default function SignInPage() {
 
       if (response.status === 200) {
         const data = response.data;
+        document.cookie = `access_token=${data.access_token}; path=/; secure; SameSite=Strict`;
         console.log(data)
 
         // Store the user ID and access token in localStorage or sessionStorage

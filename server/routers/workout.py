@@ -3,11 +3,11 @@ import os
 from typing import Optional
 from fastapi.responses import JSONResponse
 import json
-from models import ExerciseRecord, Users
+from models import ExerciseRecord, Users, WorkoutPlan
 import http.client
 from pydantic import BaseModel
 from database import SessionLocal
-from typing import Annotated
+from typing import Annotated, List
 from sqlalchemy.orm import Session
 import random
 from datetime import datetime
@@ -151,3 +151,28 @@ async def get_exercise_by_body_part(bodypart: str):
 
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+class WorkoutPlanCreate(BaseModel):
+    user_id: int
+    workout_ids: List[str]  # List of workout IDs
+    calories: float = 0.0  # Optional field, can be updated later
+    status: str = "Not Completed"  # Default value for new plans
+    
+@router.post("/save", status_code=status.HTTP_201_CREATED)
+def save_workout_plan(data: WorkoutPlanCreate, db: Session = Depends(get_db)):
+    user = db.query(Users).filter(Users.id == data.user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    new_workout_plan = WorkoutPlan(
+        user_id=data.user_id,
+        workout_ids=data.workout_ids,
+        calories=data.calories,
+        status=data.status
+    )
+    db.add(new_workout_plan)
+    db.commit()
+    db.refresh(new_workout_plan)
+
+    return {"message": "Workout plan saved successfully", "workout_plan": new_workout_plan}

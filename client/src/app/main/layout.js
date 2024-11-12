@@ -14,7 +14,7 @@ const darkTheme = createTheme({
       main: '#c1ff72', // Neon green primary color
     },
     secondary: {
-      main: '#2ec4b6', // Teal secondary color
+      main: '#7B28FF', // Teal secondary color
     },
     background: {
       default: '#121212', // Main background color
