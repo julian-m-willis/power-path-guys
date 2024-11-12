@@ -62,7 +62,7 @@ const WorkoutList = () => {
   }, []);
 
   const handleStartNow = () => {
-    router.push('/placeholder');
+    router.push('workout/detail');
   };
 
   const toggleExpand = (index) => {
