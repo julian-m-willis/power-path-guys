@@ -9,7 +9,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5006/goal/"; // Replace with your actual backend URL
+axios.defaults.baseURL = "http://3.107.192.183:5006/goal/"; // Replace with your actual backend URL
 
 
 const BlogPage = () => {

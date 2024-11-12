@@ -21,7 +21,6 @@ import { Compare } from "../../components/ui/compare";
 
 
 export default function Home() {
-  const userId = localStorage.getItem("user_id") || 2;
   const backgroundImages = ["/gym1.jpg", "/gym2.jpg", "/gym3.jpg", "/gym4.jpg", "/gym5.jpg"];
   const [currentIndex, setCurrentIndex] = useState(0);
   const words = [

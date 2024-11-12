@@ -286,3 +286,98 @@ async def get_calories_intake(user_id: int, db: Session = Depends(get_db)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching calories intake data: {str(e)}")
+    
+@router.get("/monthly-summary/{user_id}", status_code=status.HTTP_200_OK)
+def get_monthly_summary(user_id: int, month: str, db: Session = Depends(get_db)):
+    # If user_id is 1 and month is "2024-11", return the mock response
+    if user_id == 1 and month == "2024-11":
+        return {
+            "completed": [1, 4, 9, 5, 6, 8],  # Array of days completed
+            "missed": [2, 11],  # Array of days missed
+            "planned": [12, 13, 15, 16, 18, 19, 20, 22, 23, 25, 26, 27, 29, 30],  # Array of days planned (as day numbers)
+        }
+    account_creation_date = datetime(2024, 11, 15)
+
+    # Parse the month parameter to extract year and month number
+    try:
+        year, month_num = map(int, month.split('-'))
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid month format. Use YYYY-MM.")
+
+    # Get the start and end date of the given month
+    start_date = datetime(year, month_num, 1)
+    if month_num == 12:
+        end_date = datetime(year + 1, 1, 1) - timedelta(days=1)
+    else:
+        end_date = datetime(year, month_num + 1, 1) - timedelta(days=1)
+
+    # Ensure planned days only start after account creation date
+    planned_days = [
+        day for day in range(1, end_date.day + 1)
+        if datetime(year, month_num, day).weekday() in [0, 1, 3, 4, 5]  # Only Monday, Tuesday, Thursday, Friday, Saturday
+        and datetime(year, month_num, day) >= account_creation_date
+    ]
+
+    # Fetch completed days from ExerciseRecord
+    completed_records = db.query(func.extract('day', ExerciseRecord.date)).filter(
+        ExerciseRecord.user_id == user_id,
+        ExerciseRecord.date >= start_date,
+        ExerciseRecord.date <= end_date
+    ).distinct().all()
+    completed_days = [int(day[0]) for day in completed_records]
+
+    # Calculate missed days: planned days in the past that are not completed
+    current_date = datetime.utcnow()
+    missed_days = [day for day in planned_days if day not in completed_days and datetime(year, month_num, day) < current_date]
+
+    return {
+        "completed": completed_days,
+        "missed": missed_days,
+        "planned": planned_days,
+    }
+
+@router.get("/user-progress/{user_id}", status_code=status.HTTP_200_OK)
+def get_user_progress(user_id: int, db: Session = Depends(get_db)):
+    # Fetch user to validate if they exist
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    # Set the total number of days for a given period (e.g., current month)
+    today = datetime.utcnow()
+    start_of_month = today.replace(day=1)
+    total_days = 30 # Days including today
+
+    # Calculate workout progress
+    completed_workouts = db.query(func.count(func.distinct(func.date(ExerciseRecord.date)))).filter(
+        ExerciseRecord.user_id == user_id,
+        ExerciseRecord.date >= start_of_month
+    ).scalar()
+
+    workout_progress = (completed_workouts / total_days) * 100 if total_days > 0 else 0
+
+    # Calculate calorie intake progress
+    completed_calorie_days = db.query(func.count(func.distinct(func.date(FoodRecord.date)))).filter(
+        FoodRecord.user_id == user_id,
+        FoodRecord.date >= start_of_month
+    ).scalar()
+
+    calorie_progress = (completed_calorie_days / total_days) * 100 if total_days > 0 else 0
+
+    # Calculate water intake progress
+    completed_water_days = db.query(func.count(func.distinct(func.date(WaterConsumption.date)))).filter(
+        WaterConsumption.user_id == user_id,
+        WaterConsumption.date >= start_of_month
+    ).scalar()
+
+    water_progress = (completed_water_days / total_days) * 100 if total_days > 0 else 0
+
+    return {
+        "workout_progress": workout_progress,
+        "completed_workout_days": completed_workouts,
+        "calorie_progress": calorie_progress,
+        "completed_calorie_days": completed_calorie_days,
+        "water_progress": water_progress,
+        "completed_water_days": completed_water_days,
+        "total_days": 30
+    }

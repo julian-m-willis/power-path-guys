@@ -1,15 +1,36 @@
 // src/app/main/goal/index.js
 "use client";
 import React, { useState, useEffect } from "react";
-import { Container, Grid, Paper, Typography, ToggleButton, ToggleButtonGroup, Box } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  ToggleButton,
+  ToggleButtonGroup,
+  Box,
+} from "@mui/material";
 import axios from "axios";
 import WaterChart from "./components/WaterChart";
-import CaloriesBurntChart from "./components/CaloriesBurntChart";
-import CaloriesIntakeChart2 from "./components/CaloriesIntakeChart.2"; // Bar chart version
+import WorkoutCalendar from "./Components/MonthlyWorkoutCalendar";
+import CaloriesChart from "./Components/CaloriesChart";
 import CaloriesIntakeChart from "./components/CaloriesIntakeChart"; // Pie chart version
-import NetCaloriesChart from "./components/NetCaloriesChart";
 import TaskList from "./components/TaskList";
 import KeyInsights from "./components/KeyInsights";
+
+const workoutDays = [
+  new Date(2024, 10, 2), // November 2, 2024
+  new Date(2024, 10, 7), // November 7, 2024
+  new Date(2024, 10, 15), // November 15, 2024
+  // Add more dates as needed
+];
+
+const plannedWorkoutDays = [
+  new Date(2024, 10, 4), // November 4, 2024
+  new Date(2024, 10, 9), // November 9, 2024
+  new Date(2024, 10, 20), // November 20, 2024
+  // Add more planned dates as needed
+];
 
 const GoalTrackingPage = () => {
   const [view, setView] = useState("today");
@@ -29,7 +50,12 @@ const GoalTrackingPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ padding: { xs: 2, md: 4 } }}>
-      <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        align="center"
+        sx={{ fontWeight: "bold", fontSize: { xs: "1.5rem", md: "2.125rem" } }}
+      >
         Goal Tracking
       </Typography>
 
@@ -38,38 +64,78 @@ const GoalTrackingPage = () => {
         exclusive
         onChange={handleViewChange}
         aria-label="View Selector"
-        sx={{ marginBottom: 3, display: "flex", justifyContent: "center", flexWrap: "wrap" }}
+        sx={{
+          marginBottom: 3,
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}
       >
         <ToggleButton value="today">Today</ToggleButton>
         <ToggleButton value="week">Week</ToggleButton>
         <ToggleButton value="month">Month</ToggleButton>
       </ToggleButtonGroup>
 
-      <Grid container spacing={4} justifyContent="center">
+      <Grid container spacing={4} rowSpacing={0} justifyContent="center">
+        {/* First Row: Water Chart, Calories Chart, and Calories Intake */}
         {[
-          { component: <WaterChart view={view} data={waterData} />, title: "Water Consumption" },
-          { component: <CaloriesBurntChart view={view} data={caloriesBurntData} />, title: "Calories Burnt" },
-          { component: <CaloriesIntakeChart view={view} data={caloriesIntakeData} />, title: "Calories Intake Breakdown" },
-          { component: <CaloriesIntakeChart2 view={view} data={caloriesIntakeData} />, title: "Calories Intake" },
-          { component: <NetCaloriesChart view={view} data={netCaloriesData} />, title: "Net Calories" },
+          { component: <WaterChart view={view} data={waterData} /> },
+          { component: <CaloriesChart view={view} data={caloriesBurntData} /> },
+          {
+            component: (
+              <CaloriesIntakeChart view={view} data={caloriesIntakeData} />
+            ),
+          },
         ].map(({ component, title }, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Paper elevation={3} sx={{ padding: 2, height: "100%", minHeight: "400px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <Typography variant="h6" sx={{ marginBottom: 2 }}></Typography>
+          <Grid item xs={12} md={4} key={index}>
+            <Paper
+              elevation={3}
+              sx={{
+                padding: 2,
+                height: "100%",
+                minHeight: "400px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                {title}
+              </Typography>
               {component}
             </Paper>
           </Grid>
         ))}
-      </Grid>
 
-      <Box sx={{ mt: 4 }}>
-        <Paper elevation={3} sx={{ padding: 2, mb: 4 }}>
-          <TaskList view={view} />
-        </Paper>
-        <Paper elevation={3} sx={{ padding: 2 }}>
-          <KeyInsights view={view} />
-        </Paper>
-      </Box>
+        {/* Second Row: Workout Calendar (col-4) and Key Insights (col-8) */}
+        <Grid item xs={12} md={4}>
+          <Paper elevation={3} sx={{ padding: 2, minHeight: "400px" }}>
+            <Typography
+              variant="h6"
+              align="center"
+              gutterBottom
+              sx={{ color: "text.primary", fontWeight: "bold" }}
+            >
+              Workout Tracker
+            </Typography>
+            <WorkoutCalendar />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Paper elevation={3} sx={{ padding: 2, minHeight: "400px" }}>
+            <Typography
+              variant="h6"
+              align="center"
+              gutterBottom
+              sx={{ color: "text.primary", fontWeight: "bold" }}
+            >
+              Goal Progress
+            </Typography>
+            <KeyInsights />
+          </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
