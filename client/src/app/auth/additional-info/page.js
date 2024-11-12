@@ -33,7 +33,7 @@ export default function AdditionalInfoPage() {
     setValidationMessage("");
 
     if (true) {
-      router.push("/main/workout");
+      router.push("/main");
     } else {
       console.error("Failed to save additional information.");
     }

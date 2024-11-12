@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import {
   Box,
@@ -13,14 +13,14 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import TinderComponent from "./tindert";
+// import TinderComponent from "./tindert";
+import dynamic from "next/dynamic";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet"; // Replace with your backend base URL
 
 const Diet = () => {
-  const today = new Date().getDay(); // 0 (Sunday) - 6 (Saturday)
+  const today = new Date().getDay();
   const isMobile = useMediaQuery("(max-width:600px)");
-
   const daysOfWeekFull = [
     "Monday",
     "Tuesday",
@@ -41,9 +41,9 @@ const Diet = () => {
   const [fat, setFat] = useState(0);
   const [protein, setProtein] = useState(0);
   const [water, setWater] = useState(0);
-  const [userId] = useState(1); // Replace with actual user ID
 
   useEffect(() => {
+    const userId = localStorage.getItem("user_id") || 2;
     fetchUserDataForDay(userId, getDateString(selectedDay));
   }, [selectedDay]);
 
@@ -77,12 +77,15 @@ const Diet = () => {
       console.error("Error fetching user data for the day:", error);
     }
   };
+  const waterInputRef = useRef(null);
+  const foodInputRef = useRef(null);
 
   const handleWaterAdd = async (event) => {
     event.preventDefault();
-    const waterInput = parseInt(document.getElementById("waterInput").value);
+    const waterInput = parseInt(waterInputRef.current.value);
     if (!isNaN(waterInput)) {
       try {
+        const userId = localStorage.getItem("user_id") || 2;
         await axios.post(`${API_BASE_URL}/log-water`, null, {
           params: {
             user_id: userId,
@@ -98,36 +101,42 @@ const Diet = () => {
     }
   };
 
-const handleFoodAdd = async (event) => {
-  event.preventDefault();
-  const foodInput = document.getElementById("foodInput").value;
-  if (foodInput) {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/add-food-record`, null, {
-        params: {
-          user_id: userId,
-          food_name: foodInput,
-        },
-      });
+  const handleFoodAdd = async (event) => {
+    event.preventDefault();
+    const foodInput = foodInputRef.current.value;
+    if (foodInput) {
+      try {
+        const userId = localStorage.getItem("user_id") || 2;
+        const response = await axios.post(
+          `${API_BASE_URL}/add-food-record`,
+          null,
+          {
+            params: {
+              user_id: userId,
+              food_name: foodInput,
+            },
+          }
+        );
 
-      setFoodAddMessage("Food added successfully.");
-      fetchUserDataForDay(userId, getDateString(selectedDay));
-      document.getElementById("foodInput").value = "";
-    } catch (error) {
-      // Check if the error is a 404 response from the backend
-      if (error.response && error.response.status === 404) {
-        setFoodAddMessage("Food not found. Please check your input and try again.");
-      } else {
-        // For other errors, display a general message
-        setFoodAddMessage("Error adding food. Please try again later.");
+        setFoodAddMessage("Food added successfully.");
+        fetchUserDataForDay(userId, getDateString(selectedDay));
+        document.getElementById("foodInput").value = "";
+      } catch (error) {
+        // Check if the error is a 404 response from the backend
+        if (error.response && error.response.status === 404) {
+          setFoodAddMessage(
+            "Food not found. Please check your input and try again."
+          );
+        } else {
+          // For other errors, display a general message
+          setFoodAddMessage("Error adding food. Please try again later.");
+        }
+        console.error("Error adding food record:", error);
       }
-      console.error("Error adding food record:", error);
+    } else {
+      setFoodAddMessage("Please enter a valid food item.");
     }
-  } else {
-    setFoodAddMessage("Please enter a valid food item.");
-  }
-};
-
+  };
 
   const updateProgress = (value, total) => Math.min((value / total) * 100, 100);
 
@@ -183,10 +192,12 @@ const handleFoodAdd = async (event) => {
                       : index === adjustedToday
                       ? "#007bff"
                       : "#888",
-                  backgroundColor: index === selectedDay ? "#007bff" : "transparent",
+                  backgroundColor:
+                    index === selectedDay ? "#007bff" : "transparent",
                   fontWeight: index === adjustedToday ? "bold" : "normal",
                   "&:hover": {
-                    backgroundColor: index !== selectedDay ? "#007bff" : "transparent",
+                    backgroundColor:
+                      index !== selectedDay ? "#007bff" : "transparent",
                     color: "white",
                   },
                   margin: isMobile ? "0 2px" : "0 5px", // Reduced margin for compact view
@@ -194,7 +205,9 @@ const handleFoodAdd = async (event) => {
                   fontSize: isMobile ? "0.75rem" : "1rem", // Smaller font size for mobile
                   borderRadius: 1,
                   boxShadow:
-                    index === adjustedToday ? "0px 2px 8px rgba(0, 123, 255, 0.4)" : "none",
+                    index === adjustedToday
+                      ? "0px 2px 8px rgba(0, 123, 255, 0.4)"
+                      : "none",
                   transition: "all 0.3s ease",
                   minWidth: isMobile ? "30px" : "auto", // Ensures buttons are narrow on mobile
                 }}
@@ -204,7 +217,12 @@ const handleFoodAdd = async (event) => {
             ))}
           </Box>
 
-          <Grid container spacing={isMobile ? 2 : 4} alignItems="center" justifyContent="center">
+          <Grid
+            container
+            spacing={isMobile ? 2 : 4}
+            alignItems="center"
+            justifyContent="center"
+          >
             {/* Calorie Tracker */}
             <Grid item xs={12} md={5}>
               <Paper
@@ -231,10 +249,38 @@ const handleFoodAdd = async (event) => {
                 >
                   <svg width="200" height="200" viewBox="0 0 200 200">
                     {/* SVG circles */}
-                    <circle cx="100" cy="100" r="90" stroke="#e6e6e6" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="70" stroke="#e6e6e6" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="50" stroke="#e6e6e6" strokeWidth="10" fill="none" />
-                    <circle cx="100" cy="100" r="30" stroke="#e6e6e6" strokeWidth="10" fill="none" />
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="90"
+                      stroke="#e6e6e6"
+                      strokeWidth="10"
+                      fill="none"
+                    />
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="70"
+                      stroke="#e6e6e6"
+                      strokeWidth="10"
+                      fill="none"
+                    />
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="50"
+                      stroke="#e6e6e6"
+                      strokeWidth="10"
+                      fill="none"
+                    />
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="30"
+                      stroke="#e6e6e6"
+                      strokeWidth="10"
+                      fill="none"
+                    />
                     {/* Data Circles */}
                     <circle
                       cx="100"
@@ -242,11 +288,15 @@ const handleFoodAdd = async (event) => {
                       r="90"
                       stroke={calories > 1520 ? "red" : "#6A1B9A"}
                       strokeDasharray="565"
-                      strokeDashoffset={565 - (updateProgress(calories, 1520) * 565) / 100}
+                      strokeDashoffset={
+                        565 - (updateProgress(calories, 1520) * 565) / 100
+                      }
                       strokeWidth="10"
                       fill="none"
                       strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                      style={{
+                        transition: "stroke-dashoffset 0.5s ease-in-out",
+                      }}
                     />
                     <circle
                       cx="100"
@@ -254,11 +304,15 @@ const handleFoodAdd = async (event) => {
                       r="70"
                       stroke={carbs > 175 ? "red" : "#FBC02D"}
                       strokeDasharray="440"
-                      strokeDashoffset={440 - (updateProgress(carbs, 175) * 440) / 100}
+                      strokeDashoffset={
+                        440 - (updateProgress(carbs, 175) * 440) / 100
+                      }
                       strokeWidth="10"
                       fill="none"
                       strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                      style={{
+                        transition: "stroke-dashoffset 0.5s ease-in-out",
+                      }}
                     />
                     <circle
                       cx="100"
@@ -266,11 +320,15 @@ const handleFoodAdd = async (event) => {
                       r="50"
                       stroke={fat > 55 ? "red" : "#8BC34A"}
                       strokeDasharray="314"
-                      strokeDashoffset={314 - (updateProgress(fat, 55) * 314) / 100}
+                      strokeDashoffset={
+                        314 - (updateProgress(fat, 55) * 314) / 100
+                      }
                       strokeWidth="10"
                       fill="none"
                       strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                      style={{
+                        transition: "stroke-dashoffset 0.5s ease-in-out",
+                      }}
                     />
                     <circle
                       cx="100"
@@ -278,26 +336,36 @@ const handleFoodAdd = async (event) => {
                       r="30"
                       stroke={protein > 70 ? "red" : "#03A9F4"}
                       strokeDasharray="188"
-                      strokeDashoffset={188 - (updateProgress(protein, 70) * 188) / 100}
+                      strokeDashoffset={
+                        188 - (updateProgress(protein, 70) * 188) / 100
+                      }
                       strokeWidth="10"
                       fill="none"
                       strokeLinecap="round"
-                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                      style={{
+                        transition: "stroke-dashoffset 0.5s ease-in-out",
+                      }}
                     />
                   </svg>
                 </Box>
                 {/* Nutritional Labels */}
                 <Box sx={{ textAlign: "center", marginBottom: 2 }}>
-                  <Typography style={{ color: calories > 1520 ? "red" : "#6A1B9A" }}>
+                  <Typography
+                    style={{ color: calories > 1520 ? "red" : "#6A1B9A" }}
+                  >
                     Calories: {calories} / 1520 kcal
                   </Typography>
-                  <Typography style={{ color: carbs > 175 ? "red" : "#FBC02D" }}>
+                  <Typography
+                    style={{ color: carbs > 175 ? "red" : "#FBC02D" }}
+                  >
                     Carbs: {carbs} / 175 g
                   </Typography>
                   <Typography style={{ color: fat > 55 ? "red" : "#8BC34A" }}>
                     Fat: {fat} / 55 g
                   </Typography>
-                  <Typography style={{ color: protein > 70 ? "red" : "#03A9F4" }}>
+                  <Typography
+                    style={{ color: protein > 70 ? "red" : "#03A9F4" }}
+                  >
                     Protein: {protein} / 70 g
                   </Typography>
                 </Box>
@@ -310,18 +378,25 @@ const handleFoodAdd = async (event) => {
                   }}
                 >
                   <TextField
+                    inputRef={foodInputRef}
                     id="foodInput"
                     label="Enter food item"
                     variant="outlined"
                     sx={{ width: "100%", marginBottom: 2 }}
                   />
 
-                  <Button onClick={handleFoodAdd} variant="contained" sx={{ width: "100%" }}>
+                  <Button
+                    onClick={handleFoodAdd}
+                    variant="contained"
+                    sx={{ width: "100%" }}
+                  >
                     Submit
                   </Button>
                   <Typography
                     variant="body2"
-                    color={foodAddMessage.includes("successfully") ? "green" : "red"}
+                    color={
+                      foodAddMessage.includes("successfully") ? "green" : "red"
+                    }
                     sx={{ marginBottom: 2 }}
                   >
                     {foodAddMessage}
@@ -368,7 +443,9 @@ const handleFoodAdd = async (event) => {
                   >
                     <Box
                       sx={{
-                        height: `calc(${(Math.min(water, 1320) / 1320) * 100}%)`,
+                        height: `calc(${
+                          (Math.min(water, 1320) / 1320) * 100
+                        }%)`,
                         backgroundColor: water >= 1320 ? "green" : "#00BFFF",
                         position: "absolute",
                         bottom: 0,
@@ -390,6 +467,7 @@ const handleFoodAdd = async (event) => {
                   }}
                 >
                   <TextField
+                    inputRef={waterInputRef}
                     id="waterInput"
                     label="Add Water (ml)"
                     type="number"
@@ -397,7 +475,11 @@ const handleFoodAdd = async (event) => {
                     sx={{ width: "100%", marginBottom: 2 }}
                   />
 
-                  <Button onClick={handleWaterAdd} variant="contained" sx={{ width: "100%" }}>
+                  <Button
+                    onClick={handleWaterAdd}
+                    variant="contained"
+                    sx={{ width: "100%" }}
+                  >
                     Add
                   </Button>
                 </Box>
@@ -407,14 +489,15 @@ const handleFoodAdd = async (event) => {
         </>
       )}
 
-{selectedTab === 1 && (
+      {selectedTab === 1 && (
         <>
-           < TinderComponent/>
+          <TinderComponent />
         </>
       )}
     </Box>
   );
 };
-       
 
-export default Diet;
+export default dynamic(() => Promise.resolve(Diet), {
+  ssr: false,
+});
