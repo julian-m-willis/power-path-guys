@@ -14,6 +14,9 @@ import {
 import { styled } from "@mui/material/styles";
 import Hammer from "hammerjs";
 import { mealsData } from "./meals";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+
 
 
 /* console.log('mealsData === ', mealsData);
@@ -33,7 +36,7 @@ console.log(
 const WeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
 
 const StyledDayButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "#00838F",
+  backgroundColor: "#c1ff72",
   color: "white",
   "&:hover": {
     backgroundColor: "#00ACC1",
@@ -60,8 +63,10 @@ const TinderCard = styled(Paper)(({ removed }) => ({
   position: "absolute",
   width: "100%",
   height: "100%",
+  maxWidth: "1000px",      // Adjust this to set a maximum width if needed
+  maxHeight: "500px",
   // backgroundColor: "#fff",
-  backgroundColor: "#39FF14",
+  backgroundColor: "#333",
   borderRadius: "10px",
   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
   transition: "transform 0.3s ease, opacity 0.3s ease",
@@ -85,7 +90,10 @@ const StyledMiniCard = styled(Paper)(({ theme }) => ({
   display: "flex",
   fontSize: "14px",
   margin: "10px",
-  border: '1px solid #006064'
+  border: '1px solid #006064',
+  backgroundColor:"white",
+  color:'black',
+
 }));
 
 const StyledMiniCard2 = styled(Paper)(({ theme }) => ({
@@ -148,7 +156,7 @@ const MacroItem = styled(Box)(({ dotcolor, ...otherProps }) => ({
 const TinderContainer = styled(Box)({
   width: "90vw",
   maxWidth: "800px",
-  height: "200px",
+  height: "230px",
   // width: "90vw",
   // maxWidth: "450px",
   // height: "500px",
@@ -405,7 +413,7 @@ const MealPlanner = () => {
               justifyContent: "center",
               gap: 1,
               p: 2,
-              backgroundColor: "#006064",
+              backgroundColor: "#121212",
             }}
           >
             {WeekDays.map((day) => (
@@ -513,15 +521,36 @@ const MealPlanner = () => {
                 variant="contained"
                 color="error"
                 onClick={() => handleSwipeButton("left")}
+                sx={{
+                  minWidth: 48, 
+                  minHeight: 48,
+                  backgroundColor: "c1ff72",  // Color for broken heart icon
+                  borderRadius: "50%",
+                  '&:hover': { backgroundColor: "#FF5252" }, // Hover color
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                Nope
+                <HeartBrokenIcon sx={{ color: "#fff", fontSize: "1.5rem" }} />
               </Button>
               <Button
                 variant="contained"
                 color="success"
                 onClick={() => handleSwipeButton("right")}
+
+                sx={{
+                  minWidth: 48, 
+                  minHeight: 48,
+                  backgroundColor: "#c1ff72",  // Color for heart icon
+                  borderRadius: "50%",
+                  '&:hover': { backgroundColor: "#F50057" }, // Hover color
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                Love
+                 <FavoriteIcon sx={{ color: "#fff", fontSize: "1.5rem" }} />
               </Button>
             </Box>
           </Grid>
