@@ -269,7 +269,7 @@ const Workout = () => {
                   data-index={index}
                   style={{
                     position: "absolute",
-                    top: 0,
+                    top: "75px",  // Changed from 0 to 50px to move cards down
                     left: "50%",
                     transform: "translateX(-50%)",
                     width: "300px",
@@ -359,7 +359,13 @@ const Workout = () => {
           variant="contained"
           color="primary"
           onClick={handleOpenModal}
-          style={{ marginTop: "20px" }}
+          style={{
+            position: "fixed",
+            bottom: "100px", // Changed from marginTop to bottom position (moved up 70px from typical 20px bottom position)
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1001
+          }}
         >
           Start Workout
         </Button>

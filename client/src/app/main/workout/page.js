@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, CardContent, Typography, Button, List, ListItem, Modal, Box, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -85,18 +86,53 @@ const WorkoutList = () => {
   };
 
   return (
+    // <div style={{ padding: '24px 48px' }}>
+    //   {/* Page Heading */}
+    //   <h1 style={{ 
+    //     fontFamily: 'Anton, sans-serif', 
+    //     textAlign: 'center', 
+    //     marginBottom: '24px', 
+    //     color: 'white', 
+    //     fontSize: '3rem', // Adjust size as desired
+    //     fontWeight: 700 // Bold weight
+    //   }}>
+    //     Workout Page
+    //   </h1>
+    //   <TypewriterEffect 
+    //       words={[
+    //         { text: "I Pushed" },
+    //         { text: "I Fought" },
+    //         { text: "I Conquered" }
+    //       ]}
+    //       style={{ color: "#c1ff72", fontWeight: 'bold' }}
+    //     />
     <div style={{ padding: '24px 48px' }}>
-      {/* Page Heading */}
-      <h1 style={{ 
-        fontFamily: 'Anton, sans-serif', 
-        textAlign: 'center', 
-        marginBottom: '24px', 
-        color: 'white', 
-        fontSize: '3rem', // Adjust size as desired
-        fontWeight: 700 // Bold weight
-      }}>
+      <Box textAlign="center" mb={4}>
+      <Typography
+        variant="h2"
+        sx={{
+          fontWeight: 'bold',
+          fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+          color: "white",
+          marginBottom: 1,
+        }}
+      >
         Workout Page
-      </h1>
+      </Typography>
+      <TypewriterEffect 
+        words={[
+          { text: "i Pushed" },
+          { text: "i Fought" },
+          { text: "i Conquered" }
+        ]}
+        sx={{
+          color: "#c1ff72", 
+          fontWeight: 'bold',
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }, // Significantly reduced font sizes
+        }}
+      />
+
+        </Box>
 
 
       {/* Personalize Workout Card */}
