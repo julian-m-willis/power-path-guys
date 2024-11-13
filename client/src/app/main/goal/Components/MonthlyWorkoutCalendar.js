@@ -7,7 +7,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 import axios from "axios";
 
@@ -82,7 +82,9 @@ export default function WorkoutCalendar() {
     try {
       setIsLoading(true);
       const userId = localStorage.getItem("user_id") || 2;
-      const response = await axios.get(`http://3.107.192.183:5006/goal/monthly-summary/${userId}?month=${month}`);
+      const response = await axios.get(
+        `http://3.107.192.183:5006/goal/monthly-summary/${userId}?month=${month}`
+      );
       const { completed, missed, planned } = response.data;
 
       setCompletedDays(completed);
