@@ -53,8 +53,31 @@ const WorkoutList = () => {
     fetchWorkouts();
   }, []);
 
-  const handleStartNow = () => {
-    router.push('workout/detail');
+  const handleStartNow = async (selectedCard) => {
+    try {
+      // Extracting data from selectedCard as needed
+      const workout_ids = selectedCard.map(exercise => exercise.id);
+      const totalCalories = 440; // Assuming each exercise has a `calories` property
+      const userId = localStorage.getItem("user_id") || 2;
+
+      const response = await axios.post('http://3.107.192.183:5006/workout/save', {
+        user_id: userId, // Replace with actual user ID as needed
+        workout_ids: workout_ids,
+        calories: totalCalories,
+        status: "Not Completed"
+      }, {
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      console.log(response.data);
+      const workoutId = response.data.workout_plan.id;
+      router.push(`workout/detail?id=${workoutId}`);
+    } catch (error) {
+      console.error('Error posting data:', error);
+    }
   };
 
   const handleCardClick = (cardExercises) => {
@@ -161,7 +184,7 @@ const WorkoutList = () => {
               </List>
               <Button 
                 variant="contained" 
-                onClick={handleStartNow}
+                onClick={() => handleStartNow(selectedCard)}
                 sx={{ marginTop: '16px' }}
               >
                 Start Now

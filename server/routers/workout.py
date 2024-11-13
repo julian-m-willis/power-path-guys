@@ -176,3 +176,84 @@ def save_workout_plan(data: WorkoutPlanCreate, db: Session = Depends(get_db)):
     db.refresh(new_workout_plan)
 
     return {"message": "Workout plan saved successfully", "workout_plan": new_workout_plan}
+
+@router.get("/workout_plan/{id}", status_code=status.HTTP_200_OK)
+def get_workout_plan_by_id(id: int, db: Session = Depends(get_db)):
+    workout_plan = db.query(WorkoutPlan).filter(WorkoutPlan.id == id).first()
+    if not workout_plan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workout plan not found")
+
+    headers = {
+        "x-rapidapi-key": X_RAPIDAPI_KEY,
+        "x-rapidapi-host": X_RAPIDAPI_HOST
+    }
+
+    detailed_exercises = []
+
+    # Fetch detailed data for each workout ID
+    for workout_id in workout_plan.workout_ids:
+        api_url = f"https://exercisedb.p.rapidapi.com/exercises/exercise/{workout_id}"
+        try:
+            response = requests.get(api_url, headers=headers)
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail=f"Failed to fetch details for workout ID {workout_id}"
+                )
+            exercise_detail = response.json()
+            detailed_exercises.append(exercise_detail)
+        except requests.exceptions.RequestException as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"An error occurred while fetching details for workout ID {workout_id}: {str(e)}"
+            )
+
+    return {
+        "message": "Workout plan retrieved successfully",
+        "workout_ids": workout_plan.workout_ids,
+        "detailed_exercises": detailed_exercises
+    }
+
+@router.post("/workout_plan/{id}/complete", status_code=status.HTTP_200_OK)
+def complete_workout_plan(id: int, db: Session = Depends(get_db)):
+    # Retrieve the workout plan by ID
+    workout_plan = db.query(WorkoutPlan).filter(WorkoutPlan.id == id).first()
+    if not workout_plan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workout plan not found")
+
+    # Update the workout plan status to "Completed"
+    workout_plan.status = "Completed"
+    db.commit()
+    db.refresh(workout_plan)
+
+    # Check if the user exists
+    user = db.query(Users).filter(Users.id == workout_plan.user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    # Create a new exercise record for the user with the associated calories
+    new_exercise_record = ExerciseRecord(
+        user_id=workout_plan.user_id,
+        calories_burned=workout_plan.calories,
+        date=datetime.utcnow()
+    )
+    db.add(new_exercise_record)
+    db.commit()
+    db.refresh(new_exercise_record)
+
+    return {
+        "message": "Workout plan marked as completed and exercise record created successfully",
+        "workout_plan": {
+            "id": workout_plan.id,
+            "status": workout_plan.status,
+            "user_id": workout_plan.user_id,
+            "calories": workout_plan.calories,
+            "created_at": workout_plan.created_at
+        },
+        "exercise_record": {
+            "id": new_exercise_record.id,
+            "user_id": new_exercise_record.user_id,
+            "calories_burned": new_exercise_record.calories_burned,
+            "date": new_exercise_record.date
+        }
+    }

@@ -1,55 +1,26 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, Card, CardContent, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
-// Placeholder workouts data
-const workouts = [
+const mockData = [
   {
-    bodyPart: "back",
-    equipment: "cable",
-    gifUrl: "https://v2.exercisedb.io/image/r1kI366xtcX9nq",
-    id: "0007",
-    name: "alternate lateral pulldown",
-    target: "lats",
-    secondaryMuscles: ["biceps", "rhomboids"],
-    instructions: [
-      "Sit on the cable machine with your back straight and feet flat on the ground.",
-      "Grasp the handles with an overhand grip, slightly wider than shoulder-width apart.",
-      "Lean back slightly and pull the handles towards your chest, squeezing your shoulder blades together.",
-      "Pause for a moment at the peak of the movement, then slowly release the handles back to the starting position.",
-      "Repeat for the desired number of repetitions."
-    ]
-  },
-  {
-    bodyPart: "back",
-    equipment: "body weight",
-    gifUrl: "https://v2.exercisedb.io/image/vejfyd7nwxV73a",
-    id: "3293",
-    name: "archer pull up",
-    target: "lats",
-    secondaryMuscles: ["biceps", "forearms"],
-    instructions: [
-      "Start by hanging from a pull-up bar with an overhand grip, slightly wider than shoulder-width apart.",
-      "Engage your core and pull your shoulder blades down and back.",
-      "As you pull yourself up, bend one arm and bring your elbow towards your side, while keeping the other arm straight.",
-      "Continue pulling until your chin is above the bar and your bent arm is fully flexed.",
-      "Lower yourself back down with control, straightening the bent arm and repeating the movement on the other side.",
-      "Alternate sides with each repetition."
-    ]
-  },
-  {
-    bodyPart: "back",
-    equipment: "leverage machine",
-    gifUrl: "https://v2.exercisedb.io/image/J7z-p4PnzSIdLb",
-    id: "0015",
-    name: "assisted parallel close grip pull-up",
-    target: "lats",
-    secondaryMuscles: ["biceps", "forearms"],
-    instructions: [
+    "bodyPart": "back",
+    "equipment": "leverage machine",
+    "gifUrl": "https://v2.exercisedb.io/image/ZincLZH4Yp81Ty",
+    "id": "0015",
+    "name": "assisted parallel close grip pull-up",
+    "target": "lats",
+    "secondaryMuscles": [
+      "biceps",
+      "forearms"
+    ],
+    "instructions": [
       "Adjust the machine to your desired weight and height.",
       "Place your hands on the parallel bars with a close grip, palms facing each other.",
       "Hang from the bars with your arms fully extended and your feet off the ground.",
@@ -60,12 +31,27 @@ const workouts = [
     ]
   }
 ];
-
 const WorkoutCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [summaryOpen, setSummaryOpen] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  const [workouts, setWorkouts] = useState(mockData);
+
+  useEffect(() => {
+    if (id) {
+      axios.get(`http://3.107.192.183:5006/workout/workout_plan/${id}`)
+        .then(response => {
+          setWorkouts(response.data.detailed_exercises);
+        })
+        .catch(error => {
+          console.error('Error fetching workout data:', error);
+        });
+    }
+  }, [id]);
+
 
   const handleNext = () => {
     if (currentIndex < workouts.length - 1) {
@@ -92,8 +78,21 @@ const WorkoutCarousel = () => {
     setConfirmationOpen(false);
   };
 
-  const handleSummaryClose = () => {
-    router.push('/main/goal'); // Redirect to the "goal" page
+  const handleSummaryClose = async () => {
+    try {
+      // Make the POST request to mark the workout plan as completed
+      const response = await axios.post(`http://3.107.192.183:5006/workout/workout_plan/${id}/complete`);
+  
+      // Log the response (optional)
+      console.log('Workout plan marked as completed:', response.data);
+  
+      // Redirect to the "goal" page after successful completion
+      router.push('/main/goal');
+    } catch (error) {
+      // Handle any errors from the API call
+      console.error('Error marking the workout plan as completed:', error);
+      alert('An error occurred while completing the workout plan. Please try again.');
+    }
   };
 
   const currentWorkout = workouts[currentIndex];
