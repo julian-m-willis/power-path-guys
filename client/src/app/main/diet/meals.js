@@ -14,7 +14,7 @@ const mealData = [
         type: 'Lunch',
         title: 'Grilled Salmon Salad',
         img: 'https://images.unsplash.com/photo-1514516876419-2c04ed3d3c74',
-        calories: 520,
+        calories: '520',
         protein: '30g',
         fats: '20g',
         carbs: '40g',

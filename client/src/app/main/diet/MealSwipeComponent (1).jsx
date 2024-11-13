@@ -49,7 +49,7 @@ const StyledDayButton = styled(Button)(({ theme }) => ({
 }));
 
 const StyledDayButton2 = styled(Button)({
-  backgroundColor: "#00838F",
+  backgroundColor: "#c1ff72",
   color: "black",
   paddingTop: '10px',
   paddingBottom: '10px',
@@ -119,7 +119,7 @@ const CalorieBadge = styled(Box)({
   position: "absolute",
   top: "10px",
   left: "10px",
-  background: "linear-gradient(135deg, #4CAF50, #83e68c)",
+  background: "linear-gradient(135deg, #4CAF50, #c1ff72)",
   color: "#fff",
   padding: "5px 10px",
   borderRadius: "20px",
