@@ -15,7 +15,8 @@ import {
 import Grid from "@mui/material/Grid2";
 // import TinderComponent from "./tindert";
 import dynamic from "next/dynamic";
-import TinderComponent from "./tindert";
+// import LayoutGrid from "./LayoutGrid"
+import MealPlanner from './MealSwipeComponent (1)';
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet";
@@ -498,7 +499,7 @@ const Diet = () => {
 
       {selectedTab === 1 && (
         <>
-          <TinderComponent />
+          <MealPlanner/>
         </>
       )}
     </Box>
