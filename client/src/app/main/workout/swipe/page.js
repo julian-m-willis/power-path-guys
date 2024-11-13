@@ -21,9 +21,15 @@ import {
   CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { styled } from '@mui/system';
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import "./swipestyle.css";
+
+const NoSelectTypography = styled(Typography)({
+  userSelect: 'none', // Prevents text selection
+  cursor: 'default',  // Optional: sets cursor to default
+});
 
 const Workout = () => {
   const router = useRouter();
@@ -285,23 +291,22 @@ const Workout = () => {
                     alt={workout.name}
                   />
                   <CardContent>
-                    <Typography variant="h5" component="div">
+                    <NoSelectTypography variant="h5" component="div">
                       {workout.name}
-                    </Typography>
+                    </NoSelectTypography>
                     <Divider style={{ margin: "10px 0" }} />
-                    <Typography variant="body2" color="text.secondary">
+                    <NoSelectTypography variant="body2" color="text.secondary">
                       <strong>Body Part:</strong> {workout.bodyPart}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    </NoSelectTypography>
+                    <NoSelectTypography variant="body2" color="text.secondary">
                       <strong>Target:</strong> {workout.target}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <strong>Secondary Muscles:</strong>{" "}
-                      {workout.secondaryMuscles.join(", ")}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    </NoSelectTypography>
+                    <NoSelectTypography variant="body2" color="text.secondary">
+                      <strong>Secondary Muscles:</strong> {workout.secondaryMuscles.join(", ")}
+                    </NoSelectTypography>
+                    <NoSelectTypography variant="body2" color="text.secondary">
                       <strong>Equipment:</strong> {workout.equipment}
-                    </Typography>
+                    </NoSelectTypography>
                   </CardContent>
                 </Card>
               ))
@@ -354,7 +359,7 @@ const Workout = () => {
         </Box>
       </Modal>
 
-      {selectedWorkouts.length > 8 && (
+      {selectedWorkouts.length > 7 && (
         <Button
           variant="contained"
           color="primary"
