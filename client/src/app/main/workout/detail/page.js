@@ -45,6 +45,10 @@ const mockData = [
   },
 ];
 
+const capitalizeFirstLetterOfEachWord = (str) => {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 const WorkoutCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
@@ -184,7 +188,7 @@ const WorkoutCarousel = () => {
               <Box p={2}>
                 <img
                   src={currentWorkout.gifUrl}
-                  alt={currentWorkout.name}
+                  alt={capitalizeFirstLetterOfEachWord(currentWorkout.name)}
                   style={{
                     width: "100%",
                     height: "200px",
@@ -193,7 +197,7 @@ const WorkoutCarousel = () => {
                 />
               </Box>
               <CardContent>
-                <Typography variant="h6">{currentWorkout.name}</Typography>
+                <Typography variant="h6">{capitalizeFirstLetterOfEachWord(currentWorkout.name)}</Typography>
                 <Typography variant="body1" mt={2}>
                   Target: {currentWorkout.target}
                 </Typography>
@@ -276,7 +280,7 @@ const WorkoutCarousel = () => {
                   component="li"
                   sx={{ display: "list-item", pl: 0 }}
                 >
-                  <ListItemText primary={workout.name} />
+                  <ListItemText primary={capitalizeFirstLetterOfEachWord(workout.name)} />
                 </ListItem>
               ))}
             </List>

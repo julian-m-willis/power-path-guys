@@ -31,6 +31,10 @@ const NoSelectTypography = styled(Typography)({
   cursor: 'default',  // Optional: sets cursor to default
 });
 
+const capitalizeFirstLetterOfEachWord = (str) => {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 const Workout = () => {
   const router = useRouter();
   const workoutContainerRef = useRef(null);
@@ -94,96 +98,104 @@ const Workout = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const cards =
-      workoutContainerRef.current?.querySelectorAll(".workout--card");
-    let activeCard = null;
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
+  const [disableSwiping, setDisableSwiping] = useState(false);
 
-    if (cards) {
-      const handleStart = (e) => {
-        if (isDragging) return;
-        activeCard = e.currentTarget;
-        startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-        isDragging = true;
-        activeCard.style.transition = "none";
-        const index = activeCard.getAttribute("data-index");
-        setActiveCardIndex(index);
-      };
+useEffect(() => {
+  const cards = workoutContainerRef.current?.querySelectorAll(".workout--card");
+  let activeCard = null;
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
 
-      const handleMove = (e) => {
-        if (!isDragging || !activeCard) return;
-        currentX =
-          (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) -
-          startX;
-        activeCard.style.transform = `translateX(calc(-50% + ${currentX}px))`;
-      };
+  if (cards) {
+    const handleStart = (e) => {
+      if (disableSwiping) return;  // Prevent swiping if disabled
+      if (isDragging) return;
+      activeCard = e.currentTarget;
+      startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+      isDragging = true;
+      activeCard.style.transition = "none";
+      const index = activeCard.getAttribute("data-index");
+      setActiveCardIndex(index);
+    };
 
-      const handleEnd = () => {
-        if (!isDragging || !activeCard) return;
-        isDragging = false;
-        activeCard.style.transition = "transform 0.3s ease-out";
+    const handleMove = (e) => {
+      if (disableSwiping) return;  // Prevent swiping if disabled
+      if (!isDragging || !activeCard) return;
+      currentX =
+        (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) - startX;
+      activeCard.style.transform = `translateX(calc(-50% + ${currentX}px))`;
+    };
 
-        const index = activeCard.getAttribute("data-index");
+    const handleEnd = () => {
+      if (disableSwiping) return;  // Prevent swiping if disabled
+      if (!isDragging || !activeCard) return;
+      isDragging = false;
+      activeCard.style.transition = "transform 0.3s ease-out";
 
-        if (activeCard) {
-          if (currentX > 100) {
-            activeCard.style.transform = `translateX(100vw)`;
-            setTimeout(() => {
-              if (index !== -1 && workouts[index]) {
-                // Add the workout to selectedWorkouts
-                const workoutToAdd = workouts[index];
-                setSelectedWorkouts((prev) => {
-                  const alreadyExists = prev.some(workout => workout.id === workoutToAdd.id);
-                  return alreadyExists ? prev : [...prev, workoutToAdd];
-                });
-                setWorkouts((prev) => prev.filter((_, i) => i !== index));
-              } else {
-                console.error("Invalid index or undefined workout");
-              }
-              activeCard = null; // Reset activeCard after processing
-            }, 300);
-          } else if (currentX < -100) {
-            activeCard.style.transform = `translateX(-200vw)`;
-            setTimeout(() => {
-              if (index !== -1) {
-                setWorkouts((prev) => prev.filter((_, i) => i !== index));
-              }
-              activeCard = null; // Reset activeCard after processing
-            }, 300);
-          } else {
-            // Reset the card's position if swipe is not significant
-            activeCard.style.transform = `translateX(-50%)`;
-            activeCard = null; // Reset activeCard after resetting position
-          }
+      const index = activeCard.getAttribute("data-index");
+
+      if (activeCard) {
+        if (currentX > 100) {
+          activeCard.style.transform = `translateX(100vw)`;
+          setTimeout(() => {
+            if (index !== -1 && workouts[index]) {
+              const workoutToAdd = workouts[index];
+              setSelectedWorkouts((prev) => {
+                const alreadyExists = prev.some(workout => workout.id === workoutToAdd.id);
+                return alreadyExists ? prev : [...prev, workoutToAdd];
+              });
+              setWorkouts((prev) => prev.filter((_, i) => i !== index));
+            } else {
+              console.error("Invalid index or undefined workout");
+            }
+            activeCard = null;
+          }, 300);
+        } else if (currentX < -100) {
+          activeCard.style.transform = `translateX(-200vw)`;
+          setTimeout(() => {
+            if (index !== -1) {
+              setWorkouts((prev) => prev.filter((_, i) => i !== index));
+            }
+            activeCard = null;
+          }, 300);
         } else {
-          console.error("activeCard is null");
+          activeCard.style.transform = `translateX(-50%)`;
+          activeCard = null;
         }
+      } else {
+        console.error("activeCard is null");
+      }
+
+      // Check if selectedWorkouts length is 12, and open the modal if true
+      if (selectedWorkouts.length === 11) {
+        // Automatically trigger the modal
+        handleOpenModal();
+        setDisableSwiping(true);  // Disable further swiping after 12 selections
+      }
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("mousedown", handleStart);
+      card.addEventListener("mousemove", handleMove);
+      card.addEventListener("mouseup", handleEnd);
+      card.addEventListener("mouseleave", handleEnd);
+      card.addEventListener("touchstart", handleStart);
+      card.addEventListener("touchmove", handleMove);
+      card.addEventListener("touchend", handleEnd);
+
+      return () => {
+        card.removeEventListener("mousedown", handleStart);
+        card.removeEventListener("mousemove", handleMove);
+        card.removeEventListener("mouseup", handleEnd);
+        card.removeEventListener("mouseleave", handleEnd);
+        card.removeEventListener("touchstart", handleStart);
+        card.removeEventListener("touchmove", handleMove);
+        card.removeEventListener("touchend", handleEnd);
       };
-
-      cards.forEach((card) => {
-        card.addEventListener("mousedown", handleStart);
-        card.addEventListener("mousemove", handleMove);
-        card.addEventListener("mouseup", handleEnd);
-        card.addEventListener("mouseleave", handleEnd);
-        card.addEventListener("touchstart", handleStart);
-        card.addEventListener("touchmove", handleMove);
-        card.addEventListener("touchend", handleEnd);
-
-        return () => {
-          card.removeEventListener("mousedown", handleStart);
-          card.removeEventListener("mousemove", handleMove);
-          card.removeEventListener("mouseup", handleEnd);
-          card.removeEventListener("mouseleave", handleEnd);
-          card.removeEventListener("touchstart", handleStart);
-          card.removeEventListener("touchmove", handleMove);
-          card.removeEventListener("touchend", handleEnd);
-        };
-      });
-    }
-  }, [workouts]);
+    });
+  }
+}, [workouts, selectedWorkouts, disableSwiping]);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -288,11 +300,11 @@ const Workout = () => {
                     image={
                       workout.gifUrl || "https://placeimg.com/600/300/tech"
                     }
-                    alt={workout.name}
+                    alt={capitalizeFirstLetterOfEachWord(workout.name)}
                   />
                   <CardContent>
                     <NoSelectTypography variant="h5" component="div">
-                      {workout.name}
+                      {capitalizeFirstLetterOfEachWord(workout.name)}
                     </NoSelectTypography>
                     <Divider style={{ margin: "10px 0" }} />
                     <NoSelectTypography variant="body2" color="text.secondary">
