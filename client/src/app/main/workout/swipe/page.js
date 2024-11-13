@@ -31,6 +31,10 @@ const NoSelectTypography = styled(Typography)({
   cursor: 'default',  // Optional: sets cursor to default
 });
 
+const capitalizeFirstLetterOfEachWord = (str) => {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 const Workout = () => {
   const router = useRouter();
   const workoutContainerRef = useRef(null);
@@ -296,11 +300,11 @@ useEffect(() => {
                     image={
                       workout.gifUrl || "https://placeimg.com/600/300/tech"
                     }
-                    alt={workout.name}
+                    alt={capitalizeFirstLetterOfEachWord(workout.name)}
                   />
                   <CardContent>
                     <NoSelectTypography variant="h5" component="div">
-                      {workout.name}
+                      {capitalizeFirstLetterOfEachWord(workout.name)}
                     </NoSelectTypography>
                     <Divider style={{ margin: "10px 0" }} />
                     <NoSelectTypography variant="body2" color="text.secondary">
