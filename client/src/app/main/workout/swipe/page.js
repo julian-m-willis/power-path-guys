@@ -14,20 +14,54 @@ import {
   DialogContentText,
   DialogActions,
   IconButton,
+  Modal,
+  Box,
+  List,
+  ListItem,
+  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import "./swipestyle.css";
 
 const Workout = () => {
   const router = useRouter();
   const workoutContainerRef = useRef(null);
   const [workouts, setWorkouts] = useState([]);
+  const [selectedWorkouts, setSelectedWorkouts] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    borderRadius: '8px',
+    outline: 'none',
+  };
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   const fetchWorkouts = async () => {
     try {
-      const response = await fetch("http://3.107.192.183:5006/workout/suggest-exercises/random");
+      setLoading(true);
+      const response = await fetch(
+        "http://3.107.192.183:5006/workout/suggest-exercises/random"
+      );
       if (response.ok) {
         const data = await response.json();
         setWorkouts(data.suggested_exercises);
@@ -36,6 +70,8 @@ const Workout = () => {
       }
     } catch (error) {
       console.error("Error fetching workouts:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,10 +89,8 @@ const Workout = () => {
   }, []);
 
   useEffect(() => {
-    if (workouts == []) {
-      fetchWorkouts();
-    }
-    const cards = workoutContainerRef.current?.querySelectorAll(".workout--card");
+    const cards =
+      workoutContainerRef.current?.querySelectorAll(".workout--card");
     let activeCard = null;
     let startX = 0;
     let currentX = 0;
@@ -69,11 +103,15 @@ const Workout = () => {
         startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
         isDragging = true;
         activeCard.style.transition = "none";
+        const index = activeCard.getAttribute("data-index");
+        setActiveCardIndex(index);
       };
 
       const handleMove = (e) => {
         if (!isDragging || !activeCard) return;
-        currentX = (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) - startX;
+        currentX =
+          (e.type.includes("mouse") ? e.clientX : e.touches[0].clientX) -
+          startX;
         activeCard.style.transform = `translateX(calc(-50% + ${currentX}px))`;
       };
 
@@ -82,23 +120,41 @@ const Workout = () => {
         isDragging = false;
         activeCard.style.transition = "transform 0.3s ease-out";
 
-        if (currentX > 100) {
-          activeCard.style.transform = `translateX(100vw)`;
-          setTimeout(() => {
-            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
-            activeCard = null;
-          }, 300);
-        } else if (currentX < -100) {
-          activeCard.style.transform = `translateX(-200vw)`;
-          setTimeout(() => {
-            setWorkouts((prev) => prev.filter((_, i) => i !== Array.from(cards).indexOf(activeCard)));
-            activeCard = null;
-          }, 300);
-        } else {
-          activeCard.style.transform = `translateX(-50%)`;
-        }
+        const index = activeCard.getAttribute("data-index");
 
-        activeCard = null;
+        if (activeCard) {
+          if (currentX > 100) {
+            activeCard.style.transform = `translateX(100vw)`;
+            setTimeout(() => {
+              if (index !== -1 && workouts[index]) {
+                // Add the workout to selectedWorkouts
+                const workoutToAdd = workouts[index];
+                setSelectedWorkouts((prev) => {
+                  const alreadyExists = prev.some(workout => workout.id === workoutToAdd.id);
+                  return alreadyExists ? prev : [...prev, workoutToAdd];
+                });
+                setWorkouts((prev) => prev.filter((_, i) => i !== index));
+              } else {
+                console.error("Invalid index or undefined workout");
+              }
+              activeCard = null; // Reset activeCard after processing
+            }, 300);
+          } else if (currentX < -100) {
+            activeCard.style.transform = `translateX(-200vw)`;
+            setTimeout(() => {
+              if (index !== -1) {
+                setWorkouts((prev) => prev.filter((_, i) => i !== index));
+              }
+              activeCard = null; // Reset activeCard after processing
+            }, 300);
+          } else {
+            // Reset the card's position if swipe is not significant
+            activeCard.style.transform = `translateX(-50%)`;
+            activeCard = null; // Reset activeCard after resetting position
+          }
+        } else {
+          console.error("activeCard is null");
+        }
       };
 
       cards.forEach((card) => {
@@ -131,82 +187,183 @@ const Workout = () => {
     setOpenDialog(false);
   };
 
+  const handleStartWorkout = async () => {
+    const userId = localStorage.getItem("user_id");
+    const workout_ids = selectedWorkouts.map(workout => workout.id);
+    const totalCalories = selectedWorkouts.length * 30 + 200;
+    console.log(selectedWorkouts);
+
+    try {
+      const response = await axios.post(
+        "http://3.107.192.183:5006/workout/save",
+        {
+          user_id: userId,
+          workout_ids: workout_ids,
+          calories: totalCalories,
+          status: "Not Completed",
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(response.data);
+      const workoutId = response.data.workout_plan.id;
+      router.push(`/main/workout/detail?id=${workoutId}`);
+    } catch (error) {
+      console.error("Error starting the workout:", error);
+    }
+  };
+
   return (
     <div className="workout" ref={workoutContainerRef}>
-      <IconButton
-        className="close-button"
-        onClick={handleOpenDialog}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 1000,
-        }}
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <IconButton
+            className="close-button"
+            onClick={handleOpenDialog}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              zIndex: 1000,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <DialogTitle>Are you sure you want to leave?</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                If you leave, any unsaved changes will be lost.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>No</Button>
+              <Button color="primary" onClick={() => router.back()} autoFocus>
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <div className="workout--cards">
+            {workouts.length > 0 ? (
+              workouts.map((workout, index) => (
+                <Card
+                  className="workout--card"
+                  key={index}
+                  data-index={index}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "300px",
+                    margin: "10px",
+                    zIndex: workouts.length - index,
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    image={
+                      workout.gifUrl || "https://placeimg.com/600/300/tech"
+                    }
+                    alt={workout.name}
+                  />
+                  <CardContent>
+                    <Typography variant="h5" component="div">
+                      {workout.name}
+                    </Typography>
+                    <Divider style={{ margin: "10px 0" }} />
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Body Part:</strong> {workout.bodyPart}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Target:</strong> {workout.target}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Secondary Muscles:</strong>{" "}
+                      {workout.secondaryMuscles.join(", ")}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Equipment:</strong> {workout.equipment}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <Typography>No workouts available.</Typography>
+            )}
+          </div>
+        </>
+      )}
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="workout-modal-title"
+        aria-describedby="workout-modal-description"
       >
-        <CloseIcon />
-      </IconButton>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Are you sure you want to leave?</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            If you leave, any unsaved changes will be lost.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>No</Button>
-          <Button color="primary" onClick={() => router.back()} autoFocus>
-            Yes
+        <Box sx={modalStyle}>
+          <Typography
+            id="workout-modal-title"
+            variant="h6"
+            component="h2"
+            gutterBottom
+          >
+            Confirm Your Workout
+          </Typography>
+          <List
+            component="ol"
+            sx={{
+              listStyleType: "decimal",
+              paddingLeft: "20px",
+              color: "text.primary",
+            }}
+          >
+            {selectedWorkouts.map((exercise) => (
+              <ListItem
+                component="li"
+                key={exercise.id}
+                sx={{ display: "list-item", padding: "4px 0" }}
+              >
+                {exercise.name.replace(/\b\w/g, (char) => char.toUpperCase())}
+              </ListItem>
+            ))}
+          </List>
+          <Button
+            variant="contained"
+            onClick={handleStartWorkout}
+            sx={{ marginTop: "16px" }}
+          >
+            Start Now
           </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
+      </Modal>
 
-      <div className="workout--cards">
-        {workouts.length > 0 ? (
-          workouts.map((workout, index) => (
-            <Card
-              className="workout--card"
-              key={index}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "300px",
-                margin: "10px",
-                zIndex: workouts.length - index,
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={workout.gifUrl || "https://placeimg.com/600/300/tech"}
-                alt={workout.name}
-              />
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {workout.name}
-                </Typography>
-                <Divider style={{ margin: "10px 0" }} />
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Body Part:</strong> {workout.bodyPart}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Target:</strong> {workout.target}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Secondary Muscles:</strong>{" "}
-                  {workout.secondaryMuscles.join(", ")}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Equipment:</strong> {workout.equipment}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <Typography>No workouts available.</Typography>
-        )}
-      </div>
+      {selectedWorkouts.length > 8 && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleOpenModal}
+          style={{ marginTop: "20px" }}
+        >
+          Start Workout
+        </Button>
+      )}
     </div>
   );
 };
