@@ -162,7 +162,7 @@ const TinderContainer = styled(Box)({
   // height: "500px",
   position: "relative",
   margin: "0 auto",
-  // marginTop: "10px",
+  marginTop: "50px",
 });
 
 const MealPlanner = () => {
