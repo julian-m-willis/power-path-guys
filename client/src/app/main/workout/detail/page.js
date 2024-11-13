@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CloseIcon from "@mui/icons-material/Close";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
@@ -53,6 +54,7 @@ const WorkoutCarousel = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [workouts, setWorkouts] = useState(mockData);
+  const [closeConfirmationOpen, setCloseConfirmationOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -112,8 +114,34 @@ const WorkoutCarousel = () => {
 
   const currentWorkout = workouts[currentIndex];
 
+  const handleCloseConfirmationOpen = () => {
+    setCloseConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmationClose = () => {
+    setCloseConfirmationOpen(false);
+  };
+
+  const handleLeavePage = () => {
+    setCloseConfirmationOpen(false);
+    router.push("/main/workout"); // Redirect to placeholder on confirmation
+  };
+
+
   return (
     <Box p={3}>
+    <IconButton
+        onClick={handleCloseConfirmationOpen}
+        sx={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          zIndex: 1000,
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+
       {loading ? (
         <Box
           display="flex"
@@ -129,10 +157,11 @@ const WorkoutCarousel = () => {
             variant={{ xs: "h5", sm: "h4" }} // Change variant for different screen sizes
             gutterBottom
             sx={{
+              fontWeight: 'bold',
               fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" }, // Adjust font size for responsiveness
             }}
           >
-            Workout:
+            Workout
           </Typography>
 
           <Box
@@ -257,6 +286,17 @@ const WorkoutCarousel = () => {
           <Button onClick={handleSummaryClose} color="primary">
             Done
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={closeConfirmationOpen} onClose={handleCloseConfirmationClose}>
+        <DialogTitle>Leave Page</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Do you want to leave the page?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmationClose}>No</Button>
+          <Button onClick={handleLeavePage} color="primary">Yes</Button>
         </DialogActions>
       </Dialog>
     </Box>

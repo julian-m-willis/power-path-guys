@@ -12,7 +12,6 @@ const WorkoutList = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Modal style
   const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -26,7 +25,6 @@ const WorkoutList = () => {
     outline: 'none',
   };
 
-  // Fetch workouts for three specific body parts
   const fetchWorkouts = async () => {
     setLoading(true);
     const endpoints = [
@@ -39,7 +37,6 @@ const WorkoutList = () => {
       const workoutPromises = endpoints.map(endpoint => axios.get(endpoint));
       const responses = await Promise.all(workoutPromises);
 
-      // Extract and trim the data to 8 items per response
       const limitedWorkouts = responses.map(response => response.data.data.slice(0, 8));
       setWorkoutCards(limitedWorkouts);
     } catch (error) {
@@ -55,13 +52,12 @@ const WorkoutList = () => {
 
   const handleStartNow = async (selectedCard) => {
     try {
-      // Extracting data from selectedCard as needed
       const workout_ids = selectedCard.map(exercise => exercise.id);
       const totalCalories = 440; // Assuming each exercise has a `calories` property
       const userId = localStorage.getItem("user_id") || 2;
 
       const response = await axios.post('http://3.107.192.183:5006/workout/save', {
-        user_id: userId, // Replace with actual user ID as needed
+        user_id: userId,
         workout_ids: workout_ids,
         calories: totalCalories,
         status: "Not Completed"
@@ -90,6 +86,19 @@ const WorkoutList = () => {
 
   return (
     <div style={{ padding: '24px 48px' }}>
+      {/* Page Heading */}
+      <h1 style={{ 
+        fontFamily: 'Anton, sans-serif', 
+        textAlign: 'center', 
+        marginBottom: '24px', 
+        color: 'white', 
+        fontSize: '3rem', // Adjust size as desired
+        fontWeight: 700 // Bold weight
+      }}>
+        Workout Page
+      </h1>
+
+
       {/* Personalize Workout Card */}
       <Link href="workout/swipe" passHref style={{ textDecoration: 'none' }}>
         <Card
@@ -105,7 +114,7 @@ const WorkoutList = () => {
           }}
         >
           <CardContent sx={{ padding: '24px !important', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            <Typography variant="h5" color = "primary" style={{ marginBottom: '8px', textAlign: 'center' }}>
+            <Typography variant="h5" color="primary" style={{ marginBottom: '8px', textAlign: 'center' }}>
               Personalize Your Workout
             </Typography>
             <Typography style={{ color: 'rgba(255, 255, 255, 0.7)', textAlign: 'center' }}>
@@ -123,9 +132,8 @@ const WorkoutList = () => {
       ) : (
         <Grid container spacing={3} columns={12}>
           {workoutCards.map((cardExercises, cardIndex) => {
-            // Assign a theme and arbitrary calories burnt based on index
             const themes = ["Back Workout", "Chest Workout", "Leg Workout"];
-            const caloriesBurnt = (cardExercises.length * 30) + 200; // Arbitrary calculation
+            const caloriesBurnt = (cardExercises.length * 30) + 200;
 
             return (
               <Grid item xs={12} sm={6} md={4} key={cardIndex}>
@@ -142,10 +150,10 @@ const WorkoutList = () => {
                   onClick={() => handleCardClick(cardExercises)}
                 >
                   <CardContent style={{ cursor: 'pointer', padding: '24px' }}>
-                    <Typography variant="h6" color='primary'>
+                    <Typography variant="h6" color="primary">
                       Suggested Workout {cardIndex + 1}:
                     </Typography>
-                    <Typography color='secondary'>
+                    <Typography color="secondary">
                       {themes[cardIndex]}
                     </Typography>
                     <Typography style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
