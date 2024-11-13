@@ -92,6 +92,69 @@ const mealData = [
       },
     ],
   },
+
+  {
+    meals: [
+      {
+        type: 'Breakfast',
+        title: 'Avocado Toast',
+        img: 'https://images.unsplash.com/photo-1516100882582-96c3a05fe590',
+        calories: 300,
+        protein: '8g',
+        fats: '15g',
+        carbs: '32g',
+      },
+      {
+        type: 'Lunch',
+        title: 'Chicken Wrap',
+        img: 'https://images.unsplash.com/photo-1600891964373-8fdc72e413a5',
+        calories: 600,
+        protein: '40g',
+        fats: '15g',
+        carbs: '50g',
+      },
+      {
+        type: 'Dinner',
+        title: 'Steak with Vegetables',
+        img: 'https://images.unsplash.com/photo-1604908812649-facb55f5dd6a',
+        calories: 800,
+        protein: '60g',
+        fats: '35g',
+        carbs: '30g',
+      },
+    ],
+  },
+  {
+    meals: [
+      {
+        type: 'Breakfast',
+        title: 'Avocado Toast',
+        img: 'https://images.unsplash.com/photo-1516100882582-96c3a05fe590',
+        calories: 300,
+        protein: '8g',
+        fats: '15g',
+        carbs: '32g',
+      },
+      {
+        type: 'Lunch',
+        title: 'Chicken Wrap',
+        img: 'https://images.unsplash.com/photo-1600891964373-8fdc72e413a5',
+        calories: 600,
+        protein: '40g',
+        fats: '15g',
+        carbs: '50g',
+      },
+      {
+        type: 'Dinner',
+        title: 'Steak with Vegetables',
+        img: 'https://images.unsplash.com/photo-1604908812649-facb55f5dd6a',
+        calories: 800,
+        protein: '60g',
+        fats: '35g',
+        carbs: '30g',
+      },
+    ],
+  }
 ];
 
 export const mealsData = {

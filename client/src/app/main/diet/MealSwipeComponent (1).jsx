@@ -37,7 +37,7 @@ const WeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satur
 
 const StyledDayButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#c1ff72",
-  color: "white",
+  color: "black",
   "&:hover": {
     backgroundColor: "#00ACC1",
   },
@@ -50,7 +50,7 @@ const StyledDayButton = styled(Button)(({ theme }) => ({
 
 const StyledDayButton2 = styled(Button)({
   backgroundColor: "#00838F",
-  color: "white",
+  color: "black",
   paddingTop: '10px',
   paddingBottom: '10px',
   marginTop: '10px',
@@ -66,9 +66,9 @@ const TinderCard = styled(Paper)(({ removed }) => ({
   maxWidth: "1000px",      // Adjust this to set a maximum width if needed
   maxHeight: "500px",
   // backgroundColor: "#fff",
-  backgroundColor: "#333",
+  backgroundColor: "black",
   borderRadius: "10px",
-  boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
+  boxShadow: "0 5px 10px rgba(255, 255, 255, 0.15), 0 3px 3px rgba(255, 255, 255, 0.1)",
   transition: "transform 0.3s ease, opacity 0.3s ease",
   cursor: "grab",
   display: "flex",
@@ -465,9 +465,6 @@ const MealPlanner = () => {
                   ref={(el) => (cardsRef.current[index] = el)}
                   style={{
                     zIndex: tinderCards.length - index,
-                    transform: `scale(${1 - (index + 1) * 0.05}) translateY(-${
-                      index * 20
-                    }px)`,
                   }}
                 >
                   {
