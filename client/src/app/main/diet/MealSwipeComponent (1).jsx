@@ -167,6 +167,20 @@ const TinderContainer = styled(Box)({
 });
 
 const MealPlanner = () => {
+  const today = new Date().getDay();
+  const daysOfWeekFull = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  const daysOfWeekShort = ["M", "T", "W", "T", "F", "S", "S"];
+  const adjustedToday = today === 0 ? 6 : today - 1;
+  const isMobile = useMediaQuery("(max-width:600px)");
+  const [selectedDay, setSelectedDay] = useState(adjustedToday);
   const [currentDay, setCurrentDay] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [showChosenMeals, setShowChosenMeals] = useState(false);
@@ -407,6 +421,45 @@ const MealPlanner = () => {
     <Container maxWidth="lg">
       <Grid container spacing={2}>
         {/* Day Buttons */}
+        <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 3,
+              flexWrap: "nowrap",
+              overflowX: "auto",
+              width: "100%",
+            }}
+          >
+            {(isMobile ? daysOfWeekShort : daysOfWeekFull).map((d, index) => (
+              <Button
+                key={index}
+                onClick={() => setSelectedDay(index)}
+                disabled={index > adjustedToday}
+                sx={{
+                  color: index === selectedDay ? "black" : index === adjustedToday ? "#c1ff72" : "#888",
+                  backgroundColor: index === selectedDay ? "#c1ff72" : "transparent",
+                  fontWeight: index === adjustedToday ? "bold" : "normal",
+                  "&:hover": {
+                    backgroundColor: index !== selectedDay ? "#c1ff72" : "transparent",
+                    color: "black"
+                  },
+                  margin: isMobile ? "0 2px" : "0 5px", // Reduced margin for compact view
+                  padding: isMobile ? "5px 4px" : "10px 15px", // Smaller padding for mobile
+                  fontSize: isMobile ? "0.75rem" : "1rem", // Smaller font size for mobile
+                  borderRadius: 1,
+                  boxShadow:
+                    index === adjustedToday
+                      ? "0px 2px 8px rgba(0, 123, 255, 0.4)"
+                      : "none",
+                  transition: "all 0.3s ease",
+                  minWidth: isMobile ? "30px" : "auto", // Ensures buttons are narrow on mobile
+                }}
+              >
+                {d}
+              </Button>
+            ))}
+          </Box>
         <Grid item xs={12}>
           <Box
             sx={{
