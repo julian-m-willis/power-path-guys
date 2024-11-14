@@ -108,7 +108,7 @@ const WorkoutList = () => {
       </div>  
 
 
-      {/* Personalize Workout Card */}
+      {/* Personalise Workout Card */}
       <Link href="workout/swipe" passHref style={{ textDecoration: 'none' }}>
         <Card
           sx={{
@@ -124,10 +124,10 @@ const WorkoutList = () => {
         >
           <CardContent sx={{ padding: '24px !important', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <Typography variant="h5" color="primary" style={{ marginBottom: '8px', textAlign: 'center' }}>
-              Personalize Your Workout
+              Personalise Your Workout
             </Typography>
             <Typography style={{ color: 'rgba(255, 255, 255, 0.7)', textAlign: 'center' }}>
-              Click here to personalize your workout plan
+              Click here to personalise your workout plan
             </Typography>
           </CardContent>
         </Card>
