@@ -162,7 +162,7 @@ const TinderContainer = styled(Box)({
   // height: "500px",
   position: "relative",
   margin: "0 auto",
-  marginTop: "50px",
+  marginTop: "20px",
 });
 
 const MealPlanner = () => {
@@ -422,7 +422,8 @@ const MealPlanner = () => {
                 onClick={() => handleDayClick(day)}
                 disabled={(chosenMeals[day].length > 0) || (rejectedMeals[day].length > 0)}
                 style={{
-                  backgroundColor: (currentDay == day) && "#00ACC1"
+                  backgroundColor: (currentDay == day) && "#00ACC1",
+                  
                 }}
               >
                 {day}
@@ -458,7 +459,7 @@ const MealPlanner = () => {
 
         {!showChosenMeals && currentDay && (
           <Grid item xs={12}>
-            <TinderContainer>
+            <TinderContainer   sx={{ position: "relative", mb: 15 }}>
               {tinderCards.map((tinderCard, index) => (
                 <TinderCard
                   key={Math.random() + index}
@@ -512,21 +513,30 @@ const MealPlanner = () => {
               ))}
             </TinderContainer>
             <Box
-              sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 6 }}
+              sx={{     display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                mt: 6,
+                position: "relative",}}
             >
               <Button
                 variant="contained"
                 color="error"
                 onClick={() => handleSwipeButton("left")}
                 sx={{
-                  minWidth: 48, 
-                  minHeight: 48,
-                  backgroundColor: "c1ff72",  // Color for broken heart icon
-                  borderRadius: "50%",
-                  '&:hover': { backgroundColor: "#FF5252" }, // Hover color
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  position: "absolute",
+      left: "-10px",  // Adjusted further to the left
+      top: "-200px",   // Moved up higher to align with the top of the Tinder card
+      minWidth: 48,
+      minHeight: 48,
+      backgroundColor: "#c1ff72",
+      borderRadius: "50%",
+      '&:hover': { backgroundColor: "#FF5252" },
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1,
                 }}
               >
                 <HeartBrokenIcon sx={{ color: "#fff", fontSize: "1.5rem" }} />
@@ -537,14 +547,19 @@ const MealPlanner = () => {
                 onClick={() => handleSwipeButton("right")}
 
                 sx={{
-                  minWidth: 48, 
-                  minHeight: 48,
-                  backgroundColor: "#c1ff72",  // Color for heart icon
-                  borderRadius: "50%",
-                  '&:hover': { backgroundColor: "#F50057" }, // Hover color
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  position: "absolute",
+                  right: "-10px",  // Adjusted further to the left
+                  top: "-180px",
+      transform: "translateY(-50%)",
+      minWidth: 48,
+      minHeight: 48,
+      backgroundColor: "#c1ff72", // Color for heart icon
+      borderRadius: "50%",
+      '&:hover': { backgroundColor: "#F50057" }, // Hover color
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1,
                 }}
               >
                  <FavoriteIcon sx={{ color: "#fff", fontSize: "1.5rem" }} />

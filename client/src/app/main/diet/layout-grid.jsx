@@ -19,6 +19,7 @@ export const LayoutGrid = ({
     setSelected(null);
   };
 
+  
   return (
     (<div
       className="w-full h-full p-10 grid grid-cols-1 md:grid-cols-3  max-w-7xl mx-auto gap-4 relative">
