@@ -182,6 +182,7 @@ const WorkoutCarousel = () => {
               variant="outlined"
               sx={{
                 width: { xs: "90%", sm: "70%", md: "60%" }, // Adjust width for different screen sizes
+                mb: { xs: 4, sm: 6, md: 7 },
                 textAlign: "center",
               }}
             >
