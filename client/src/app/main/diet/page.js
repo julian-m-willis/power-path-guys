@@ -15,6 +15,7 @@ import {
 import Grid from "@mui/material/Grid2";
 // import TinderComponent from "./tindert";
 import dynamic from "next/dynamic";
+import LayoutGrid from "./mealrec";
 // import LayoutGrid from "./LayoutGrid"
 import MealPlanner from './MealSwipeComponent (1)';
 import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
@@ -504,7 +505,7 @@ const Diet = () => {
 
       {selectedTab === 1 && (
         <>
-          <MealPlanner/>
+          <LayoutGrid/>
         </>
       )}
     </div>
