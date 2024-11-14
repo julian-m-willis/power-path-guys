@@ -94,8 +94,9 @@ const FrontFace = styled(CardFace)(({ theme }) => ({
 }));
 
 const BackFace = styled(CardFace)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
-  color: theme.palette.secondary.contrastText,
+  backgroundColor: '#c1ff72',
+  color: '#000000',
+  // color: theme.palette.secondary.contrastText,
   transform: 'rotateY(180deg)',
   flexDirection: 'column',
   padding: '8px',
@@ -171,6 +172,7 @@ const LayoutGrid = () => {
                             whiteSpace: 'normal', // Allow text to wrap to the next line
                             lineHeight: isMobile ? '1rem' : '1.2rem',
                             overflow: 'hidden',
+                            color: 'black',
                           }}
                         >
                           {meal.name}
