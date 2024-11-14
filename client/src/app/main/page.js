@@ -15,6 +15,8 @@ import {
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Typography, Box } from "@mui/material";
+import annotationPlugin from 'chartjs-plugin-annotation';
+ChartJS.register(annotationPlugin);
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 import "./homepage.css"; // Import the CSS file
 import { Compare } from "../../components/ui/compare";
