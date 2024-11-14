@@ -22,8 +22,8 @@ const recommendations = {
   Wednesday: [
     [
       { mealType: "Breakfast", name: "Protein Smoothie with Spinach and Banana", img: "https://live.staticflickr.com/65535/54139506540_f5c10c32aa_m.jpg", calories: 280, fat: 5, protein: 25, carbs: 40 },
-      { mealType: "Lunch", name: "Turkey and Hummus Wrap", img: "https://live.staticflickr.com/65535/54139508060_1c92b47494_m.jpg", calories: 400, fat: 14, protein: 30, carbs: 40 },
-      { mealType: "Dinner", name: "Baked Cod with Asparagus", img: "https://live.staticflickr.com/65535/54139328108_80fb46404f_m.jpg", calories: 450, fat: 12, protein: 28, carbs: 40 },
+      { mealType: "Lunch", name: "Turkey and Hummus Wrap", img: "https://live.staticflickr.com/65535/54139389863_69c5ae6b86_m.jpg", calories: 400, fat: 14, protein: 30, carbs: 40 },
+      { mealType: "Dinner", name: "Baked Cod with Asparagus", img: "https://live.staticflickr.com/65535/54139444434_32c6303e31_m.jpg", calories: 450, fat: 12, protein: 28, carbs: 40 },
     ],
   ],
   Thursday: [
