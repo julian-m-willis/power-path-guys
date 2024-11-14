@@ -49,7 +49,7 @@ export default function RegisterPage() {
         console.log(data)
 
         // Store the user ID and access token in localStorage or sessionStorage
-        document.cookie = `access_token=${data.access_token}; path=/; secure; SameSite=Strict`;
+        document.cookie = `access_token=${data.access_token}; path=/; SameSite=Strict`;
         localStorage.setItem("user_id", data.id);
         localStorage.setItem("user_name", data.first_name +" "+data.last_name);
 

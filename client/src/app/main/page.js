@@ -165,9 +165,9 @@ export const SkeletonOne = () => {
 export const SkeletonTwo = () => {
   const images = [
     "/Newsletter.png",
-    "/Fitness Blog.png",
+    "/Fitness_Blog.png",
     "/Newsletter.png",
-    "/Fitness Blog.png",
+    "/Fitness_Blog.png",
   ];
  
   const imageVariants = {
