@@ -7,7 +7,7 @@ import axios from "axios";
 
 // Register the necessary components with Chart.js
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
-axios.defaults.baseURL = "http://3.107.192.183:5006/goal"; 
+axios.defaults.baseURL = "http://13.54.17.246:5006/goal"; 
 
 const CaloriesBurntChart = ({ view }) => {
   const [caloriesBurntData, setCaloriesBurntData] = useState([]);

@@ -18,7 +18,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 ChartJS.register(annotationPlugin);
 ChartJS.register(LinearScale, CategoryScale, BarElement, Title, Tooltip, Legend);
 
-axios.defaults.baseURL = "http://3.107.192.183:5006/goal"; // Replace with your base URL
+axios.defaults.baseURL = "http://13.54.17.246:5006/goal"; // Replace with your base URL
 
 const CaloriesChart = ({ view }) => {
   const [caloriesIntakeData, setCaloriesIntakeData] = useState([]);

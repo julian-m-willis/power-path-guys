@@ -14,7 +14,7 @@ export default function SignInPage() {
   const handleSignIn = async () => {
     try {
       const response = await axios.post(
-        "http://3.107.192.183:5006/auth/token",
+        "http://13.54.17.246:5006/auth/token",
         {
           username: email, // Adjust to match `form_data.username`
           password: password, // Adjust to match `form_data.password`
