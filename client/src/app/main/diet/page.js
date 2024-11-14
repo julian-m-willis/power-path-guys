@@ -17,7 +17,6 @@ import Grid from "@mui/material/Grid2";
 import dynamic from "next/dynamic";
 // import LayoutGrid from "./LayoutGrid"
 import MealPlanner from './MealSwipeComponent (1)';
-import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet";
@@ -139,8 +138,6 @@ const Diet = () => {
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');`}
       </style>
-      <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
-      <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Diet Tracker</p>
       <div className="flex flex-col justify-center h-[calc(40vh-20px)] items-center px-4 text-center"
           style={{
             backgroundImage: "url('/dietbg.jpg')",
