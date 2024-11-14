@@ -10,6 +10,7 @@ import {
   Container,
   Grid,
   Paper,
+  useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Hammer from "hammerjs";
