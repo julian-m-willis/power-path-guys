@@ -5,7 +5,7 @@ services:
     container_name: power-path-client
     build: ./client
     ports:
-      - "3000:80"  # Exposing port 80 from the container to port 3000 on the host
+      - "80:80"  # Exposing port 80 from the container to port 3000 on the host
     networks:
       - app_network
     restart: on-failure

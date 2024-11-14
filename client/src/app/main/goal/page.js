@@ -15,10 +15,11 @@ import axios from "axios";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import WaterChart from "./components/WaterChart";
-import WorkoutCalendar from "./Components/MonthlyWorkoutCalendar";
-import CaloriesChart from "./Components/CaloriesChart";
-import KeyInsights from "./components/KeyInsights";
+import WaterChart from './components/WaterChart';
+import KeyInsights from './components/KeyInsights';
+import WorkoutCalendar from './components/MonthlyWorkoutCalendar';
+import CaloriesChart from './components/CaloriesChart';
+
 
 const GoalTrackingPage = () => {
   const [view, setView] = useState("today");
