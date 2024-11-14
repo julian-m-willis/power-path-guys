@@ -134,28 +134,23 @@ const Diet = () => {
   const updateProgress = (value, total) => Math.min((value / total) * 100, 100);
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Box textAlign="center" mb={4}>
-        <Typography
-          variant="h2"
-          sx={{
-            fontWeight: 'bold',
-            fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-            color: "white",
-            marginBottom: 1,
-          }}
-        >
-          Diet Tracker
-        </Typography>
-        <TypewriterEffect 
-          words={[
-            { text: "Track Your Nutrition" },
-            { text: "Manage Your Goals" },
-            { text: "Stay Hydrated" }
-          ]}
-          style={{ color: "#c1ff72", fontWeight: 'bold' }}
-        />
-      </Box>
+    <div>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');`}
+      </style>
+      <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
+      <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Diet Tracker</p>
+      <TypewriterEffect 
+        words={[
+          { text: "Fuel" },
+          { text: "Hydrate" },
+          { text: "Conquer" }
+        ]}
+        className="font-bold text-5xl md:text-7xl" 
+        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif" }}
+      />
+
+      </div>  
 
       <Box
         sx={{
@@ -502,7 +497,7 @@ const Diet = () => {
           <MealPlanner/>
         </>
       )}
-    </Box>
+    </div>
   );
 };
 

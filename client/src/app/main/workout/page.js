@@ -86,53 +86,26 @@ const WorkoutList = () => {
   };
 
   return (
-    // <div style={{ padding: '24px 48px' }}>
-    //   {/* Page Heading */}
-    //   <h1 style={{ 
-    //     fontFamily: 'Anton, sans-serif', 
-    //     textAlign: 'center', 
-    //     marginBottom: '24px', 
-    //     color: 'white', 
-    //     fontSize: '3rem', // Adjust size as desired
-    //     fontWeight: 700 // Bold weight
-    //   }}>
-    //     Workout Page
-    //   </h1>
-    //   <TypewriterEffect 
-    //       words={[
-    //         { text: "I Pushed" },
-    //         { text: "I Fought" },
-    //         { text: "I Conquered" }
-    //       ]}
-    //       style={{ color: "#c1ff72", fontWeight: 'bold' }}
-    //     />
-    <div style={{ padding: '24px 48px' }}>
-      <Box textAlign="center" mb={4}>
-      <Typography
-        variant="h2"
-        sx={{
-          fontWeight: 'bold',
-          fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-          color: "white",
-          marginBottom: 1,
-        }}
-      >
-        Workout Page
-      </Typography>
+    <div>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');`}
+      </style>
+      <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
+      <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Workout Page</p>
       <TypewriterEffect 
         words={[
-          { text: "i Pushed" },
-          { text: "i Fought" },
-          { text: "i Conquered" }
+          { text: "I" },
+          { text: "Pushed" },
+          { text: "I" },
+          { text: "Fought" },
+          { text: "I" },
+          { text: "Conquered" }
         ]}
-        sx={{
-          color: "#c1ff72", 
-          fontWeight: 'bold',
-          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }, // Significantly reduced font sizes
-        }}
+        className="font-bold text-5xl md:text-7xl" 
+        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif" }}
       />
 
-        </Box>
+      </div>  
 
 
       {/* Personalize Workout Card */}
