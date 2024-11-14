@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 import  LayoutGrid from "./mealrec";
 import MealPlanner from './MealSwipeComponent (1)';
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
+import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet";
 
@@ -134,28 +135,33 @@ const Diet = () => {
   const updateProgress = (value, total) => Math.min((value / total) * 100, 100);
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Box textAlign="center" mb={4}>
-        <Typography
-          variant="h2"
-          sx={{
-            fontWeight: 'bold',
-            fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-            color: "white",
-            marginBottom: 1,
+    <div>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');`}
+      </style>
+      <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
+      <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Diet Tracker</p>
+      <div className="flex flex-col justify-center h-[calc(40vh-20px)] items-center px-4 text-center"
+          style={{
+            backgroundImage: "url('/dietbg.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
           }}
-        >
-          Diet Tracker
-        </Typography>
-        <TypewriterEffect 
-          words={[
-            { text: "Track Your Nutrition" },
-            { text: "Manage Your Goals" },
-            { text: "Stay Hydrated" }
-          ]}
-          style={{ color: "#c1ff72", fontWeight: 'bold' }}
-        />
-      </Box>
+      >
+      <p className="font-bold text-5xl md:text-6xl" style={{ fontFamily: "'Anton', sans-serif", letterSpacing:"0.02em", fontWeight:500, }}>Diet Tracker</p>
+      <TypewriterEffect 
+        words={[
+          { text: "Fuel" },
+          { text: "Hydrate" },
+          { text: "Conquer" }
+        ]}
+        className="font-bold text-3xl md:text-7xl" 
+        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif",  letterSpacing: "0.02em",
+        fontWeight: 500 }}
+      />
+
+      </div>  
 
       <Box
         sx={{
@@ -205,8 +211,8 @@ const Diet = () => {
                   backgroundColor: index === selectedDay ? "#c1ff72" : "transparent",
                   fontWeight: index === adjustedToday ? "bold" : "normal",
                   "&:hover": {
-                    backgroundColor: index !== selectedDay ? "#c1ff72" : "transparent",
-                    color: "black"
+                    backgroundColor: "#2ecc71", // New hover background color
+                    color: "white",
                   },
                   margin: isMobile ? "0 2px" : "0 5px", // Reduced margin for compact view
                   padding: isMobile ? "5px 4px" : "10px 15px", // Smaller padding for mobile
@@ -241,6 +247,7 @@ const Diet = () => {
                   animation: "fadeIn 1s",
                   height: 550,
                   width: 350,
+                  mb: { xs: 6, sm: 8, md: 9 },
                 }}
               >
                 <Typography variant="h6" align="center" gutterBottom>
@@ -423,6 +430,7 @@ const Diet = () => {
                   animation: "fadeIn 1s",
                   width: 350,
                   height: 550,
+                  mb: { xs: 6, sm: 8, md: 9 },
                 }}
               >
                 <Typography variant="h6" align="center" gutterBottom>
@@ -502,7 +510,8 @@ const Diet = () => {
           < LayoutGrid/>
         </>
       )}
-    </Box>
+    </div>
+    </div>
   );
 };
 

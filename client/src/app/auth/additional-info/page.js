@@ -168,27 +168,27 @@ export default function AdditionalInfoPage() {
 
 
                     {/* Agreement and Email Notifications Checkboxes */}
-                    <div className="pt-4">
-                      <label className="flex items-center space-x-2 text-sm">
-                        <input
-                          type="checkbox"
-                          checked={agreeTerms}
-                          onChange={(e) => setAgreeTerms(e.target.checked)}
-                          required
-                          className="text-black w-4 h-4" // Smaller checkbox
-                        />
-                        <span className="text-gray-600">I agree to the terms and conditions provided to Power-Path-Guys</span>
-                      </label>
-                      <label className="flex items-center space-x-2 mt-2 text-sm">
-                        <input
-                          type="checkbox"
-                          checked={receiveEmails}
-                          onChange={(e) => setReceiveEmails(e.target.checked)}
-                          className="text-black w-4 h-4" // Smaller checkbox
-                        />
-                        <span className="text-gray-600">I wish to receive emails and notifications from Power-Path-Guys</span>
-                      </label>
-                    </div>
+          <div className="pt-4">
+            <label className="flex items-center space-x-2 text-sm">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+                required
+                className="text-black w-4 h-4" // Smaller checkbox
+              />
+              <span style={{ color: "rgba(193, 255, 114, 0.7)" }}>I agree to the terms and conditions provided to Power-Path-Guys</span>
+            </label>
+            <label className="flex items-center space-x-2 mt-2 text-sm">
+              <input
+                type="checkbox"
+                checked={receiveEmails}
+                onChange={(e) => setReceiveEmails(e.target.checked)}
+                className="text-black w-4 h-4" // Smaller checkbox
+              />
+              <span style={{ color: "rgba(193, 255, 114, 0.7)" }}>I wish to receive emails and notifications from Power-Path-Guys</span>
+            </label>
+          </div>
 
           <button
             type="button"

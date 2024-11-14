@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, CardContent, Typography, Button, List, ListItem, Modal, Box, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { TypewriterEffect } from "@/components/ui/typewriter-effect";
+import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -90,25 +90,25 @@ const WorkoutList = () => {
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');`}
       </style>
-      <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
-      <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Workout Page</p>
+      <div className="flex flex-col justify-center h-[calc(40vh-20px)] items-center px-4 text-center bg-fixed bg-cover bg-center" style={{ backgroundImage: "url('/workoutbg.jpg')" }}>
+      <p className="font-bold text-3xl md:text-6xl" style={{ fontFamily: "'Anton', sans-serif", letterSpacing: "0.03em",
+        fontWeight: 500, }}>Workout Page</p>
       <TypewriterEffect 
         words={[
-          { text: "I" },
-          { text: "Pushed" },
-          { text: "I" },
-          { text: "Fought" },
-          { text: "I" },
-          { text: "Conquered" }
+          { text: "Time" },
+          { text: "To" },
+          { text: "Power" },
+          { text: "Up" },
         ]}
-        className="font-bold text-5xl md:text-7xl" 
-        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif" }}
+        className="font-bold text-3xl md:text-5xl" 
+        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif", letterSpacing: "0.02em",
+        fontWeight: 500, }}
       />
 
       </div>  
 
 
-      {/* Personalize Workout Card */}
+      {/* Personalise Workout Card */}
       <Link href="workout/swipe" passHref style={{ textDecoration: 'none' }}>
         <Card
           sx={{
@@ -124,10 +124,10 @@ const WorkoutList = () => {
         >
           <CardContent sx={{ padding: '24px !important', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
             <Typography variant="h5" color="primary" style={{ marginBottom: '8px', textAlign: 'center' }}>
-              Personalize Your Workout
+              Personalise Your Workout
             </Typography>
             <Typography style={{ color: 'rgba(255, 255, 255, 0.7)', textAlign: 'center' }}>
-              Click here to personalize your workout plan
+              Click here to personalise your workout plan
             </Typography>
           </CardContent>
         </Card>
@@ -139,7 +139,7 @@ const WorkoutList = () => {
           <CircularProgress />
         </div>
       ) : (
-        <Grid container spacing={3} columns={12}>
+        <Grid container spacing={3} columns={12} className="pb-20 md:pb-0">
           {workoutCards.map((cardExercises, cardIndex) => {
             const themes = ["Back Workout", "Chest Workout", "Leg Workout"];
             const caloriesBurnt = (cardExercises.length * 30) + 200;
