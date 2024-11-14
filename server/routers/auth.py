@@ -9,6 +9,8 @@ from models import Users
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
+from routers.mailService import send_welcome_email
+
 
 router = APIRouter()
 
@@ -110,6 +112,13 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
         expires_delta=timedelta(minutes=20)
     )
 
+    #Send email
+    full_name = f"{create_user_model.first_name} {create_user_model.last_name}"
+    response = send_welcome_email(full_name, "julian.maximal@gmail.com")
+    if response.status_code == 200:
+        print("Email sent")
+    else:
+        print("Failed sending email")
     return {
         'access_token': token,
         'token_type': 'bearer',
