@@ -15,7 +15,7 @@ const KeyInsights = () => {
     const userId = localStorage.getItem("user_id") || 2;
 
     // Fetch data from the backend
-    axios.get(`http://13.54.17.246:5006/goal/user-progress/${userId}`)
+    axios.get(`http://52.62.47.9:5006/goal/user-progress/${userId}`)
       .then(response => {
         setProgressData(response.data);
         setIsLoading(false);

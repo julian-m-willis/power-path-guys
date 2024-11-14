@@ -21,7 +21,7 @@ export default function GoalsPage(){
 
         try {
             // Save the goal weight and timeline information
-            await axios.post('http://13.54.17.246:5006/auth/goals', {
+            await axios.post('http://52.62.47.9:5006/auth/goals', {
                 goalWeight,
                 goalTimeline,
             });

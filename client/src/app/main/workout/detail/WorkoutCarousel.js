@@ -62,7 +62,7 @@ const WorkoutCarousel = ({ id }) => {
     if (id) {
       setLoading(true);
       axios
-        .get(`http://13.54.17.246:5006/workout/workout_plan/${id}`)
+        .get(`http://52.62.47.9:5006/workout/workout_plan/${id}`)
         .then((response) => {
           setWorkouts(response.data.detailed_exercises);
           setLoading(false);
@@ -102,7 +102,7 @@ const WorkoutCarousel = ({ id }) => {
   const handleSummaryClose = async () => {
     try {
       const response = await axios.post(
-        `http://13.54.17.246:5006/workout/workout_plan/${id}/complete`
+        `http://52.62.47.9:5006/workout/workout_plan/${id}/complete`
       );
       console.log("Workout plan marked as completed:", response.data);
       router.push("/main/goal");

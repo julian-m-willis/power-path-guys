@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
     try {
       const response = await axios.post(
-        "http://13.54.17.246:5006/auth/",
+        "http://52.62.47.9:5006/auth/",
         {
           "username": email,
           "email": email,

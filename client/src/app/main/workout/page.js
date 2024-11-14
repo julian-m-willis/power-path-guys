@@ -29,9 +29,9 @@ const WorkoutList = () => {
   const fetchWorkouts = async () => {
     setLoading(true);
     const endpoints = [
-      'http://13.54.17.246:5006/workout/bodyPartList/back',
-      'http://13.54.17.246:5006/workout/bodyPartList/chest',
-      'http://13.54.17.246:5006/workout/bodyPartList/lower legs'
+      'http://52.62.47.9:5006/workout/bodyPartList/back',
+      'http://52.62.47.9:5006/workout/bodyPartList/chest',
+      'http://52.62.47.9:5006/workout/bodyPartList/lower legs'
     ];
 
     try {
@@ -57,7 +57,7 @@ const WorkoutList = () => {
       const totalCalories = 440; // Assuming each exercise has a `calories` property
       const userId = localStorage.getItem("user_id") || 2;
 
-      const response = await axios.post('http://13.54.17.246:5006/workout/save', {
+      const response = await axios.post('http://52.62.47.9:5006/workout/save', {
         user_id: userId,
         workout_ids: workout_ids,
         calories: totalCalories,

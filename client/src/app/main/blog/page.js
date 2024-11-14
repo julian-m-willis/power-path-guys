@@ -9,7 +9,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://13.54.17.246:5006/goal/";
+axios.defaults.baseURL = "http://52.62.47.9:5006/goal/";
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);

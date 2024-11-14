@@ -70,7 +70,7 @@ const Workout = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "http://13.54.17.246:5006/workout/suggest-exercises/random"
+        "http://52.62.47.9:5006/workout/suggest-exercises/random"
       );
       if (response.ok) {
         const data = await response.json();
@@ -213,7 +213,7 @@ useEffect(() => {
 
     try {
       const response = await axios.post(
-        "http://13.54.17.246:5006/workout/save",
+        "http://52.62.47.9:5006/workout/save",
         {
           user_id: userId,
           workout_ids: workout_ids,

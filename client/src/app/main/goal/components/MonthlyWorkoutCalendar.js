@@ -83,7 +83,7 @@ export default function WorkoutCalendar() {
       setIsLoading(true);
       const userId = localStorage.getItem("user_id") || 2;
       const response = await axios.get(
-        `http://13.54.17.246:5006/goal/monthly-summary/${userId}?month=${month}`
+        `http://52.62.47.9:5006/goal/monthly-summary/${userId}?month=${month}`
       );
       const { completed, missed, planned } = response.data;
 

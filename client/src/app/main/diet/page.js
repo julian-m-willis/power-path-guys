@@ -17,7 +17,7 @@ import dynamic from "next/dynamic";
 import LayoutGrid from "./mealrec";
 import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
 
-const API_BASE_URL = "http://13.54.17.246:5006/diet";
+const API_BASE_URL = "http://52.62.47.9:5006/diet";
 
 const Diet = () => {
   const today = new Date().getDay();
