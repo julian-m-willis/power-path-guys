@@ -117,6 +117,10 @@ async def get_calories_burnt(user_id: int, db: Session = Depends(get_db)):
 def like_post(post_id: int, user_id: int, db: Session = Depends(get_db)):
     existing_like = db.query(Like).filter(Like.post_id == post_id, Like.user_id == user_id).first()
     if existing_like:
+        # Increment the total_likes count in the Post model
+        post = db.query(Post).filter(Post.id == post_id).first()
+        post.total_likes -= 1
+        
         # If the like already exists, remove it (unlike)
         db.delete(existing_like)
         db.commit()
