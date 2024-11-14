@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/system';
 
-const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const daysOfWeek = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",'Sunday'];
 
 const recommendations = {
   Monday: [
@@ -125,7 +125,16 @@ const LayoutGrid = () => {
             variant={selectedDay === day ? "contained" : "outlined"}
             onClick={() => setSelectedDay(day)}
             sx={{
-              minWidth: isMobile ? '35px' : 'auto',
+              border: '0px',
+              color: day === selectedDay ? "black" : "#888",
+              backgroundColor: day === selectedDay ? "#c1ff72" : "transparent",
+              fontWeight: "normal",
+              "&:hover": {
+                backgroundColor: "#2ecc71",
+                color: "white",
+              },
+              borderRadius: 1,
+              minWidth: isMobile ? '30px' : 'auto',
               padding: isMobile ? '4px 6px' : '6px 12px',
               fontSize: isMobile ? '0.7rem' : '1rem',
             }}
