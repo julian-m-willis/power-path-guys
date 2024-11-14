@@ -11,6 +11,10 @@ export default function AdditionalInfoPage() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
+  const [dietaryPreferences, setDietaryPreferences] = useState([]);
+  const [allergies, setAllergies] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false); // New checkbox state
+  const [receiveEmails, setReceiveEmails] = useState(false); // New checkbox state
   const [validationMessage, setValidationMessage] = useState(""); // Added validation message state
 
   useEffect(() => {
@@ -23,9 +27,18 @@ export default function AdditionalInfoPage() {
     }
   }, []);
 
+  const handleCheckboxChange = (preference) => {
+    setDietaryPreferences((prev) =>
+      prev.includes(preference)
+        ? prev.filter((item) => item !== preference)
+        : [...prev, preference]
+    );
+  };
+
+
   const handleSubmit = async () => {
-    if (!fitnessGoal || !height || !weight || !activityLevel) {
-      setValidationMessage("All fields are required.");
+    if (!fitnessGoal || !height || !weight || !activityLevel || dietaryPreferences.length === 0 || !agreeTerms) {
+      setValidationMessage("All fields are required, and you must agree to the terms.");
       return;
     }
 
@@ -119,6 +132,64 @@ export default function AdditionalInfoPage() {
               <option value="high">High</option>
             </select>
           </div>
+
+
+          {/* Dietary Preferences */}
+          <div className="pt-4">
+            <p className="text-lg font-semibold">Dietary Preferences</p>
+            <div className="grid grid-cols-3 gap-4">
+              {["Vegan", "Vegetarian", "Halal", "Gluten-free", "Pescatarian", "N/A"].map(
+                (preference) => (
+                  <label key={preference} className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      value={preference}
+                      onChange={() => handleCheckboxChange(preference)}
+                      checked={dietaryPreferences.includes(preference)}
+                      className="text-black"
+                    />
+                    <span>{preference}</span>
+                  </label>
+                )
+              )}
+            </div>
+          </div>
+
+                    {/* Allergies Input */}
+          <div className="pt-4">
+            <input
+              type="text"
+              placeholder="Allergies (if any)"
+              className="p-3 border rounded text-black w-full"
+              value={allergies}
+              onChange={(e) => setAllergies(e.target.value)}
+            />
+          </div>
+
+
+                    {/* Agreement and Email Notifications Checkboxes */}
+                    <div className="pt-4">
+                      <label className="flex items-center space-x-2 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={agreeTerms}
+                          onChange={(e) => setAgreeTerms(e.target.checked)}
+                          required
+                          className="text-black w-4 h-4" // Smaller checkbox
+                        />
+                        <span className="text-gray-600">I agree to the terms and conditions provided to Power-Path-Guys</span>
+                      </label>
+                      <label className="flex items-center space-x-2 mt-2 text-sm">
+                        <input
+                          type="checkbox"
+                          checked={receiveEmails}
+                          onChange={(e) => setReceiveEmails(e.target.checked)}
+                          className="text-black w-4 h-4" // Smaller checkbox
+                        />
+                        <span className="text-gray-600">I wish to receive emails and notifications from Power-Path-Guys</span>
+                      </label>
+                    </div>
+
           <button
             type="button"
             onClick={handleSubmit}
