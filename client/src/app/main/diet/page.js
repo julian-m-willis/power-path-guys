@@ -236,6 +236,7 @@ const Diet = () => {
                   animation: "fadeIn 1s",
                   height: 550,
                   width: 350,
+                  mb: { xs: 6, sm: 8, md: 9 },
                 }}
               >
                 <Typography variant="h6" align="center" gutterBottom>
@@ -418,6 +419,7 @@ const Diet = () => {
                   animation: "fadeIn 1s",
                   width: 350,
                   height: 550,
+                  mb: { xs: 6, sm: 8, md: 9 },
                 }}
               >
                 <Typography variant="h6" align="center" gutterBottom>
