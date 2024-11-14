@@ -422,10 +422,23 @@ const MealPlanner = () => {
                 key={day}
                 onClick={() => handleDayClick(day)}
                 disabled={(chosenMeals[day].length > 0) || (rejectedMeals[day].length > 0)}
-                style={{
-                  backgroundColor: (currentDay == day) && "#00ACC1",
+                // style={{
+                //   backgroundColor: (currentDay == day) && "#00ACC1",
                   
+                // }}
+
+
+                sx={{
+                  color: currentDay === day ? "black" : "#888",
+                  backgroundColor: currentDay === day ? "#c1ff72" : "transparent",
+                  fontWeight: currentDay === day ? "bold" : "normal",
+                  borderRadius: 0,                 // Removes rounded edges, making it rectangular
+                  "&:hover": {
+                    backgroundColor: "#c1ff72",     // Hover shade for all buttons
+                    color: "black",                 // Ensures text color remains black on hover
+                  },
                 }}
+                
               >
                 {day}
                 {chosenMeals[day].length > 0 && (
@@ -452,7 +465,20 @@ const MealPlanner = () => {
                 )}
               </StyledDayButton>
             ))}
-            <StyledDayButton onClick={handleShowChosenPlan}>
+            <StyledDayButton onClick={handleShowChosenPlan}
+            
+            sx={{
+              color: showChosenMeals ? "black" : "#888",                   // Matches the day button color logic
+              backgroundColor: showChosenMeals ? "#c1ff72" : "transparent", // Background color if selected
+              fontWeight: showChosenMeals ? "bold" : "normal",              // Bold if selected
+              borderRadius: 0,                                              // Rectangular shape
+              "&:hover": {
+                backgroundColor: "#c1ff72",                                 // Hover background color
+                color: "black",                                             // Text color on hover
+              },
+            }}
+            
+            >
               Chosen Diet Plan
             </StyledDayButton>
           </Box>
