@@ -69,8 +69,8 @@ export default function RootLayout({ children }) {
         {children}
         <FloatingDock
           items={items}
-          desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
-          mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2"
+          desktopClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
+          mobileClassName="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
         />
       </main>
     </ThemeProvider>
