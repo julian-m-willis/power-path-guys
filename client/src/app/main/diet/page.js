@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 // import LayoutGrid from "./LayoutGrid"
 import MealPlanner from './MealSwipeComponent (1)';
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
+import { TypewriterEffect } from "../../../components/ui/typewriter-effect";
 
 const API_BASE_URL = "http://3.107.192.183:5006/diet";
 
@@ -140,14 +141,24 @@ const Diet = () => {
       </style>
       <div className="flex flex-col justify-center h-[calc(50vh-30px)] items-center px-4 text-center">
       <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Diet Tracker</p>
+      <div className="flex flex-col justify-center h-[calc(40vh-20px)] items-center px-4 text-center"
+          style={{
+            backgroundImage: "url('/dietbg.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+      >
+      <p className="font-bold text-5xl md:text-6xl" style={{ fontFamily: "'Anton', sans-serif", letterSpacing:"0.02em", fontWeight:500, }}>Diet Tracker</p>
       <TypewriterEffect 
         words={[
           { text: "Fuel" },
           { text: "Hydrate" },
           { text: "Conquer" }
         ]}
-        className="font-bold text-5xl md:text-7xl" 
-        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif" }}
+        className="font-bold text-3xl md:text-7xl" 
+        style={{ color: "#c1ff72", fontFamily: "'Anton', sans-serif",  letterSpacing: "0.02em",
+        fontWeight: 500 }}
       />
 
       </div>  
@@ -200,8 +211,8 @@ const Diet = () => {
                   backgroundColor: index === selectedDay ? "#c1ff72" : "transparent",
                   fontWeight: index === adjustedToday ? "bold" : "normal",
                   "&:hover": {
-                    backgroundColor: index !== selectedDay ? "#c1ff72" : "transparent",
-                    color: "black"
+                    backgroundColor: "#2ecc71", // New hover background color
+                    color: "white",
                   },
                   margin: isMobile ? "0 2px" : "0 5px", // Reduced margin for compact view
                   padding: isMobile ? "5px 4px" : "10px 15px", // Smaller padding for mobile

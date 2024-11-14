@@ -73,7 +73,7 @@ export default function Home() {
         style={{ backgroundImage: `url(${backgroundImages[currentIndex]})` }}
       >
         <div className="flex flex-col justify-center h-[calc(100vh-60px)] items-center px-4 text-center">
-          <p className="font-bold text-5xl md:text-7xl" style={{ fontFamily: "'Anton', sans-serif" }}>Welcome to</p>
+          <p className="font-bold text-5xl md:text-6xl" style={{ fontFamily: "'Anton', sans-serif" }}>Welcome to</p>
           <TypewriterEffect 
             words={words} 
             className="font-bold text-5xl md:text-7xl" 
@@ -83,7 +83,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative px-4">
+
+      <div className="relative px-4 pb-20 md:pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 mt-12 xl:border rounded-md dark:border-neutral-800">
           {features.map((feature) => (
             <FeatureCard key={feature.title} className={feature.className}>
