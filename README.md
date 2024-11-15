@@ -50,8 +50,6 @@ Many students struggle to start and maintain an effective fitness routine due to
 ## Local Deployment Tutorial
 
 To run the project locally using Docker Compose, follow these steps:
-
-1. **Clone the Repository**:
    ```bash
    git clone https://github.com/julian-m-willis/power-path-guys.git
    cd power-path-guys
