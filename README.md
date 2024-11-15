@@ -54,5 +54,3 @@ To run the project locally using Docker Compose, follow these steps:
    git clone https://github.com/julian-m-willis/power-path-guys.git
    cd power-path-guys
    docker-compose up
-
-  Frontend will be available in localhost:80, and backend in localhost:5006/docs
